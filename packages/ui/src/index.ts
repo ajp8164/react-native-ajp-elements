@@ -6,7 +6,6 @@ export * from './BulletList';
 export * from './CachedImage';
 export * from './ColorModeSwitch';
 export * from './ConditionalWrapper';
-export * from './Currency';
 export * from './Gradient';
 export * from './KeyboardAccessory';
 export * from './List';
