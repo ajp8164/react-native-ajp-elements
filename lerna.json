@@ -1,0 +1,24 @@
+{
+  "$schema": "node_modules/lerna/schemas/lerna-schema.json",
+  "packages": [
+    "packages/*"
+  ],
+  "npmClient": "npm",
+  "useWorkspaces": true,
+  "version": "independent",
+  "command": {
+    "publish": {
+      "graphType": "all",
+      "syncWorkspaceLock": true,
+      "allowBranch": "main",
+      "conventionalCommits": true,
+      "createRelease": "github",
+      "changelogIncludeCommitsClientLogin": " - by @%l",
+      "message": "chore: publish",
+      "ignoreChanges": [
+        "**/__tests__/**",
+        "**/*.md"
+      ]
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig",
+  "references": [
+    { "path": "../common" },
+    { "path": "../core" }
+  ],
+  "compilerOptions": {
+    "outDir": "./lib/typescript"
+  }
+}

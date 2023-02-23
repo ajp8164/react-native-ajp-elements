@@ -1,0 +1,106 @@
+{
+  "name": "@react-native-ajp-elements/ui",
+  "version": "0.0.1",
+  "description": "A React Native library for apps.",
+  "scripts": {
+    "prepack": "bob build",
+    "clean": "rm -fr lib"
+  },
+  "files": [
+    "src",
+    "lib",
+    "!**/__tests__"
+  ],
+  "publishConfig": {
+    "access": "restricted",
+    "registry": "http://localhost:4873"
+  },
+  "repository": {
+    "url": "https://github.com/ajp8164/react-native-ajp-elements",
+    "directory": "packages/ui",
+    "type": "git"
+  },
+  "main": "lib/commonjs/index.js",
+  "source": "src/index.ts",
+  "module": "lib/module/index.js",
+  "types": "lib/typescript/src/index.d.ts",
+  "dependencies": {
+    "@react-native-ajp-elements/common": "^0.0.1",
+    "@react-native-ajp-elements/core": "^0.0.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.12",
+    "@babel/runtime": "^7.20.13",
+    "@react-native-community/eslint-config": "^3.2.0",
+    "@tsconfig/react-native": "^2.0.2",
+    "@types/lodash": "^4.14.188",
+    "@types/luxon": "^3.1.0",
+    "@types/react-native": "^0.71.1",
+    "babel-jest": "^29.4.1",
+    "babel-plugin-module-resolver": "^5.0.0",
+    "eslint": "^8.33.0",
+    "eslint-import-resolver-babel-module": "^5.3.2",
+    "eslint-plugin-module-resolver": "^1.5.0",
+    "eslint-plugin-simple-import-sort": "^10.0.0",
+    "jest": "^29.4.1",
+    "react": "^18.1.0",
+    "react-native": "^0.70.5",
+    "react-native-builder-bob": "^0.20.3",
+    "typescript": "^4.8.4"
+  },
+  "peerDependencies": {
+    "@gorhom/bottom-sheet": "^4.4.5",
+    "@react-native-community/datetimepicker": "^6.7.3",
+    "@react-native-picker/picker": "^2.4.8",
+    "@rneui/base": "^4.0.0-rc.7",
+    "@rneui/themed": "^4.0.0-rc.7",
+    "lodash": "^4.17.21",
+    "luxon": "^3.1.0",
+    "react": ">=18.1.0",
+    "react-native": ">=0.70.5",
+    "react-native-animated-dots-carousel": "^1.0.2",
+    "react-native-biometrics": "^3.0.1",
+    "react-native-camera-kit": "^13.0.0",
+    "react-native-device-info": "^10.3.0",
+    "react-native-gravatar": "^1.0.2",
+    "react-native-image-cache-wrapper": "https://github.com/flowency/react-native-image-cache-wrapper#parallel-fetch",
+    "react-native-linear-gradient": "^2.6.2",
+    "react-native-reanimated": "^2.14.4",
+    "react-native-share": "^8.0.0",
+    "react-native-svg": "^13.7.0",
+    "react-native-ui-lib": "^6.29.0",
+    "react-native-webview": "^11.26.1"
+  },
+  "jest": {
+    "preset": "react-native"
+  },
+  "react-native": {
+    "http": "@tradle/react-native-http",
+    "https": "https-browserify",
+    "os": "react-native-os",
+    "path": "path-browserify",
+    "fs": "react-native-level-fs",
+    "_stream_transform": "readable-stream/transform",
+    "_stream_readable": "readable-stream/readable",
+    "_stream_writable": "readable-stream/writable",
+    "_stream_duplex": "readable-stream/duplex",
+    "_stream_passthrough": "readable-stream/passthrough",
+    "stream": "stream-browserify",
+    "vm": "vm-browserify"
+  },
+  "react-native-builder-bob": {
+    "source": "src",
+    "output": "lib",
+    "targets": [
+      "commonjs",
+      "module",
+      [
+        "typescript",
+        {
+          "project": "tsconfig.build.json"
+        }
+      ]
+    ]
+  },
+  "gitHead": "8c20c5feefa5ddec12857d4eb98b08d67ecc6808"
+}
