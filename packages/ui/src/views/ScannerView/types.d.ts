@@ -1,5 +1,3 @@
-import React from 'react';
-
 export declare type ScannerView = ScannerViewMethods;
 
 export interface ScannerViewProps {
