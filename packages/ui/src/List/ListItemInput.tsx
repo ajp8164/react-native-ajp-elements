@@ -41,8 +41,10 @@ interface ListItemInput {
   refInner?: React.RefObject<TextInput>;
   rightImage?: ImageSourcePropType | JSX.Element | string;
   rightImageColor?: ColorValue;
+  rightImageOnPress?: () => void;
   rightImageSize?: number;
   rightImageType?: string;
+  secureTextEntry?: boolean;
   selectionColor?: ColorValue;
   title?: string;
   titleStyle?: TextStyle | TextStyle[];
@@ -73,8 +75,10 @@ const ListItemInput = ({
   refInner,
   rightImage,
   rightImageColor,
+  rightImageOnPress,
   rightImageSize,
   rightImageType = 'ionicon',
+  secureTextEntry,
   selectionColor,
   title,
   titleStyle,
@@ -162,6 +166,7 @@ const ListItemInput = ({
               selectTextOnFocus={true}
               autoCapitalize={autoCapitalize}
               autoCorrect={autoCorrect}
+              secureTextEntry={secureTextEntry}
               disabled={disabled}
               value={value}
               onBlur={onBlur}
@@ -212,6 +217,7 @@ const ListItemInput = ({
             type={rightImageType}
             color={rightImageColor || theme.colors.icon}
             size={rightImageSize}
+            onPress={rightImageOnPress}
           />
         )}
       </ListItem>
