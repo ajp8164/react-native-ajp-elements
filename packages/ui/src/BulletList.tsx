@@ -8,7 +8,7 @@ interface BulletList {
   type?: string;
   bullet?: string;
   initialCount?: number;
-  items: string[];
+  items: string[] | JSX.Element[];
   containerStyle?: object;
   itemStyle?: TextStyle[] | TextStyle;
   bulletStyle?: TextStyle[] | TextStyle;
