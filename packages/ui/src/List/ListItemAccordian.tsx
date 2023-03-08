@@ -1,6 +1,6 @@
 import { AppTheme, useTheme } from '../theme';
 import { Avatar, Badge, Icon, ListItem } from '@rneui/base';
-import type { ImageSourcePropType, TextStyle } from 'react-native';
+import type { ImageSourcePropType, TextStyle, ViewStyle } from 'react-native';
 import React, { ReactNode, useState } from 'react';
 
 import { makeStyles } from '@rneui/themed';
@@ -12,6 +12,7 @@ interface ListItemAccordian {
   badgeStatus?: 'primary' | 'success' | 'warning' | 'error';
   badgeValue?: string;
   children: ReactNode;
+  containerStyle?: ViewStyle | ViewStyle[];
   initiallyExpanded?: boolean;
   leftImage?: ImageSourcePropType | JSX.Element | string;
   leftImageColor?: string;
@@ -33,6 +34,7 @@ const ListItemAccordian = ({
   badgeStatus = 'primary',
   badgeValue,
   children,
+  containerStyle,
   initiallyExpanded,
   leftImage,
   leftImageColor,
@@ -61,6 +63,7 @@ const ListItemAccordian = ({
         theme.styles.listItemContainer,
         position?.includes('first') ? s.first : {},
         position?.includes('last') && !expanded ? s.last : {},
+        containerStyle,
       ]}
       noIcon={rightImage === false}
       icon={
