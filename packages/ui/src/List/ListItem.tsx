@@ -21,7 +21,7 @@ interface ListItem {
   containerStyle?: ViewStyle | ViewStyle[];
   disabled?: boolean;
   disabledStyle?: ViewStyle | ViewStyle[];
-  drawerLeftItems?: DrawerItemProps[];
+  drawerLeftItem?: DrawerItemProps;
   drawerRightItems?: DrawerItemProps[];
   extraContentComponent?: JSX.Element;
   leftImage?: ImageSourcePropType | JSX.Element | string;
@@ -49,7 +49,7 @@ const ListItem = ({
   containerStyle,
   disabled,
   disabledStyle = { opacity: 0.3 },
-  drawerLeftItems,
+  drawerLeftItem,
   drawerRightItems,
   extraContentComponent,
   leftImage,
@@ -76,7 +76,7 @@ const ListItem = ({
   // Wrapping RNEListItem in UI lib Drawer as it provides a better UX than RNE swipable.
   return (
     <Drawer
-      leftItems={drawerLeftItems}
+      leftItem={drawerLeftItem}
       rightItems={drawerRightItems}
       style={[
         theme.styles.listItemContainer,
