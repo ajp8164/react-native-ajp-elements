@@ -1,5 +1,6 @@
 import { AppTheme, useTheme } from '../theme';
 import { Avatar, Badge, Icon, ListItem as RNEListItem } from '@rneui/base';
+import { Drawer, DrawerItemProps } from 'react-native-ui-lib';
 import {
   ImageSourcePropType,
   Platform,
@@ -20,6 +21,8 @@ interface ListItem {
   containerStyle?: ViewStyle | ViewStyle[];
   disabled?: boolean;
   disabledStyle?: ViewStyle | ViewStyle[];
+  drawerLeftItems?: DrawerItemProps[];
+  drawerRightItems?: DrawerItemProps[];
   extraContentComponent?: JSX.Element;
   leftImage?: ImageSourcePropType | JSX.Element | string;
   leftImageColor?: string;
@@ -46,6 +49,8 @@ const ListItem = ({
   containerStyle,
   disabled,
   disabledStyle = { opacity: 0.3 },
+  drawerLeftItems,
+  drawerRightItems,
   extraContentComponent,
   leftImage,
   leftImageColor,
@@ -68,89 +73,101 @@ const ListItem = ({
   const theme = useTheme();
   const s = useStyles(theme);
 
+  // Wrapping RNEListItem in UI lib Drawer as it provides a better UX than RNE swipable.
   return (
-    <RNEListItem
-      bottomDivider={!position?.includes('last')}
-      containerStyle={[
+    <Drawer
+      leftItems={drawerLeftItems}
+      rightItems={drawerRightItems}
+      style={[
         theme.styles.listItemContainer,
         !rightImage ? { paddingRight: 0 } : {},
         position?.includes('first') ? s.first : {},
         position?.includes('last') ? s.last : {},
         containerStyle,
-      ]}
-      disabled={disabled}
-      disabledStyle={disabledStyle}
-      onPress={onPress}>
-      {extraContentComponent}
-      {React.isValidElement(leftImage) ? (
-        <RNEListItem.Content style={s.leftImageContent}>
-          {leftImage}
-        </RNEListItem.Content>
-      ) : typeof leftImage === 'string' ? (
-        <Icon
-          name={leftImage}
-          type={leftImageType}
-          color={leftImageColor || theme.colors.icon}
-          size={leftImageSize}
-        />
-      ) : leftImage !== undefined ? (
-        <Avatar
-          source={leftImage as ImageSourcePropType}
-          imageProps={{ resizeMode: 'contain' }}
-        />
-      ) : null}
-      <RNEListItem.Content style={[leftImage ? s.wLeftImage : {}]}>
-        <RNEListItem.Title style={[theme.styles.listItemTitle, titleStyle]}>
-          {title}
-        </RNEListItem.Title>
-        {subtitle !== undefined && (
-          <RNEListItem.Subtitle
-            style={[theme.styles.listItemSubtitle, subtitleStyle]}>
-            {subtitle}
-          </RNEListItem.Subtitle>
-        )}
-      </RNEListItem.Content>
-      {value !== undefined && (
-        <RNEListItem.Content
-          right
-          style={[s.valueContent, rightImage ? s.wRightImage : {}]}>
-          {React.isValidElement(value) ? (
-            value
-          ) : (
-            <Text style={[theme.styles.listItemValue, valueStyle]}>
-              {value || placeholder}
-            </Text>
+      ]}>
+      <RNEListItem
+        bottomDivider={!position?.includes('last')}
+        containerStyle={[
+          theme.styles.listItemContainer,
+          !rightImage ? { paddingRight: 0 } : {},
+          position?.includes('first') ? s.first : {},
+          position?.includes('last') ? s.last : {},
+          containerStyle,
+        ]}
+        disabled={disabled}
+        disabledStyle={disabledStyle}
+        onPress={onPress}>
+        {extraContentComponent}
+        {React.isValidElement(leftImage) ? (
+          <RNEListItem.Content style={s.leftImageContent}>
+            {leftImage}
+          </RNEListItem.Content>
+        ) : typeof leftImage === 'string' ? (
+          <Icon
+            name={leftImage}
+            type={leftImageType}
+            color={leftImageColor || theme.colors.icon}
+            size={leftImageSize}
+          />
+        ) : leftImage !== undefined ? (
+          <Avatar
+            source={leftImage as ImageSourcePropType}
+            imageProps={{ resizeMode: 'contain' }}
+          />
+        ) : null}
+        <RNEListItem.Content style={[leftImage ? s.wLeftImage : {}]}>
+          <RNEListItem.Title style={[theme.styles.listItemTitle, titleStyle]}>
+            {title}
+          </RNEListItem.Title>
+          {subtitle !== undefined && (
+            <RNEListItem.Subtitle
+              style={[theme.styles.listItemSubtitle, subtitleStyle]}>
+              {subtitle}
+            </RNEListItem.Subtitle>
           )}
         </RNEListItem.Content>
-      )}
-      {badgeValue !== undefined && (
-        <Badge
-          value={badgeValue}
-          containerStyle={s.badgeContainer}
-          textStyle={s.badgeText}
-          badgeStyle={[
-            s.badge,
-            { backgroundColor: theme.colors?.[badgeStatus] },
-          ]}
-        />
-      )}
-      {React.isValidElement(rightImage) ? (
-        <RNEListItem.Content right style={s.rightImageContent}>
-          {rightImage}
-        </RNEListItem.Content>
-      ) : typeof rightImage === 'string' ? (
-        <RNEListItem.Content right>
-          <Icon
-            name={rightImage}
-            type={rightImageType}
-            color={rightImageColor || theme.colors.icon}
-            size={rightImageSize}
+        {value !== undefined && (
+          <RNEListItem.Content
+            right
+            style={[s.valueContent, rightImage ? s.wRightImage : {}]}>
+            {React.isValidElement(value) ? (
+              value
+            ) : (
+              <Text style={[theme.styles.listItemValue, valueStyle]}>
+                {value || placeholder}
+              </Text>
+            )}
+          </RNEListItem.Content>
+        )}
+        {badgeValue !== undefined && (
+          <Badge
+            value={badgeValue}
+            containerStyle={s.badgeContainer}
+            textStyle={s.badgeText}
+            badgeStyle={[
+              s.badge,
+              { backgroundColor: theme.colors?.[badgeStatus] },
+            ]}
           />
-        </RNEListItem.Content>
-      ) : rightImage ? (
-        <RNEListItem.Chevron iconProps={theme.styles.listItemIconProps} />
-      ) : null}
-    </RNEListItem>
+        )}
+        {React.isValidElement(rightImage) ? (
+          <RNEListItem.Content right style={s.rightImageContent}>
+            {rightImage}
+          </RNEListItem.Content>
+        ) : typeof rightImage === 'string' ? (
+          <RNEListItem.Content right>
+            <Icon
+              name={rightImage}
+              type={rightImageType}
+              color={rightImageColor || theme.colors.icon}
+              size={rightImageSize}
+            />
+          </RNEListItem.Content>
+        ) : rightImage ? (
+          <RNEListItem.Chevron iconProps={theme.styles.listItemIconProps} />
+        ) : null}
+      </RNEListItem>
+    </Drawer>
   );
 };
 
