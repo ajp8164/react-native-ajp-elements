@@ -79,11 +79,8 @@ const ListItem = ({
       leftItem={drawerLeftItem}
       rightItems={drawerRightItems}
       style={[
-        theme.styles.listItemContainer,
-        !rightImage ? { paddingRight: 0 } : {},
         position?.includes('first') ? s.first : {},
         position?.includes('last') ? s.last : {},
-        containerStyle,
       ]}>
       <RNEListItem
         bottomDivider={!position?.includes('last')}
