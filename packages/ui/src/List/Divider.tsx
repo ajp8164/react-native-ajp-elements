@@ -1,13 +1,14 @@
 import { AppTheme, fontFamily, fontSizes, useTheme } from '../theme';
+import { View, ViewStyle } from 'react-native';
 
 import { Divider as RNEDivider } from '@rneui/base';
 import React from 'react';
-import type { ViewStyle } from 'react-native';
 import { makeStyles } from '@rneui/themed';
 
 interface Divider {
   color?: string;
   orientation?: 'vertical' | 'horizontal' | undefined;
+  rightComponent?: JSX.Element | null;
   subHeaderStyle?: ViewStyle;
   style?: ViewStyle;
   text?: string;
@@ -18,6 +19,7 @@ interface Divider {
 const Divider = ({
   color,
   orientation,
+  rightComponent = null,
   style,
   subHeaderStyle,
   text,
@@ -39,6 +41,7 @@ const Divider = ({
       orientation={orientation}
       style={[!text && { marginTop: 25 }, s.style, style]}
       width={width}
+      children={<View style={s.children}>{rightComponent}</View>}
     />
   );
 };
@@ -65,6 +68,11 @@ const useStyles = makeStyles((_theme, theme: AppTheme) => ({
     marginTop: 15,
     marginBottom: 15,
     marginHorizontal: 5,
+  },
+  children: {
+    position: 'absolute',
+    right: 0,
+    marginTop: 20,
   },
 }));
 
