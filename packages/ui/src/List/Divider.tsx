@@ -61,6 +61,7 @@ const useStyles = makeStyles((_theme, theme: AppTheme) => ({
     fontSize: fontSizes.small,
     fontWeight: '500',
     fontFamily,
+    zIndex: -1,
   },
   note: {
     ...theme.styles.textSmall,
