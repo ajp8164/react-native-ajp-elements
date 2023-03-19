@@ -77,6 +77,8 @@ const Modal = React.forwardRef<Modal, ModalProps>((props, ref) => {
       innerRef={innerRef}
       modalParent={modalParent}
       snapPoints={snapPoints}
+      activeOffsetX={[-50, 50]} // See https://github.com/gorhom/react-native-bottom-sheet/issues/770
+      activeOffsetY={[-5, 5]}
       enablePanDownToClose={enablePanDownToClose}
       enableHandlePanningGesture={enableHandlePanningGesture}
       touchBackdropBehavior={touchBackdropBehavior}
