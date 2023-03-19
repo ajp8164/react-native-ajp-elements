@@ -89,7 +89,7 @@ const ListItem = ({
           !rightImage ? { paddingRight: 0 } : {},
           position?.includes('first') ? s.first : {},
           position?.includes('last') ? s.last : {},
-          s.listItemContainer,
+          position?.includes('first' && 'last') ? s.swipeBorderFix : {},
           containerStyle,
         ]}
         disabled={disabled}
@@ -170,7 +170,7 @@ const ListItem = ({
 };
 
 const useStyles = makeStyles((_theme, theme: AppTheme) => ({
-  listItemContainer: {
+  swipeBorderFix: {
     borderBottomWidth: 0.01, // Prevents swipable background color from appearing as bottom border while swipe in progress.
   },
   first: {
