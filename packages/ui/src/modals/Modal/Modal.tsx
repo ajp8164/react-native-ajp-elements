@@ -89,18 +89,16 @@ const Modal = React.forwardRef<Modal, ModalProps>((props, ref) => {
       ]}
       onClose={onClose}
       onDismiss={onDismiss}>
-      <>
-        {scrollEnabled ? (
-          <BottomSheetScrollView
-            scrollEnabled={scrollEnabled}
-            contentContainerStyle={s.container}
-            showsVerticalScrollIndicator={false}>
-            {children}
-          </BottomSheetScrollView>
-        ) : (
-          { children }
-        )}
-      </>
+      {scrollEnabled ? (
+        <BottomSheetScrollView
+          scrollEnabled={scrollEnabled}
+          contentContainerStyle={s.container}
+          showsVerticalScrollIndicator={false}>
+          {children}
+        </BottomSheetScrollView>
+      ) : (
+        children
+      )}
     </BottomSheet>
   );
 });
