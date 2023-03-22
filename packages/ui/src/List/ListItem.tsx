@@ -19,6 +19,7 @@ interface ListItem {
   badgeStatus?: 'primary' | 'success' | 'warning' | 'error';
   badgeValue?: string;
   containerStyle?: ViewStyle | ViewStyle[];
+  delayLongPress?: number;
   disabled?: boolean;
   disabledStyle?: ViewStyle | ViewStyle[];
   drawerLeftItem?: DrawerItemProps;
@@ -28,6 +29,7 @@ interface ListItem {
   leftImageColor?: string;
   leftImageSize?: number;
   leftImageType?: string;
+  onLongPress?: () => void;
   onPress?: () => void;
   placeholder?: string;
   position?: ('first' | 'last' | undefined)[];
@@ -47,6 +49,7 @@ const ListItem = ({
   badgeStatus = 'primary',
   badgeValue,
   containerStyle,
+  delayLongPress,
   disabled,
   disabledStyle = { opacity: 0.3 },
   drawerLeftItem,
@@ -56,6 +59,7 @@ const ListItem = ({
   leftImageColor,
   leftImageSize,
   leftImageType = 'ionicon',
+  onLongPress,
   onPress,
   placeholder = '\u00b7\u00b7\u00b7',
   position,
@@ -94,6 +98,8 @@ const ListItem = ({
         ]}
         disabled={disabled}
         disabledStyle={disabledStyle}
+        delayLongPress={delayLongPress}
+        onLongPress={onLongPress}
         onPress={onPress}>
         {extraContentComponent}
         {React.isValidElement(leftImage) ? (
