@@ -48,6 +48,7 @@ interface ListItemInput {
   selectionColor?: ColorValue;
   title?: string;
   titleStyle?: TextStyle | TextStyle[];
+  titleType?: 'inline' | 'material';
   value: string;
 }
 
@@ -82,12 +83,13 @@ const ListItemInput = ({
   selectionColor,
   title,
   titleStyle,
+  titleType = 'inline',
   value,
 }: ListItemInput) => {
   const theme = useTheme();
   const s = useStyles(theme);
 
-  const fullWidth = title === undefined;
+  const fullWidth = title === undefined || titleType === 'material';
   const error = errorText !== undefined;
   errorColor = errorColor || theme.colors.assertive;
 
@@ -101,6 +103,7 @@ const ListItemInput = ({
           position?.includes('first') ? s.first : {},
           position?.includes('last') ? s.last : {},
           error ? [s.fieldError, { borderColor: errorColor }] : {},
+          titleType === 'material' ? { paddingTop: 20 } : {},
           containerStyle,
         ]}>
         {error && errorText && (
@@ -147,7 +150,21 @@ const ListItemInput = ({
               rightImage ? s.rightImageOffset : {},
               fullWidth && leftImage ? s.fullWidthLeftImageOffset : {},
               fullWidth && error ? { left: -15 } : {},
+              fullWidth && titleType === 'material' && value ? { top: 5 } : {},
+              fullWidth && titleType === 'material' && !value
+                ? { top: -2 }
+                : {},
             ]}>
+            {titleType === 'material' && (
+              <Text
+                style={[
+                  s.materialTitle,
+                  titleStyle,
+                  !value ? { opacity: 0 } : {},
+                ]}>
+                {title}
+              </Text>
+            )}
             <ListItem.Input
               ref={refInner}
               style={[
@@ -187,16 +204,30 @@ const ListItemInput = ({
           <ListItem.Content
             right={!fullWidth}
             style={[
-              s.inputContentStyle,
+              !fullWidth && s.inputContentStyle,
               contentStyle,
               rightImage ? s.rightImageOffset : {},
               fullWidth && leftImage ? s.fullWidthLeftImageOffset : {},
               fullWidth && error ? { left: -15 } : {},
+              fullWidth && titleType === 'material' && value ? { top: 5 } : {},
+              fullWidth && titleType === 'material' && !value
+                ? { top: -2 }
+                : {},
             ]}>
+            {titleType === 'material' && (
+              <Text
+                style={[
+                  s.materialTitle,
+                  titleStyle,
+                  !value ? { opacity: 0 } : {},
+                ]}>
+                {title}
+              </Text>
+            )}
             <ListItem.Title
               style={[
                 theme.styles.listItemTitle,
-                title ? s.disabledValueOffset : {},
+                !fullWidth && title ? s.disabledValueOffset : {},
                 s.disabled,
                 inputTextStyle,
               ]}
@@ -272,7 +303,7 @@ const useStyles = makeStyles((_theme, theme: AppTheme) => ({
   disabledValueOffset: {
     textAlign: 'right',
     maxWidth: '30%',
-    right: 58,
+    right: 27,
   },
   errorText: {
     ...theme.styles.textTiny,
@@ -281,6 +312,12 @@ const useStyles = makeStyles((_theme, theme: AppTheme) => ({
     right: 15,
   },
   fieldError: {},
+  materialTitle: {
+    ...theme.styles.textTiny,
+    position: 'absolute',
+    top: -17,
+    left: 0,
+  },
 }));
 
 export { ListItemInput };
