@@ -25,6 +25,7 @@ interface ListItemCheckbox {
   titleStyle?: TextStyle | TextStyle[];
   uncheckedIcon?: string | React.ReactElement;
   uncheckedColor?: string;
+  wrapperStyle?: ViewStyle | ViewStyle[];
 }
 
 const ListItemCheckbox = ({
@@ -47,6 +48,7 @@ const ListItemCheckbox = ({
   titleStyle,
   uncheckedIcon,
   uncheckedColor,
+  wrapperStyle,
 }: ListItemCheckbox) => {
   const theme = useTheme();
   const s = useStyles(theme);
@@ -104,6 +106,7 @@ const ListItemCheckbox = ({
           checkedColor={checkedColor}
           uncheckedIcon={uncheckedIcon}
           uncheckedColor={uncheckedColor}
+          wrapperStyle={wrapperStyle}
         />
       </ListItem.Content>
     </ListItem>
