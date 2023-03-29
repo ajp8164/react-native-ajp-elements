@@ -94,10 +94,7 @@ const ListItemCheckbox = ({
       </ListItem.Content>
       <ListItem.Content right style={s.rightImageContent}>
         <CheckBox
-          containerStyle={{
-            borderWidth: 1,
-            padding: 0,
-          }}
+          containerStyle={{ padding: 0 }}
           checked={checked}
           disabled={disabled}
           checkedIcon={checkedIcon}
