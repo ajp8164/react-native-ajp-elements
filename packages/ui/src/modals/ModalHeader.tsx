@@ -162,4 +162,4 @@ const useStyles = makeStyles((_theme, theme: AppTheme) => ({
   },
 }));
 
-export default ModalHeader;
+export { ModalHeader };
