@@ -1,4 +1,4 @@
-import { AppTheme, useTheme } from '../../../../theme';
+import { AppTheme, useTheme, viewport } from '../../../../theme';
 import type {
   Camera,
   PhotoFile,
@@ -31,7 +31,6 @@ import { Text, View, ViewProps } from 'react-native';
 import type { MediaType } from './types';
 import { log } from '@react-native-ajp-elements/core';
 import { makeStyles } from '@rneui/themed';
-import { viewport } from '@react-native-ajp-elements/ui';
 
 const captureButtonSize = 85;
 const panGestureHandlerFailX = [-viewport.width, viewport.width];

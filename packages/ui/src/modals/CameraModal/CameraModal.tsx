@@ -1,13 +1,13 @@
-import { AppTheme, useTheme } from '../../theme';
+import { AppTheme, useTheme, viewport } from '../../theme';
 import type { CameraModalMethods, CameraModalProps } from './types';
 import CameraView, { CameraViewMethods, MediaType } from './views/CameraView';
 import MediaView, { MediaViewMethods } from './views/MediaView';
-import { Modal, viewport } from '@react-native-ajp-elements/ui';
 import type { PhotoFile, VideoFile } from 'react-native-vision-camera';
 import React, { useImperativeHandle, useRef } from 'react';
 import { StatusBar, View } from 'react-native';
 
 import type { BottomSheetModalMethods } from '@gorhom/bottom-sheet/lib/typescript/types';
+import { Modal } from '../Modal';
 import ModalHeader from '../ModalHeader';
 import { makeStyles } from '@rneui/themed';
 import { saveToCameraRoll } from './helpers';
