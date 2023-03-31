@@ -1,5 +1,4 @@
 import { Alert, PermissionsAndroid, Platform } from 'react-native';
-import type { PhotoFile, VideoFile } from 'react-native-vision-camera';
 
 import { CameraRoll } from '@react-native-camera-roll/camera-roll';
 import type { MediaType } from './views/CameraView';
@@ -21,10 +20,7 @@ const requestSavePermission = async (): Promise<boolean> => {
   return hasPermission;
 };
 
-export const saveToCameraRoll = async (
-  media: PhotoFile | VideoFile,
-  type: MediaType,
-) => {
+export const saveToCameraRoll = async (path: string, type: MediaType) => {
   const hasPermission = await requestSavePermission();
   if (!hasPermission) {
     Alert.alert(
@@ -35,7 +31,7 @@ export const saveToCameraRoll = async (
   }
 
   try {
-    await CameraRoll.save(`file://${media.path}`, { type });
+    await CameraRoll.save(`file://${path}`, { type });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (e: any) {
     const t = type === 'photo' ? 'Photo' : 'Video';

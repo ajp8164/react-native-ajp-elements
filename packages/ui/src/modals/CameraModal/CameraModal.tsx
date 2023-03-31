@@ -80,7 +80,7 @@ const CameraModal = React.forwardRef<CameraModal, CameraModalProps>(
         showMediaView: preview,
       });
 
-      !preview && saveToCameraRoll(media, type);
+      !preview && saveToCameraRoll(media.path, type);
     };
 
     const retake = () => {

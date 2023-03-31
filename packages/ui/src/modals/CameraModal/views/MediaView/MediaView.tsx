@@ -9,6 +9,7 @@ import type { ImageLoadEventData } from 'react-native';
 import type { NativeSyntheticEvent } from 'react-native';
 import { log } from '@react-native-ajp-elements/core';
 import { makeStyles } from '@rneui/themed';
+import { saveToCameraRoll } from '../../helpers';
 import { useIsFocused } from '@react-navigation/core';
 import { useIsForeground } from '../../../../hooks/useIsForeground';
 
@@ -21,7 +22,7 @@ const isVideoOnLoadEvent = (
 type MediaView = MediaViewMethods;
 
 const MediaView = React.forwardRef<MediaView, MediaViewProps>((props, _ref) => {
-  const { actionButton, onPress, path, type } = props;
+  const { actionButton, onPress, path, saveOnAction = true, type } = props;
 
   const theme = useTheme();
   const s = useStyles(theme);
@@ -106,7 +107,10 @@ const MediaView = React.forwardRef<MediaView, MediaViewProps>((props, _ref) => {
             {...actionButton?.icon}
           />
         }
-        onPress={onPress}
+        onPress={() => {
+          onPress && onPress();
+          saveOnAction && saveToCameraRoll(path, type);
+        }}
       />
     </View>
   );

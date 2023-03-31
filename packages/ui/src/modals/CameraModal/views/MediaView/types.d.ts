@@ -18,6 +18,7 @@ export interface MediaViewProps {
   };
   onPress?: () => void;
   path: string;
+  saveOnAction?: boolean;
   type: MediaType;
 }
 
