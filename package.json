@@ -12,12 +12,12 @@
   },
   "publishConfig": {
     "access": "restricted",
-    "registry":"http://localhost:4873"
+    "registry": "http://localhost:4873"
   },
   "repository": {
-		"url": "https://github.com/ajp8164/react-native-ajp-elements",
-		"type": "git"
-	},
+    "url": "https://github.com/ajp8164/react-native-ajp-elements",
+    "type": "git"
+  },
   "workspaces": {
     "packages": [
       "packages/*"
@@ -36,6 +36,7 @@
     "@types/lodash": "^4.14.188",
     "@types/luxon": "^3.1.0",
     "@types/react-native": "^0.71.1",
+    "@types/react-native-video": "^5.0.14",
     "@types/tiny-secp256k1": "^2.0.1",
     "babel-jest": "^29.3.0",
     "babel-plugin-module-resolver": "^5.0.0",

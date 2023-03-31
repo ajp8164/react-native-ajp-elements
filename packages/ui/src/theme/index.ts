@@ -1,4 +1,5 @@
 import { Colors, Theme, useTheme as useRNETheme } from '@rneui/themed';
+import { EdgeInsets, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import type { Styles } from './types/Styles';
 import { useStyles } from './styles';
@@ -22,13 +23,16 @@ export { useStyles } from './styles';
 export const useTheme = () => {
   const { theme } = useRNETheme();
   const styles = useStyles();
+  const insets = useSafeAreaInsets();
   return {
     ...theme,
     styles,
+    insets,
   };
 };
 
 export interface AppTheme extends Theme {
   colors: Colors;
   styles: Styles;
+  insets: EdgeInsets;
 }
