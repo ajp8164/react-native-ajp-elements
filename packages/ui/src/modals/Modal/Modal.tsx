@@ -20,6 +20,7 @@ const Modal = React.forwardRef<Modal, ModalProps>((props, ref) => {
     children,
     background = 'normal',
     enableGestureBehavior = true,
+    handleComponent,
     handleIndicatorStyle,
     modalParent = false,
     scrollEnabled = true,
@@ -83,6 +84,7 @@ const Modal = React.forwardRef<Modal, ModalProps>((props, ref) => {
       enableHandlePanningGesture={enableHandlePanningGesture}
       touchBackdropBehavior={touchBackdropBehavior}
       backgroundStyle={[{ backgroundColor }, backgroundStyle]}
+      handleComponent={handleComponent}
       handleIndicatorStyle={[
         { backgroundColor: handleIndicator },
         handleIndicatorStyle,

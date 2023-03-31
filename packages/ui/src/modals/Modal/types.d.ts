@@ -16,6 +16,7 @@ export interface ModalProps {
   children: ReactNode;
   background?: 'normal' | 'inverse';
   enableGestureBehavior?: boolean;
+  handleComponent?: React.FC<BottomSheetHandleProps> | null | undefined;
   handleIndicatorStyle?: ViewStyle;
   modalParent?: boolean;
   onClose?: () => void; // Close only
