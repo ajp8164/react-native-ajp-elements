@@ -8,7 +8,7 @@ import { StatusBar, View } from 'react-native';
 
 import type { BottomSheetModalMethods } from '@gorhom/bottom-sheet/lib/typescript/types';
 import { Modal } from '../Modal';
-import ModalHeader from '../ModalHeader';
+import { ModalHeader } from '../ModalHeader';
 import { makeStyles } from '@rneui/themed';
 import { saveToCameraRoll } from './helpers';
 import { useSetState } from '@react-native-ajp-elements/core';
