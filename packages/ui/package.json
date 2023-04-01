@@ -51,6 +51,7 @@
   "peerDependencies": {
     "@gorhom/bottom-sheet": "^4.4.5",
     "@react-native-camera-roll/camera-roll": "^5.3.1",
+    "@react-native-community/blur": "^4.3.0",
     "@react-native-community/datetimepicker": "^6.7.3",
     "@react-native-picker/picker": "^2.4.8",
     "@react-navigation/core": "^6.4.8",
@@ -66,6 +67,7 @@
     "react-native-device-info": "^10.3.0",
     "react-native-gravatar": "^1.0.2",
     "react-native-image-cache-wrapper": "https://github.com/flowency/react-native-image-cache-wrapper#parallel-fetch",
+    "react-native-image-picker": "^5.3.1",
     "react-native-linear-gradient": "^2.6.2",
     "react-native-reanimated": "^2.14.4",
     "react-native-share": "^8.0.0",

@@ -2,11 +2,13 @@ import { AppTheme, useTheme } from '../theme';
 import { Button, Icon } from '@rneui/base';
 import { LayoutChangeEvent, Text, TextStyle, View } from 'react-native';
 
+import { BlurBackground } from '../BlurBackground';
 import React from 'react';
 import type { ViewStyle } from 'react-native';
 import { makeStyles } from '@rneui/themed';
 
 interface ModalHeaderInterface {
+  blurBackground?: boolean;
   containerStyle?: ViewStyle | ViewStyle[];
   leftButtonBusy?: boolean;
   leftButtonDisabled?: boolean;
@@ -32,6 +34,7 @@ interface ModalHeaderInterface {
 }
 
 const ModalHeader = ({
+  blurBackground,
   containerStyle,
   leftButtonBusy,
   leftButtonDisabled,
@@ -63,57 +66,69 @@ const ModalHeader = ({
   };
 
   return (
-    <View
-      style={[size === 'large' ? s.viewLarge : s.viewSmall, containerStyle]}
-      onLayout={onHeaderLayout}>
-      <Text style={size === 'large' ? s.titleLarge : s.titleSmall}>
-        {title}
-      </Text>
-      <Button
-        type={'clear'}
-        containerStyle={
-          size === 'large' ? s.containerLeftLarge : s.containerLeftSmall
-        }
-        buttonStyle={size === 'large' ? s.buttonLarge : s.buttonSmall}
-        title={leftButtonText}
-        titleStyle={[s.buttonText, leftButtonTextStyle]}
-        loading={leftButtonBusy}
-        icon={
-          leftButtonIcon ? (
-            <Icon
-              name={leftButtonIcon}
-              type={leftButtonIconType}
-              color={leftButtonIconColor}
-              size={leftButtonIconSize}
-            />
-          ) : undefined
-        }
-        disabled={leftButtonDisabled}
-        onPress={onLeftButtonPress}
-      />
-      <Button
-        type={'clear'}
-        containerStyle={
-          size === 'large' ? s.containerRightLarge : s.containerRightSmall
-        }
-        buttonStyle={size === 'large' ? s.buttonLarge : s.buttonSmall}
-        title={rightButtonText}
-        titleStyle={[s.buttonText, rightButtonTextStyle]}
-        loading={rightButtonBusy}
-        icon={
-          rightButtonIcon ? (
-            <Icon
-              name={rightButtonIcon}
-              type={rightButtonIconType}
-              color={rightButtonIconColor}
-              size={rightButtonIconSize}
-            />
-          ) : undefined
-        }
-        disabled={rightButtonDisabled}
-        onPress={onRightButtonPress}
-      />
-    </View>
+    <>
+      {blurBackground && (
+        <BlurBackground
+          style={{
+            height:
+              size === 'large'
+                ? theme.insets.top + Number(theme.styles.headerBarLarge.height)
+                : theme.insets.top + Number(theme.styles.headerBar.height),
+          }}
+        />
+      )}
+      <View
+        style={[size === 'large' ? s.viewLarge : s.viewSmall, containerStyle]}
+        onLayout={onHeaderLayout}>
+        <Text style={size === 'large' ? s.titleLarge : s.titleSmall}>
+          {title}
+        </Text>
+        <Button
+          type={'clear'}
+          containerStyle={
+            size === 'large' ? s.containerLeftLarge : s.containerLeftSmall
+          }
+          buttonStyle={size === 'large' ? s.buttonLarge : s.buttonSmall}
+          title={leftButtonText}
+          titleStyle={[s.buttonText, leftButtonTextStyle]}
+          loading={leftButtonBusy}
+          icon={
+            leftButtonIcon ? (
+              <Icon
+                name={leftButtonIcon}
+                type={leftButtonIconType}
+                color={leftButtonIconColor}
+                size={leftButtonIconSize}
+              />
+            ) : undefined
+          }
+          disabled={leftButtonDisabled}
+          onPress={onLeftButtonPress}
+        />
+        <Button
+          type={'clear'}
+          containerStyle={
+            size === 'large' ? s.containerRightLarge : s.containerRightSmall
+          }
+          buttonStyle={size === 'large' ? s.buttonLarge : s.buttonSmall}
+          title={rightButtonText}
+          titleStyle={[s.buttonText, rightButtonTextStyle]}
+          loading={rightButtonBusy}
+          icon={
+            rightButtonIcon ? (
+              <Icon
+                name={rightButtonIcon}
+                type={rightButtonIconType}
+                color={rightButtonIconColor}
+                size={rightButtonIconSize}
+              />
+            ) : undefined
+          }
+          disabled={rightButtonDisabled}
+          onPress={onRightButtonPress}
+        />
+      </View>
+    </>
   );
 };
 

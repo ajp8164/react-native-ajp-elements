@@ -1,5 +1,6 @@
 export * from './ActionButton';
 export * from './AvatarPlus';
+export * from './BlurBackground';
 export * from './BottomSheet';
 export * from './BottomSheetPicker';
 export * from './BulletList';
@@ -7,6 +8,7 @@ export * from './CachedImage';
 export * from './ColorModeSwitch';
 export * from './ConditionalWrapper';
 export * from './Gradient';
+export * from './hooks';
 export * from './KeyboardAccessory';
 export * from './List';
 export * from './Paginator';

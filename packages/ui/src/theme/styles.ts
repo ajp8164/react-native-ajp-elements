@@ -44,6 +44,39 @@ export const useStyles = makeStyles(
   (theme): Styles => ({
     extra: undefined,
     /**
+     * Constants
+     */
+    headerBar: {
+      ...Platform.select({
+        android: {
+          height: 44,
+        },
+        ios: {
+          height: 44,
+        },
+      }),
+    },
+    headerBarLarge: {
+      ...Platform.select({
+        android: {
+          height: 0,
+        },
+        ios: {
+          height: 96,
+        },
+      }),
+    },
+    statusBar: {
+      ...Platform.select({
+        android: {
+          height: 20,
+        },
+        ios: {
+          height: 20,
+        },
+      }),
+    },
+    /**
      * List
      */
     listItemContainer: {

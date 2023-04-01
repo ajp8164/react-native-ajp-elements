@@ -1,3 +1,4 @@
+import { Asset } from 'react-native-image-picker';
 import { IconProps } from '@rneui/base';
 import { MediaCapture } from './views/CameraView';
 import React from 'react';
@@ -15,8 +16,9 @@ export interface CameraModalProps {
     containerStyle?: ViewStyle | ViewStyle[];
     icon?: IconProps;
   };
-  onPreviewAction?: (capture: MediaCapture) => void;
-  onDismiss?: () => void;
+  onCancel?: () => void;
+  onCapture: (capture: MediaCapture) => void;
+  onSelect: (assets: Asset[]) => void;
   preview?: boolean;
 }
 

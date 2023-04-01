@@ -1,16 +1,17 @@
-import { AppTheme, useTheme, viewport } from '../../theme';
+import { AppTheme, useTheme } from '../../theme';
 import type { CameraModalMethods, CameraModalProps } from './types';
 import CameraView, { CameraViewMethods, MediaType } from './views/CameraView';
 import MediaView, { MediaViewMethods } from './views/MediaView';
+import { Modal, viewport } from '@react-native-ajp-elements/ui';
 import type { PhotoFile, VideoFile } from 'react-native-vision-camera';
 import React, { useImperativeHandle, useRef } from 'react';
 import { StatusBar, View } from 'react-native';
 
 import type { BottomSheetModalMethods } from '@gorhom/bottom-sheet/lib/typescript/types';
-import { Modal } from '../Modal';
 import { ModalHeader } from '../ModalHeader';
 import { makeStyles } from '@rneui/themed';
 import { saveToCameraRoll } from './helpers';
+import { selectImage } from '../../lib/imageSelect';
 import { useSetState } from '@react-native-ajp-elements/core';
 
 type CameraModal = CameraModalMethods;
@@ -19,8 +20,9 @@ const CameraModal = React.forwardRef<CameraModal, CameraModalProps>(
   (props, ref) => {
     const {
       actionButton,
-      onPreviewAction: callerOnAction,
-      onDismiss: callerOnDismiss,
+      onCancel: callerOnCancel,
+      onSelect: callerOnSelect,
+      onCapture: callerOnCapture,
       preview,
     } = props;
 
@@ -60,17 +62,16 @@ const CameraModal = React.forwardRef<CameraModal, CameraModalProps>(
     };
 
     const onPreviewAction = () => {
-      callerOnAction &&
-        callerOnAction({
-          media: mediaCapture.media,
-          type: mediaCapture.type,
-        });
+      callerOnCapture({
+        media: mediaCapture.media,
+        type: mediaCapture.type,
+      });
       dismiss();
     };
 
     const onDismiss = () => {
       setMediaCapture({ showMediaView: false });
-      callerOnDismiss && callerOnDismiss();
+      callerOnCancel && callerOnCancel();
     };
 
     const onMediaCaptured = (media: PhotoFile | VideoFile, type: MediaType) => {
@@ -81,6 +82,11 @@ const CameraModal = React.forwardRef<CameraModal, CameraModalProps>(
       });
 
       !preview && saveToCameraRoll(media.path, type);
+    };
+
+    const selectImages = () => {
+      dismiss();
+      selectImage({ onSuccess: callerOnSelect, multiSelect: true });
     };
 
     const retake = () => {
@@ -96,18 +102,20 @@ const CameraModal = React.forwardRef<CameraModal, CameraModalProps>(
         enableGestureBehavior={false}
         handleComponent={null}>
         <ModalHeader
+          size={'small'}
+          blurBackground={true}
           containerStyle={s.headerContainer}
-          leftButtonText={'Retake'}
-          leftButtonTextStyle={[
-            s.headerButton,
-            s.retakeButton,
-            { opacity: mediaCapture.showMediaView ? 1 : 0 },
-          ]}
+          leftButtonIcon={
+            mediaCapture.showMediaView ? undefined : 'image-multiple-outline'
+          }
+          leftButtonIconColor={theme.colors.stickyWhite}
+          leftButtonText={mediaCapture.showMediaView ? 'Retake' : undefined}
+          leftButtonTextStyle={[s.headerButton, s.retakeButton]}
           onLeftButtonPress={() =>
-            mediaCapture.showMediaView ? retake() : null
+            mediaCapture.showMediaView ? retake() : selectImages()
           }
           rightButtonText={'Done'}
-          rightButtonTextStyle={s.headerButton}
+          rightButtonTextStyle={[s.headerButton, s.doneButton]}
           onRightButtonPress={dismiss}
         />
         <CameraView ref={cameraViewRef} onMediaCaptured={onMediaCaptured} />
@@ -135,22 +143,19 @@ const useStyles = makeStyles((_theme, theme: AppTheme) => ({
     width: '100%',
   },
   headerButton: {
-    ...theme.styles.textBold,
-    color: theme.colors.stickyWhite,
     marginTop: 10,
-    backgroundColor: theme.colors.blackTransparentMid,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
-    borderRadius: 10,
-    overflow: 'hidden',
   },
   mediaView: {
     position: 'absolute',
     width: '100%',
     height: '100%',
   },
-  retakeButton: {
+  doneButton: {
+    ...theme.styles.textBold,
     color: theme.colors.warning,
+  },
+  retakeButton: {
+    color: theme.colors.stickyWhite,
   },
 }));
 

@@ -6,6 +6,13 @@ export type Styles = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   extra: any; // Used by components to pass arbitrary props to makeStyles()
 
+  // Constants
+  headerBar: ViewStyle;
+  headerBarLarge: ViewStyle;
+  statusBar: ViewStyle;
+
+  // Styles
+
   listItemContainer: ViewStyle;
   listItemTitle: TextStyle;
   listItemSubtitle: TextStyle;
