@@ -16,6 +16,7 @@ import { makeStyles } from '@rneui/themed';
 // See https://reactnativeelements.com/docs/components/icon#available-icon-sets
 
 interface ListItem {
+  alignContent?: 'middle' | 'top';
   badgeStatus?: 'primary' | 'success' | 'warning' | 'error';
   badgeValue?: string;
   containerStyle?: ViewStyle | ViewStyle[];
@@ -29,6 +30,7 @@ interface ListItem {
   leftImageColor?: string;
   leftImageSize?: number;
   leftImageType?: string;
+  numberOfLines?: number;
   onLongPress?: () => void;
   onPress?: () => void;
   placeholder?: string;
@@ -46,6 +48,7 @@ interface ListItem {
 }
 
 const ListItem = ({
+  alignContent = 'middle',
   badgeStatus = 'primary',
   badgeValue,
   containerStyle,
@@ -59,6 +62,7 @@ const ListItem = ({
   leftImageColor,
   leftImageSize,
   leftImageType = 'ionicon',
+  numberOfLines,
   onLongPress,
   onPress,
   placeholder = '\u00b7\u00b7\u00b7',
@@ -119,13 +123,18 @@ const ListItem = ({
             imageProps={{ resizeMode: 'contain' }}
           />
         ) : null}
-        <RNEListItem.Content style={[leftImage ? s.wLeftImage : {}]}>
+        <RNEListItem.Content
+          style={[
+            leftImage ? s.wLeftImage : {},
+            alignContent === 'top' ? s.alignTop : {},
+          ]}>
           <RNEListItem.Title style={[theme.styles.listItemTitle, titleStyle]}>
             {title}
           </RNEListItem.Title>
           {subtitle !== undefined && (
             <RNEListItem.Subtitle
-              style={[theme.styles.listItemSubtitle, subtitleStyle]}>
+              style={[theme.styles.listItemSubtitle, subtitleStyle]}
+              numberOfLines={numberOfLines}>
               {subtitle}
             </RNEListItem.Subtitle>
           )}
@@ -133,7 +142,11 @@ const ListItem = ({
         {value !== undefined && (
           <RNEListItem.Content
             right
-            style={[s.valueContent, rightImage ? s.wRightImage : {}]}>
+            style={[
+              s.valueContent,
+              rightImage ? s.wRightImage : {},
+              alignContent === 'top' ? s.alignTopValue : {},
+            ]}>
             {React.isValidElement(value) ? (
               value
             ) : (
@@ -159,7 +172,9 @@ const ListItem = ({
             {rightImage}
           </RNEListItem.Content>
         ) : typeof rightImage === 'string' ? (
-          <RNEListItem.Content right>
+          <RNEListItem.Content
+            right
+            style={alignContent === 'top' ? s.alignTop : {}}>
             <Icon
               name={rightImage}
               type={rightImageType}
@@ -168,7 +183,10 @@ const ListItem = ({
             />
           </RNEListItem.Content>
         ) : rightImage ? (
-          <RNEListItem.Chevron iconProps={theme.styles.listItemIconProps} />
+          <RNEListItem.Chevron
+            iconProps={theme.styles.listItemIconProps}
+            containerStyle={alignContent === 'top' ? s.alignTop : {}}
+          />
         ) : null}
       </RNEListItem>
     </Drawer>
@@ -176,6 +194,13 @@ const ListItem = ({
 };
 
 const useStyles = makeStyles((_theme, theme: AppTheme) => ({
+  alignTop: {
+    alignSelf: 'flex-start',
+  },
+  alignTopValue: {
+    // alignSelf: 'flex-start',
+    top: 16, // Value position is absolute, need to offset down to account for padding
+  },
   swipeBorderFix: {
     borderBottomWidth: 0.01, // Prevents swipable background color from appearing as bottom border while swipe in progress.
   },
