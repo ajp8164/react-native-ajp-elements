@@ -30,7 +30,6 @@ interface ListItem {
   leftImageColor?: string;
   leftImageSize?: number;
   leftImageType?: string;
-  numberOfLines?: number;
   onLongPress?: () => void;
   onPress?: () => void;
   placeholder?: string;
@@ -40,8 +39,10 @@ interface ListItem {
   rightImageSize?: number;
   rightImageType?: string;
   subtitle?: string | JSX.Element;
+  subtitleNumberOfLines?: number;
   subtitleStyle?: TextStyle | TextStyle[];
   title?: string | JSX.Element;
+  titleNumberOfLines?: number;
   titleStyle?: TextStyle | TextStyle[];
   value?: string | JSX.Element;
   valueStyle?: TextStyle | TextStyle[];
@@ -62,7 +63,6 @@ const ListItem = ({
   leftImageColor,
   leftImageSize,
   leftImageType = 'ionicon',
-  numberOfLines,
   onLongPress,
   onPress,
   placeholder = '\u00b7\u00b7\u00b7',
@@ -72,8 +72,10 @@ const ListItem = ({
   rightImageSize,
   rightImageType = 'ionicon',
   subtitle,
+  subtitleNumberOfLines,
   subtitleStyle,
   title,
+  titleNumberOfLines,
   titleStyle,
   value,
   valueStyle,
@@ -128,13 +130,15 @@ const ListItem = ({
             leftImage ? s.wLeftImage : {},
             alignContent === 'top' ? s.alignTop : {},
           ]}>
-          <RNEListItem.Title style={[theme.styles.listItemTitle, titleStyle]}>
+          <RNEListItem.Title
+            style={[theme.styles.listItemTitle, titleStyle]}
+            numberOfLines={titleNumberOfLines}>
             {title}
           </RNEListItem.Title>
           {subtitle !== undefined && (
             <RNEListItem.Subtitle
               style={[theme.styles.listItemSubtitle, subtitleStyle]}
-              numberOfLines={numberOfLines}>
+              numberOfLines={subtitleNumberOfLines}>
               {subtitle}
             </RNEListItem.Subtitle>
           )}
