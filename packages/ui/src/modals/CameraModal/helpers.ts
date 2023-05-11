@@ -20,7 +20,10 @@ const requestSavePermission = async (): Promise<boolean> => {
   return hasPermission;
 };
 
-export const saveToCameraRoll = async (path: string, type: MediaType) => {
+export const saveToCameraRoll = async (
+  path: string,
+  type: MediaType,
+): Promise<string | undefined> => {
   const hasPermission = await requestSavePermission();
   if (!hasPermission) {
     Alert.alert(
@@ -31,7 +34,7 @@ export const saveToCameraRoll = async (path: string, type: MediaType) => {
   }
 
   try {
-    await CameraRoll.save(`file://${path}`, { type });
+    return await CameraRoll.save(`file://${path}`, { type });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (e: any) {
     const t = type === 'photo' ? 'Photo' : 'Video';
@@ -40,5 +43,6 @@ export const saveToCameraRoll = async (path: string, type: MediaType) => {
       `An error occurred while saving your ${type}. Please try again.`,
     );
     log.error(`Failed to save to camera roll: ${e.message}`);
+    return;
   }
 };
