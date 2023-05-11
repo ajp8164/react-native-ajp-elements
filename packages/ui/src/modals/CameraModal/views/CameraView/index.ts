@@ -2,6 +2,6 @@ export { default } from './CameraView';
 export type {
   CameraViewProps,
   CameraViewMethods,
-  MediaCapture,
+  RawMediaCapture,
   MediaType,
 } from './types';

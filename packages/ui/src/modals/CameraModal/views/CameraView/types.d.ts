@@ -19,7 +19,7 @@ export interface CameraViewMethods {}
 
 export type MediaType = 'photo' | 'video' | 'auto';
 
-export type MediaCapture = {
+export type RawMediaCapture = {
   media: PhotoFile | VideoFile;
   type: MediaType;
 };

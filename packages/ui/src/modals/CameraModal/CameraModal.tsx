@@ -2,16 +2,13 @@ import { AppTheme, useTheme, viewport } from '../../theme';
 import type {
   CameraModalMethods,
   CameraModalProps,
+  MediaCapture,
   OnCancelCallback,
   OnCaptureCallback,
   OnSelectCallback,
   PresentInterface,
 } from './types';
-import CameraView, {
-  CameraViewMethods,
-  MediaCapture,
-  MediaType,
-} from './views/CameraView';
+import CameraView, { CameraViewMethods, MediaType } from './views/CameraView';
 import MediaView, {
   MediaActionButton,
   MediaViewMethods,
@@ -60,10 +57,12 @@ const CameraModal = React.forwardRef<CameraModal, CameraModalProps>(
       media: PhotoFile | VideoFile;
       type: MediaType;
       showMediaView: boolean;
+      cameraRollUri: string | undefined;
     }>({
       media: {} as PhotoFile | VideoFile,
       type: 'photo',
       showMediaView: false,
+      cameraRollUri: undefined,
     });
 
     useImperativeHandle(ref, () => ({
@@ -95,8 +94,21 @@ const CameraModal = React.forwardRef<CameraModal, CameraModalProps>(
       StatusBar.setHidden(true);
     };
 
-    const onPreviewAction = () => {
+    const onPreviewAction = async () => {
+      const cameraRollUri = await saveToCameraRoll(
+        mediaCapture.media.path,
+        mediaCapture.type,
+      );
+
+      const ext = cameraRollUri ? cameraRollUri.split('.').pop() : undefined;
+      const mimeType =
+        mediaCapture.type === 'photo' ? `image/${ext}` : `video/${ext}`;
+
       const capture = {
+        cameraRoll: {
+          mimeType,
+          uri: cameraRollUri,
+        },
         media: mediaCapture.media,
         type: mediaCapture.type,
       } as MediaCapture;
@@ -116,8 +128,6 @@ const CameraModal = React.forwardRef<CameraModal, CameraModalProps>(
         type,
         showMediaView: preview.current,
       });
-
-      !preview.current && saveToCameraRoll(media.path, type);
     };
 
     const selectImages = () => {

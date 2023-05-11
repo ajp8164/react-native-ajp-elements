@@ -3,10 +3,11 @@ export type {
   CameraModalProps,
   CameraModalMethods,
   MediaAsset,
+  MediaCapture,
   PresentInterface,
   OnCancelCallback,
   OnCaptureCallback,
   OnSelectCallback,
 } from './types';
 export { type MediaActionButton } from './views/MediaView';
-export { type MediaCapture, type MediaType } from './views/CameraView';
+export { type MediaType } from './views/CameraView';

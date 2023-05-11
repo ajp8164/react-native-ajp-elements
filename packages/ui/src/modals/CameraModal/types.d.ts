@@ -1,6 +1,7 @@
+import type { MediaCapture, RawMediaCapture } from './views/CameraView';
+
 import type { Asset } from 'react-native-image-picker';
 import type { MediaActionButton } from './views/MediaView';
-import type { MediaCapture } from './views/CameraView';
 import React from 'react';
 
 export declare type CameraModal = CameraModalMethods;
@@ -11,6 +12,12 @@ declare const CameraModal: React.MemoExoticComponent<
   >
 >;
 
+export type MediaCapture = RawMediaCapture & {
+  cameraRoll: {
+    mimeType?: string;
+    uri?: string;
+  };
+};
 export type MediaAsset = Asset;
 export type OnCancelCallback = () => void;
 export type OnCaptureCallback = (capture: MediaCapture) => void;
