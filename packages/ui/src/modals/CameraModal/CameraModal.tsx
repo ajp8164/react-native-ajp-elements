@@ -100,16 +100,16 @@ const CameraModal = React.forwardRef<CameraModal, CameraModalProps>(
         mediaCapture.type,
       );
 
-      const ext = cameraRollUri ? cameraRollUri.split('.').pop() : undefined;
+      const ext = mediaCapture.media.path.split('.').pop();
       const mimeType =
         mediaCapture.type === 'photo' ? `image/${ext}` : `video/${ext}`;
 
       const capture = {
         cameraRoll: {
-          mimeType,
           uri: cameraRollUri,
         },
         media: mediaCapture.media,
+        mimeType,
         type: mediaCapture.type,
       } as MediaCapture;
 

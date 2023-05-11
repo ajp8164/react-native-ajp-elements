@@ -14,9 +14,9 @@ declare const CameraModal: React.MemoExoticComponent<
 
 export type MediaCapture = RawMediaCapture & {
   cameraRoll: {
-    mimeType?: string;
     uri?: string;
   };
+  mimeType?: string;
 };
 export type MediaAsset = Asset;
 export type OnCancelCallback = () => void;
