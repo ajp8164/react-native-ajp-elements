@@ -11,13 +11,19 @@ declare const MediaView: React.MemoExoticComponent<
   >
 >;
 
+export type MediaActionButton = {
+  containerStyle?: ViewStyle | ViewStyle[];
+  icon?: IconProps;
+};
+
 export interface MediaViewProps {
-  actionButton?: {
-    containerStyle?: ViewStyle | ViewStyle[];
-    icon?: IconProps;
-  };
+  // The action button prompting the user to use (capture) the media (image/video).
+  actionButton?: MediaActionButton;
+  // A callback when the action button is pressed.
   onPress?: () => void;
+  // Filename for saving media (image/video).
   path: string;
+  // Save the media in the camera roll when the action button is pressed.
   saveOnAction?: boolean;
   type: MediaType;
 }

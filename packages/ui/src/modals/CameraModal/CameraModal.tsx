@@ -1,7 +1,21 @@
 import { AppTheme, useTheme, viewport } from '../../theme';
-import type { CameraModalMethods, CameraModalProps } from './types';
-import CameraView, { CameraViewMethods, MediaType } from './views/CameraView';
-import MediaView, { MediaViewMethods } from './views/MediaView';
+import type {
+  CameraModalMethods,
+  CameraModalProps,
+  OnCancelCallback,
+  OnCaptureCallback,
+  OnSelectCallback,
+  PresentInterface,
+} from './types';
+import CameraView, {
+  CameraViewMethods,
+  MediaCapture,
+  MediaType,
+} from './views/CameraView';
+import MediaView, {
+  MediaActionButton,
+  MediaViewMethods,
+} from './views/MediaView';
 import type { PhotoFile, VideoFile } from 'react-native-vision-camera';
 import React, { useImperativeHandle, useRef } from 'react';
 import { StatusBar, View } from 'react-native';
@@ -19,11 +33,11 @@ type CameraModal = CameraModalMethods;
 const CameraModal = React.forwardRef<CameraModal, CameraModalProps>(
   (props, ref) => {
     const {
-      actionButton,
-      onCancel: callerOnCancel,
-      onSelect: callerOnSelect,
-      onCapture: callerOnCapture,
-      preview,
+      actionButton: _actionButton,
+      onCancel: _onCancel,
+      onCapture: _onCapture,
+      onSelect: _onSelect,
+      preview: _preview,
     } = props;
 
     const theme = useTheme();
@@ -33,6 +47,14 @@ const CameraModal = React.forwardRef<CameraModal, CameraModalProps>(
     const innerRef = useRef<BottomSheetModalMethods>(null);
     const cameraViewRef = useRef<CameraViewMethods>(null);
     const mediaViewRef = useRef<MediaViewMethods>(null);
+
+    const actionButton = useRef<MediaActionButton | undefined>(_actionButton);
+    const onCancelCallback = useRef<OnCancelCallback | undefined>(_onCancel);
+    const onCaptureCallback = useRef<OnCaptureCallback | undefined>(_onCapture);
+    const onSelectCallback = useRef<OnSelectCallback | undefined>(_onSelect);
+    const preview = useRef<boolean | undefined>(
+      _preview === undefined ? true : false,
+    );
 
     const [mediaCapture, setMediaCapture] = useSetState<{
       media: PhotoFile | VideoFile;
@@ -56,37 +78,56 @@ const CameraModal = React.forwardRef<CameraModal, CameraModalProps>(
       StatusBar.setHidden(false);
     };
 
-    const present = () => {
+    const present = (args?: PresentInterface) => {
+      args?.opts?.actionButton
+        ? (actionButton.current = args?.opts?.actionButton)
+        : undefined;
+      args?.onCancel ? (onCancelCallback.current = args?.onCancel) : undefined;
+      args?.onCapture
+        ? (onCaptureCallback.current = args?.onCapture)
+        : undefined;
+      args?.onSelect ? (onSelectCallback.current = args?.onSelect) : undefined;
+      args?.opts?.preview !== undefined
+        ? (preview.current = args?.opts?.preview)
+        : undefined;
+
       innerRef.current?.present();
       StatusBar.setHidden(true);
     };
 
     const onPreviewAction = () => {
-      callerOnCapture({
+      const capture = {
         media: mediaCapture.media,
         type: mediaCapture.type,
-      });
+      } as MediaCapture;
+
+      onCaptureCallback.current && onCaptureCallback.current(capture);
       dismiss();
     };
 
     const onDismiss = () => {
       setMediaCapture({ showMediaView: false });
-      callerOnCancel && callerOnCancel();
+      onCancelCallback.current && onCancelCallback.current();
     };
 
     const onMediaCaptured = (media: PhotoFile | VideoFile, type: MediaType) => {
       setMediaCapture({
         media,
         type,
-        showMediaView: preview,
+        showMediaView: preview.current,
       });
 
-      !preview && saveToCameraRoll(media.path, type);
+      !preview.current && saveToCameraRoll(media.path, type);
     };
 
     const selectImages = () => {
       dismiss();
-      selectImage({ onSuccess: callerOnSelect, multiSelect: true });
+      selectImage({
+        onSuccess: assets => {
+          onSelectCallback.current && onSelectCallback.current(assets);
+        },
+        multiSelect: true,
+      });
     };
 
     const retake = () => {
@@ -123,7 +164,7 @@ const CameraModal = React.forwardRef<CameraModal, CameraModalProps>(
           <View style={s.mediaView}>
             <MediaView
               ref={mediaViewRef}
-              actionButton={actionButton}
+              actionButton={actionButton.current}
               path={mediaCapture.media.path}
               type={mediaCapture.type}
               onPress={onPreviewAction}
