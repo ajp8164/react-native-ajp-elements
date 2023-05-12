@@ -22,7 +22,7 @@ const isVideoOnLoadEvent = (
 type MediaView = MediaViewMethods;
 
 const MediaView = React.forwardRef<MediaView, MediaViewProps>((props, _ref) => {
-  const { actionButton, onPress, path, saveOnAction = true, type } = props;
+  const { actionButton, onPress, path, saveOnAction = false, type } = props;
 
   const theme = useTheme();
   const s = useStyles(theme);
