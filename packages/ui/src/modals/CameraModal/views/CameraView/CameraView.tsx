@@ -296,7 +296,7 @@ const CameraView = React.forwardRef<CameraView, CameraViewProps>(
                   photo={true}
                   video={true}
                   audio={hasMicrophonePermission}
-                  orientation="portrait"
+                  orientation={'device'}
                   frameProcessorFps={1}
                   onFrameProcessorPerformanceSuggestionAvailable={
                     onFrameProcessorSuggestionAvailable
