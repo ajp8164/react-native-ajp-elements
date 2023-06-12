@@ -69,7 +69,7 @@ const MediaView = React.forwardRef<MediaView, MediaViewProps>((props, _ref) => {
         <Image
           source={source}
           style={StyleSheet.absoluteFill}
-          resizeMode="cover"
+          resizeMode="contain"
           onLoadEnd={onMediaLoadEnd}
           onLoad={onMediaLoad}
         />
@@ -79,8 +79,8 @@ const MediaView = React.forwardRef<MediaView, MediaViewProps>((props, _ref) => {
           source={source}
           style={StyleSheet.absoluteFill}
           paused={isVideoPaused}
-          resizeMode="cover"
-          posterResizeMode="cover"
+          resizeMode="contain"
+          posterResizeMode="contain"
           allowsExternalPlayback={false}
           automaticallyWaitsToMinimizeStalling={false}
           disableFocus={true}
