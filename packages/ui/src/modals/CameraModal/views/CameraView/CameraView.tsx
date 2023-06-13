@@ -145,20 +145,6 @@ const CameraView = React.forwardRef<CameraView, CameraViewProps>(
       : (device?.supportsLowLightBoost ?? false) || fps > 30; // either we have native support, or we can lower the FPS
     //#endregion
 
-    const format = useMemo(() => {
-      let result = formats;
-      if (enableHdr) {
-        // We only filter by HDR capable formats if HDR is set to true.
-        // Otherwise we ignore the `supportsVideoHDR` property and accept formats which support HDR `true` or `false`
-        result = result.filter(f => f.supportsVideoHDR || f.supportsPhotoHDR);
-      }
-
-      // find the first format that includes the given FPS
-      return result.find(f =>
-        f.frameRateRanges.some(r => frameRateIncluded(r, fps)),
-      );
-    }, [formats, fps, enableHdr]);
-
     //#region Animated Zoom
     // This just maps the zoom factor to a percentage value.
     // So e.g. for [min, neutr., max] values [1, 2, 128] this would result in [0, 0.0081, 1]
@@ -250,17 +236,6 @@ const CameraView = React.forwardRef<CameraView, CameraViewProps>(
     });
     //#endregion
 
-    if (device != null && format != null) {
-      log.debug(
-        `Re-rendering camera page with ${
-          isActive ? 'active' : 'inactive'
-        } camera. ` +
-          `Device: "${device.name}" (${format.photoWidth}x${format.photoHeight} @ ${fps}fps)`,
-      );
-    } else {
-      log.debug('Re-rendering camera page without active camera');
-    }
-
     const onFrameProcessorSuggestionAvailable = useCallback(
       (suggestion: FrameProcessorPerformanceSuggestion) => {
         log.debug(
@@ -282,7 +257,6 @@ const CameraView = React.forwardRef<CameraView, CameraViewProps>(
                   ref={camera}
                   style={StyleSheet.absoluteFill}
                   device={device}
-                  format={format}
                   fps={fps}
                   hdr={enableHdr}
                   lowLightBoost={
@@ -306,7 +280,6 @@ const CameraView = React.forwardRef<CameraView, CameraViewProps>(
             </Reanimated.View>
           </PinchGestureHandler>
         )}
-
         <CaptureButton
           style={s.captureButton}
           camera={camera}
@@ -318,7 +291,6 @@ const CameraView = React.forwardRef<CameraView, CameraViewProps>(
           enabled={isCameraInitialized && isActive}
           setIsPressingButton={setIsPressingButton}
         />
-
         <View style={s.rightButtonRow}>
           {supportsCameraFlipping && (
             <TouchableOpacity style={s.button} onPress={onFlipCameraPressed}>
