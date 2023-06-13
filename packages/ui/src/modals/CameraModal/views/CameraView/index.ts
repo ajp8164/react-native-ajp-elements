@@ -4,4 +4,6 @@ export type {
   CameraViewMethods,
   RawMediaCapture,
   MediaType,
+  PhotoFile,
+  VideoFile,
 } from './types';

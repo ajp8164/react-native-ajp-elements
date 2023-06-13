@@ -1,11 +1,10 @@
 import { AppTheme, useTheme, viewport } from '../../../../theme';
 import type {
   Camera,
-  PhotoFile,
   TakePhotoOptions,
   TakeSnapshotOptions,
-  VideoFile,
 } from 'react-native-vision-camera';
+import type { MediaType, PhotoFile, VideoFile } from './types';
 import {
   PanGestureHandler,
   PanGestureHandlerGestureEvent,
@@ -28,7 +27,6 @@ import Reanimated, {
 } from 'react-native-reanimated';
 import { Text, View, ViewProps } from 'react-native';
 
-import type { MediaType } from './types';
 import { log } from '@react-native-ajp-elements/core';
 import { makeStyles } from '@rneui/themed';
 
@@ -85,6 +83,9 @@ const _CaptureButton: React.FC<Props> = ({
 
       log.debug('Taking photo...');
       const photo = await camera.current.takePhoto(takePhotoOptions);
+      if (!photo.path.includes('file://')) {
+        photo.path = `file://${photo.path}`;
+      }
       onMediaCaptured(photo, 'photo');
     } catch (e) {
       log.debug('Failed to take photo!', e);
@@ -124,7 +125,12 @@ const _CaptureButton: React.FC<Props> = ({
         },
         onRecordingFinished: video => {
           log.debug(`Recording successfully finished! ${video.path}`);
-          onMediaCaptured(video, 'video');
+          const v: VideoFile = {
+            ...video,
+            width: 0, // Size will be discovered later during media load.
+            height: 0,
+          };
+          onMediaCaptured(v, 'video');
           onStoppedRecording();
         },
       });

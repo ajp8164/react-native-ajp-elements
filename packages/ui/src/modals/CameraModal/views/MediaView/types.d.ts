@@ -20,7 +20,7 @@ export interface MediaViewProps {
   // The action button prompting the user to use (capture) the media (image/video).
   actionButton?: MediaActionButton;
   // A callback when the action button is pressed.
-  onPress?: () => void;
+  onPress?: (mediaWidth: number, mediaHeight: number) => void;
   // Filename for saving media (image/video).
   path: string;
   // Save the media in the camera roll when the action button is pressed.

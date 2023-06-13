@@ -1,4 +1,7 @@
-import { PhotoFile, VideoFile } from 'react-native-vision-camera';
+import {
+  type PhotoFile,
+  type VideoFile as VCVideoFile,
+} from 'react-native-vision-camera';
 
 import React from 'react';
 
@@ -18,6 +21,8 @@ export interface CameraViewProps {
 export interface CameraViewMethods {}
 
 export type MediaType = 'photo' | 'video' | 'auto';
+export { PhotoFile } from 'react-native-vision-camera';
+export type VideoFile = VCVideoFile & { width: number; height: number };
 
 export type RawMediaCapture = {
   media: PhotoFile | VideoFile;

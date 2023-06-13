@@ -2,7 +2,7 @@ import { AppTheme, useTheme } from '../../../../theme';
 import { Button, Icon } from '@rneui/base';
 import { Image, StyleSheet, View } from 'react-native';
 import type { MediaViewMethods, MediaViewProps } from './types';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import Video, { LoadError, OnLoadData } from 'react-native-video';
 
 import type { ImageLoadEventData } from 'react-native';
@@ -32,13 +32,20 @@ const MediaView = React.forwardRef<MediaView, MediaViewProps>((props, _ref) => {
   const isScreenFocused = useIsFocused();
   const isVideoPaused = !isForeground || !isScreenFocused;
 
+  const mediaWidth = useRef(0);
+  const mediaHeight = useRef(0);
+
   const onMediaLoad = useCallback(
     (event: OnLoadData | NativeSyntheticEvent<ImageLoadEventData>) => {
       if (isVideoOnLoadEvent(event)) {
+        mediaWidth.current = event.naturalSize.width;
+        mediaHeight.current = event.naturalSize.height;
         log.debug(
           `Video loaded. Size: ${event.naturalSize.width}x${event.naturalSize.height} (${event.naturalSize.orientation}, ${event.duration} seconds)`,
         );
       } else {
+        mediaWidth.current = event.nativeEvent.source.width;
+        mediaHeight.current = event.nativeEvent.source.height;
         log.debug(
           `Image loaded. Size: ${event.nativeEvent.source.width}x${event.nativeEvent.source.height}`,
         );
@@ -108,7 +115,7 @@ const MediaView = React.forwardRef<MediaView, MediaViewProps>((props, _ref) => {
           />
         }
         onPress={() => {
-          onPress && onPress();
+          onPress && onPress(mediaWidth.current, mediaHeight.current);
           saveOnAction && saveToCameraRoll(path, type);
         }}
       />

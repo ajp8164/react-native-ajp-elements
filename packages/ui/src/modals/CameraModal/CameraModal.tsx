@@ -8,12 +8,16 @@ import type {
   OnSelectCallback,
   PresentInterface,
 } from './types';
-import CameraView, { CameraViewMethods, MediaType } from './views/CameraView';
+import CameraView, {
+  CameraViewMethods,
+  MediaType,
+  PhotoFile,
+  VideoFile,
+} from './views/CameraView';
 import MediaView, {
   MediaActionButton,
   MediaViewMethods,
 } from './views/MediaView';
-import type { PhotoFile, VideoFile } from 'react-native-vision-camera';
 import React, { useImperativeHandle, useRef } from 'react';
 import { StatusBar, View } from 'react-native';
 
@@ -72,7 +76,7 @@ const CameraModal = React.forwardRef<CameraModal, CameraModalProps>(
     }));
 
     const dismiss = () => {
-      setMediaCapture({ showMediaView: false });
+      setMediaCapture({ showMediaView: false }, { assign: true });
       innerRef.current?.dismiss();
       StatusBar.setHidden(false);
     };
@@ -94,7 +98,10 @@ const CameraModal = React.forwardRef<CameraModal, CameraModalProps>(
       StatusBar.setHidden(true);
     };
 
-    const onPreviewAction = async () => {
+    const onPreviewAction = async (mediaWidth: number, mediaHeight: number) => {
+      mediaCapture.media.width = mediaWidth;
+      mediaCapture.media.height = mediaHeight;
+
       const cameraRollUri = await saveToCameraRoll(
         mediaCapture.media.path,
         mediaCapture.type,
@@ -118,16 +125,19 @@ const CameraModal = React.forwardRef<CameraModal, CameraModalProps>(
     };
 
     const onDismiss = () => {
-      setMediaCapture({ showMediaView: false });
+      setMediaCapture({ showMediaView: false }, { assign: true });
       onCancelCallback.current && onCancelCallback.current();
     };
 
     const onMediaCaptured = (media: PhotoFile | VideoFile, type: MediaType) => {
-      setMediaCapture({
-        media,
-        type,
-        showMediaView: preview.current,
-      });
+      setMediaCapture(
+        {
+          media,
+          type,
+          showMediaView: preview.current,
+        },
+        { assign: true },
+      );
     };
 
     const selectImages = () => {
@@ -141,7 +151,7 @@ const CameraModal = React.forwardRef<CameraModal, CameraModalProps>(
     };
 
     const retake = () => {
-      setMediaCapture({ showMediaView: false });
+      setMediaCapture({ showMediaView: false }, { assign: true });
     };
 
     return (
