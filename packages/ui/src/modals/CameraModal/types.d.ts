@@ -1,7 +1,6 @@
-import type { MediaCapture, RawMediaCapture } from './views/CameraView';
-
 import type { Asset } from 'react-native-image-picker';
 import type { MediaActionButton } from './views/MediaView';
+import type { RawMediaCapture } from './views/CameraView';
 import React from 'react';
 
 export declare type CameraModal = CameraModalMethods;
