@@ -18,6 +18,7 @@ export const selectImage = (args: {
     {
       mediaType: 'mixed',
       selectionLimit: multiSelect ? 0 : 1,
+      assetRepresentationMode: 'current',
     },
     async response => {
       try {
