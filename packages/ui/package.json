@@ -66,7 +66,7 @@
     "react-native-camera-kit": "^13.0.0",
     "react-native-device-info": "^10.3.0",
     "react-native-gravatar": "^1.0.2",
-    "react-native-image-cache-wrapper": "https://github.com/flowency/react-native-image-cache-wrapper#parallel-fetch",
+    "react-native-image-cache-wrapper": "github:ajp8164/react-native-image-cache-wrapper#parallel-fetch",
     "react-native-image-picker": "^5.4.1",
     "react-native-linear-gradient": "^2.6.2",
     "react-native-reanimated": "^2.14.4",
@@ -75,7 +75,7 @@
     "react-native-svg": "^13.7.0",
     "react-native-ui-lib": "^6.29.0",
     "react-native-video": "^5.2.1",
-    "react-native-vision-camera": "https://github.com/ajp8164/react-native-vision-camera",
+    "react-native-vision-camera": "github:ajp8164/react-native-vision-camera",
     "react-native-webview": "^11.26.1"
   },
   "jest": {
