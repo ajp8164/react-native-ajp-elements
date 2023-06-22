@@ -1,4 +1,3 @@
-declare module 'node-promise-retry';
 declare module 'react-native-gravatar';
 
 declare module '*.svg' {
