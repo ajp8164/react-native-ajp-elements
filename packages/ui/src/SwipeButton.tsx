@@ -31,6 +31,7 @@ type AnimatedGHContext = {
 };
 
 type Extra = {
+  backTextColor: ColorValue;
   height: number;
   padding: number;
   textColor: ColorValue;
@@ -40,6 +41,9 @@ type Extra = {
 };
 
 interface SwipeButtonInterface {
+  backText?: string;
+  backTextStyle?: TextStyle | TextStyle[];
+  backTextColor?: ColorValue;
   containerStyle?: ViewStyle | ViewStyle[];
   onToggle: (value: boolean) => void;
   height?: number;
@@ -58,6 +62,9 @@ interface SwipeButtonInterface {
 }
 
 const SwipeButton = ({
+  backText,
+  backTextColor,
+  backTextStyle,
   containerStyle,
   onToggle,
   height = 40,
@@ -80,6 +87,7 @@ const SwipeButton = ({
 
   const theme = useTheme();
 
+  backTextColor = backTextColor || theme.styles.buttonTitle.color || '#ffffff';
   textColor = textColor || theme.styles.buttonTitle.color || '#ffffff';
   thumbStartColor =
     thumbStartColor || theme.styles.buttonTitle.color || '#ffffff';
@@ -91,6 +99,7 @@ const SwipeButton = ({
     trackEndColor || theme.styles.button.backgroundColor || '#c0c0c0';
 
   const extra: Extra = {
+    backTextColor,
     height,
     padding,
     textColor,
@@ -193,6 +202,27 @@ const SwipeButton = ({
         ],
       };
     }),
+    backSwipeText: useAnimatedStyle(() => {
+      'worklet';
+      return {
+        opacity: interpolate(
+          X.value,
+          InterpolateXInput,
+          [0, 1],
+          Extrapolate.CLAMP,
+        ),
+        transform: [
+          {
+            translateX: interpolate(
+              X.value,
+              InterpolateXInput,
+              [width / 2 - swipableDimensions, 0],
+              Extrapolate.CLAMP,
+            ),
+          },
+        ],
+      };
+    }),
   };
 
   return (
@@ -212,6 +242,10 @@ const SwipeButton = ({
       </PanGestureHandler>
       <Animated.Text style={[s.swipeText, AnimatedStyles.swipeText, textStyle]}>
         {text}
+      </Animated.Text>
+      <Animated.Text
+        style={[s.backSwipeText, AnimatedStyles.backSwipeText, backTextStyle]}>
+        {backText}
       </Animated.Text>
     </Animated.View>
   );
@@ -248,6 +282,14 @@ const useStyles = makeStyles((_theme, theme: AppTheme) => ({
     alignSelf: 'center',
     zIndex: 2,
     color: theme.styles.extra.textColor,
+    position: 'absolute',
+  },
+  backSwipeText: {
+    ...theme.styles.textNormal,
+    alignSelf: 'center',
+    zIndex: 2,
+    color: theme.styles.extra.backTextColor,
+    position: 'absolute',
   },
 }));
 
