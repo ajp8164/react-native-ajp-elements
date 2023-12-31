@@ -25,8 +25,6 @@ interface ListItemInput {
   autoCorrect?: boolean;
   containerStyle?: ViewStyle | ViewStyle[];
   contentStyle?: ViewStyle | ViewStyle[];
-  currency?: boolean;
-  currencyProps?: Omit<FakeCurrencyInputProps, 'value'>;
   disabled?: boolean;
   errorColor?: ColorValue;
   errorText?: string | undefined;
@@ -37,7 +35,8 @@ interface ListItemInput {
   leftImageColor?: ColorValue;
   leftImageSize?: number;
   leftImageType?: string;
-  number?: boolean;
+  numeric?: boolean;
+  numericProps?: Omit<FakeCurrencyInputProps, 'value'>;
   position?: ('first' | 'last' | undefined)[];
   onBlur?: (e: NativeSyntheticEvent<TextInputFocusEventData>) => void;
   onChangeText?: (value: string) => void;
@@ -63,24 +62,18 @@ const ListItemInput = ({
   autoCorrect = true,
   containerStyle = {},
   contentStyle = {},
-  currency = false,
-  currencyProps = {
-    delimiter: ',',
-    separator: '.',
-    precision: 2,
-    prefix: '$',
-    maxValue: 1000,
-  },
   disabled,
   errorColor,
   errorText,
   extraContentComponentRight = null,
   inputTextStyle,
+  keyboardType = 'default',
   leftImage,
   leftImageColor,
   leftImageSize,
   leftImageType = 'ionicon',
-  keyboardType = 'default',
+  numeric = false,
+  numericProps,
   onBlur,
   onChangeText,
   onFocus,
@@ -179,7 +172,7 @@ const ListItemInput = ({
                 {title}
               </Text>
             )}
-            {currency ? (
+            {numeric ? (
               <FakeCurrencyInput
                 ref={refInner}
                 value={Number(value)}
@@ -207,7 +200,12 @@ const ListItemInput = ({
                 onBlur={onBlur}
                 onFocus={onFocus}
                 inputAccessoryViewID={'inputAccessoryViewID'}
-                {...currencyProps}
+                delimiter={','}
+                separator={'.'}
+                precision={2}
+                prefix={'$'}
+                maxValue={1000}
+                {...numericProps}
               />
             ) : (
               <ListItem.Input
