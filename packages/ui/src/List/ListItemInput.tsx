@@ -12,6 +12,10 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
+import {
+  FakeCurrencyInput,
+  FakeCurrencyInputProps,
+} from 'react-native-currency-input';
 
 import React from 'react';
 import { makeStyles } from '@rneui/themed';
@@ -21,6 +25,8 @@ interface ListItemInput {
   autoCorrect?: boolean;
   containerStyle?: ViewStyle | ViewStyle[];
   contentStyle?: ViewStyle | ViewStyle[];
+  currency?: boolean;
+  currencyProps?: Omit<FakeCurrencyInputProps, 'value'>;
   disabled?: boolean;
   errorColor?: ColorValue;
   errorText?: string | undefined;
@@ -57,6 +63,14 @@ const ListItemInput = ({
   autoCorrect = true,
   containerStyle = {},
   contentStyle = {},
+  currency = false,
+  currencyProps = {
+    delimiter: ',',
+    separator: '.',
+    precision: 2,
+    prefix: '$',
+    maxValue: 1000,
+  },
   disabled,
   errorColor,
   errorText,
@@ -165,32 +179,64 @@ const ListItemInput = ({
                 {title}
               </Text>
             )}
-            <ListItem.Input
-              ref={refInner}
-              style={[
-                theme.styles.textNormal,
-                fullWidth ? s.inputFullWidth : {},
-                inputTextStyle,
-              ]}
-              containerStyle={{ paddingHorizontal: 0 }}
-              inputContainerStyle={{ overflow: 'scroll' }}
-              selectionColor={selectionColor}
-              placeholderTextColor={placeholderTextColor}
-              placeholder={placeholder}
-              keyboardType={keyboardType}
-              keyboardAppearance={theme.mode}
-              enablesReturnKeyAutomatically={true}
-              selectTextOnFocus={true}
-              autoCapitalize={autoCapitalize}
-              autoCorrect={autoCorrect}
-              secureTextEntry={secureTextEntry}
-              disabled={disabled}
-              value={value}
-              onBlur={onBlur}
-              onChangeText={onChangeText}
-              onFocus={onFocus}
-              inputAccessoryViewID={'inputAccessoryViewID'}
-            />
+            {currency ? (
+              <FakeCurrencyInput
+                ref={refInner}
+                value={Number(value)}
+                onChangeValue={(v: number) =>
+                  onChangeText && onChangeText(v?.toString() || '')
+                }
+                placeholder={placeholder}
+                placeholderTextColor={placeholderTextColor}
+                selectionColor={selectionColor}
+                editable={true}
+                keyboardType={keyboardType}
+                style={[
+                  theme.styles.textNormal,
+                  fullWidth ? s.inputFullWidth : {},
+                  inputTextStyle,
+                ]}
+                caretStyle={s.fakeInputCaret}
+                containerStyle={{ paddingHorizontal: 0 }}
+                keyboardAppearance={theme.mode}
+                enablesReturnKeyAutomatically={true}
+                selectTextOnFocus={true}
+                autoCapitalize={autoCapitalize}
+                autoCorrect={autoCorrect}
+                secureTextEntry={secureTextEntry}
+                onBlur={onBlur}
+                onFocus={onFocus}
+                inputAccessoryViewID={'inputAccessoryViewID'}
+                {...currencyProps}
+              />
+            ) : (
+              <ListItem.Input
+                ref={refInner}
+                style={[
+                  theme.styles.textNormal,
+                  fullWidth ? s.inputFullWidth : {},
+                  inputTextStyle,
+                ]}
+                containerStyle={{ paddingHorizontal: 0 }}
+                inputContainerStyle={{ overflow: 'scroll' }}
+                selectionColor={selectionColor}
+                placeholderTextColor={placeholderTextColor}
+                placeholder={placeholder}
+                keyboardType={keyboardType}
+                keyboardAppearance={theme.mode}
+                enablesReturnKeyAutomatically={true}
+                selectTextOnFocus={true}
+                autoCapitalize={autoCapitalize}
+                autoCorrect={autoCorrect}
+                secureTextEntry={secureTextEntry}
+                disabled={disabled}
+                value={value}
+                onBlur={onBlur}
+                onChangeText={onChangeText}
+                onFocus={onFocus}
+                inputAccessoryViewID={'inputAccessoryViewID'}
+              />
+            )}
             {extraContentComponentRight && (
               <View
                 style={[
@@ -317,6 +363,11 @@ const useStyles = makeStyles((_theme, theme: AppTheme) => ({
     position: 'absolute',
     top: -17,
     left: 0,
+  },
+  fakeInputCaret: {
+    color: theme.colors.brandPrimary,
+    marginTop: -6,
+    marginLeft: -4,
   },
 }));
 
