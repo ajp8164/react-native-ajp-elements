@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.40](https://github.com/ajp8164/react-native-ajp-elements/compare/@react-native-ajp-elements/ui@0.0.39...@react-native-ajp-elements/ui@0.0.40) (2023-12-31)
+
+**Note:** Version bump only for package @react-native-ajp-elements/ui
+
 ## [0.0.39](https://github.com/ajp8164/react-native-ajp-elements/compare/@react-native-ajp-elements/ui@0.0.38...@react-native-ajp-elements/ui@0.0.39) (2023-11-22)
 
 **Note:** Version bump only for package @react-native-ajp-elements/ui
