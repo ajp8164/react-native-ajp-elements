@@ -55,7 +55,7 @@ interface ListItemInput {
   title?: string;
   titleStyle?: TextStyle | TextStyle[];
   titleType?: 'inline' | 'material';
-  value: string;
+  value: string | undefined;
 }
 
 const ListItemInput = ({
