@@ -74,7 +74,7 @@
     "react-native-sensors": "^7.3.6",
     "react-native-share": "^8.0.0",
     "react-native-svg": "^13.7.0",
-    "react-native-ui-lib": "^6.29.0",
+    "react-native-ui-lib": "^7.14.4",
     "react-native-video": "^5.2.1",
     "react-native-vision-camera": "github:ajp8164/react-native-vision-camera",
     "react-native-webview": "^11.26.1"
