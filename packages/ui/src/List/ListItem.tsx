@@ -1,6 +1,5 @@
 import { AppTheme, useTheme } from '../theme';
 import { Avatar, Badge, Icon, ListItem as RNEListItem } from '@rneui/base';
-import { Drawer, DrawerItemProps } from 'react-native-ui-lib';
 import {
   ImageSourcePropType,
   Platform,
@@ -9,7 +8,9 @@ import {
   ViewStyle,
 } from 'react-native';
 
+import { AppleStyleSwipeableRow } from './AppleSwipeableRow';
 import React from 'react';
+import type { SwipeableItem } from '.';
 import { makeStyles } from '@rneui/themed';
 
 // 'imageType' specifies a valid RNE icon set
@@ -23,8 +24,6 @@ interface ListItem {
   delayLongPress?: number;
   disabled?: boolean;
   disabledStyle?: ViewStyle | ViewStyle[];
-  drawerLeftItem?: DrawerItemProps;
-  drawerRightItems?: DrawerItemProps[];
   extraContentComponent?: JSX.Element;
   leftImage?: ImageSourcePropType | JSX.Element | string;
   leftImageColor?: string;
@@ -41,6 +40,8 @@ interface ListItem {
   subtitle?: string | JSX.Element;
   subtitleNumberOfLines?: number;
   subtitleStyle?: TextStyle | TextStyle[];
+  swipeLeftItems?: SwipeableItem[];
+  swipeRightItems?: SwipeableItem[];
   title?: string | JSX.Element;
   titleNumberOfLines?: number;
   titleStyle?: TextStyle | TextStyle[];
@@ -56,8 +57,6 @@ const ListItem = ({
   delayLongPress,
   disabled,
   disabledStyle = { opacity: 0.3 },
-  drawerLeftItem,
-  drawerRightItems,
   extraContentComponent,
   leftImage,
   leftImageColor,
@@ -74,6 +73,8 @@ const ListItem = ({
   subtitle,
   subtitleNumberOfLines,
   subtitleStyle,
+  swipeLeftItems,
+  swipeRightItems,
   title,
   titleNumberOfLines,
   titleStyle,
@@ -83,15 +84,10 @@ const ListItem = ({
   const theme = useTheme();
   const s = useStyles(theme);
 
-  // Wrapping RNEListItem in UI lib Drawer as it provides a better UX than RNE swipable.
   return (
-    <Drawer
-      leftItem={drawerLeftItem}
-      rightItems={drawerRightItems}
-      style={[
-        position?.includes('first') ? s.first : {},
-        position?.includes('last') ? s.last : {},
-      ]}>
+    <AppleStyleSwipeableRow
+      leftItems={swipeLeftItems}
+      rightItems={swipeRightItems}>
       <RNEListItem
         bottomDivider={!position?.includes('last')}
         containerStyle={[
@@ -193,7 +189,7 @@ const ListItem = ({
           />
         ) : null}
       </RNEListItem>
-    </Drawer>
+    </AppleStyleSwipeableRow>
   );
 };
 
