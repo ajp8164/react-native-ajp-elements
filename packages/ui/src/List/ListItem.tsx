@@ -32,6 +32,13 @@ interface ListItem {
   leftImageType?: string;
   onLongPress?: () => void;
   onPress?: () => void;
+  onSwipeableClose?: (
+    direction: 'left' | 'right',
+    swipeable: Swipeable,
+  ) => void;
+  onSwipeableOpen?: (direction: 'left' | 'right', swipeable: Swipeable) => void;
+  onSwipeableWillClose?: (direction: 'left' | 'right') => void;
+  onSwipeableWillOpen?: (direction: 'left' | 'right') => void;
   placeholder?: string;
   position?: ('first' | 'last' | undefined)[];
   rightImage?: ImageSourcePropType | JSX.Element | string | boolean;
@@ -66,6 +73,10 @@ const ListItem = ({
   leftImageType = 'ionicon',
   onLongPress,
   onPress,
+  onSwipeableClose,
+  onSwipeableOpen,
+  onSwipeableWillClose,
+  onSwipeableWillOpen,
   placeholder = '\u00b7\u00b7\u00b7',
   position,
   rightImage = true,
@@ -91,7 +102,11 @@ const ListItem = ({
     <AppleStyleSwipeableRow
       ref={swipeable}
       leftItems={swipeLeftItems}
-      rightItems={swipeRightItems}>
+      rightItems={swipeRightItems}
+      onSwipeableClose={onSwipeableClose}
+      onSwipeableOpen={onSwipeableOpen}
+      onSwipeableWillClose={onSwipeableWillClose}
+      onSwipeableWillOpen={onSwipeableWillOpen}>
       <RNEListItem
         bottomDivider={!position?.includes('last')}
         containerStyle={[

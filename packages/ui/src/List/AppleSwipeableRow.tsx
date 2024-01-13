@@ -16,12 +16,30 @@ import { makeStyles } from '@rneui/themed';
 interface AppleStyleSwipeableRow {
   children: ReactNode | ReactNode[];
   leftItems?: SwipeableItem[];
+  onSwipeableClose?: (
+    direction: 'left' | 'right',
+    swipeable: Swipeable,
+  ) => void;
+  onSwipeableOpen?: (direction: 'left' | 'right', swipeable: Swipeable) => void;
+  onSwipeableWillClose?: (direction: 'left' | 'right') => void;
+  onSwipeableWillOpen?: (direction: 'left' | 'right') => void;
   rightItems?: SwipeableItem[];
   swipeable?: React.RefObject<Swipeable>;
 }
 
 const AppleStyleSwipeableRow = forwardRef(
-  ({ children, leftItems, rightItems }: AppleStyleSwipeableRow, ref) => {
+  (
+    {
+      children,
+      leftItems,
+      onSwipeableClose,
+      onSwipeableOpen,
+      onSwipeableWillClose,
+      onSwipeableWillOpen,
+      rightItems,
+    }: AppleStyleSwipeableRow,
+    ref,
+  ) => {
     const theme = useTheme();
     const s = useStyles(theme);
 
@@ -154,7 +172,11 @@ const AppleStyleSwipeableRow = forwardRef(
         leftThreshold={30}
         rightThreshold={40}
         renderLeftActions={renderLeftActions}
-        renderRightActions={renderRightActions}>
+        renderRightActions={renderRightActions}
+        onSwipeableClose={onSwipeableClose}
+        onSwipeableOpen={onSwipeableOpen}
+        onSwipeableWillClose={onSwipeableWillClose}
+        onSwipeableWillOpen={onSwipeableWillOpen}>
         {children}
       </Swipeable>
     );
