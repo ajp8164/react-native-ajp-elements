@@ -10,6 +10,7 @@ import {
 
 import { AppleStyleSwipeableRow } from './AppleSwipeableRow';
 import React from 'react';
+import type { Swipeable } from 'react-native-gesture-handler';
 import type { SwipeableItem } from '.';
 import { makeStyles } from '@rneui/themed';
 
@@ -40,6 +41,7 @@ interface ListItem {
   subtitle?: string | JSX.Element;
   subtitleNumberOfLines?: number;
   subtitleStyle?: TextStyle | TextStyle[];
+  swipeable?: React.RefObject<Swipeable>;
   swipeLeftItems?: SwipeableItem[];
   swipeRightItems?: SwipeableItem[];
   title?: string | JSX.Element;
@@ -73,6 +75,7 @@ const ListItem = ({
   subtitle,
   subtitleNumberOfLines,
   subtitleStyle,
+  swipeable,
   swipeLeftItems,
   swipeRightItems,
   title,
@@ -86,6 +89,7 @@ const ListItem = ({
 
   return (
     <AppleStyleSwipeableRow
+      ref={swipeable}
       leftItems={swipeLeftItems}
       rightItems={swipeRightItems}>
       <RNEListItem
@@ -198,7 +202,6 @@ const useStyles = makeStyles((_theme, theme: AppTheme) => ({
     alignSelf: 'flex-start',
   },
   alignTopValue: {
-    // alignSelf: 'flex-start',
     top: 16, // Value position is absolute, need to offset down to account for padding
   },
   swipeBorderFix: {
