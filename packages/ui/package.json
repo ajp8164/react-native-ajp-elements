@@ -1,6 +1,6 @@
 {
   "name": "@react-native-ajp-elements/ui",
-  "version": "0.0.46",
+  "version": "0.0.47",
   "description": "A React Native library for apps.",
   "scripts": {
     "prepack": "bob build",
