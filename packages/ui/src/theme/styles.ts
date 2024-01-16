@@ -83,6 +83,7 @@ export const useStyles = makeStyles(
       backgroundColor: theme.colors.listItem,
       borderColor: theme.colors.listItemBorder,
       paddingLeft: 15,
+      overflow: 'hidden',
     },
     listItemTitle: {
       color: theme.colors.text,

@@ -15,6 +15,7 @@ import { makeStyles } from '@rneui/themed';
 
 interface AppleStyleSwipeableRow {
   children: ReactNode | ReactNode[];
+  enabled?: boolean;
   leftItems?: SwipeableItem[];
   onSwipeableClose?: (
     direction: 'left' | 'right',
@@ -31,6 +32,7 @@ const AppleStyleSwipeableRow = forwardRef(
   (
     {
       children,
+      enabled = true,
       leftItems,
       onSwipeableClose,
       onSwipeableOpen,
@@ -169,6 +171,7 @@ const AppleStyleSwipeableRow = forwardRef(
         ref={assignRefs(myRef, ref)}
         friction={2}
         enableTrackpadTwoFingerGesture
+        enabled={enabled}
         leftThreshold={30}
         rightThreshold={40}
         renderLeftActions={renderLeftActions}

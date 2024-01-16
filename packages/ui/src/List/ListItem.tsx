@@ -1,18 +1,69 @@
+import Animated, {
+  Easing,
+  FadeIn,
+  FadeOut,
+  useAnimatedStyle,
+  useSharedValue,
+  withDelay,
+  withTiming,
+} from 'react-native-reanimated';
 import { AppTheme, useTheme } from '../theme';
 import { Avatar, Badge, Icon, ListItem as RNEListItem } from '@rneui/base';
 import {
+  ColorValue,
   ImageSourcePropType,
   Platform,
+  Pressable,
   Text,
   TextStyle,
+  View,
   ViewStyle,
 } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { AppleStyleSwipeableRow } from './AppleSwipeableRow';
-import React from 'react';
 import type { Swipeable } from 'react-native-gesture-handler';
 import type { SwipeableItem } from '.';
 import { makeStyles } from '@rneui/themed';
+
+const dragHandleWidth = 44;
+const editButtonWidth = 44;
+
+// Editable example - action to swipeable delete
+//
+// Set the 'action' property set to 'open-swipeable'.
+//
+//   editable={{
+//     item: {
+//       icon: 'remove-circle',
+//       color: theme.colors.assertive,
+//       action: 'open-swipeable',
+//     },
+//   }}
+
+// Editable example - selection
+//
+// Setup a selections array in state. Use the index in the list as the selection index.
+//
+//   const [selected, setSelected] = useState<boolean[]>(Array(actions.length).fill(false));
+//
+// Make item icon and color dependent on the selection. Update the selection array in state to
+// rerender the list to update the icon.
+//
+//   editable={{
+//     item: {
+//       icon: selected[index] ? 'checkmark-circle' : 'ellipse-outline',
+//       color: selected[index] ? theme.colors.success : theme.colors.subtleGray,
+//     },
+//     onEditItem: () => {
+//       setSelected(prevState => {
+//         const updated = ([] as boolean[]).concat(prevState);
+//         updated[index] = !prevState[index];
+//         return updated;
+//       });
+//     },
+//   }}
+//
 
 // 'imageType' specifies a valid RNE icon set
 // See https://reactnativeelements.com/docs/components/icon#available-icon-sets
@@ -25,6 +76,16 @@ interface ListItem {
   delayLongPress?: number;
   disabled?: boolean;
   disabledStyle?: ViewStyle | ViewStyle[];
+  drag?: () => void; // The drag() method from react-native-draggable-flat-list.
+  editable?: {
+    item?: {
+      icon: string;
+      color?: ColorValue;
+      action?: 'open-swipeable';
+    };
+    onEditItem?: () => void;
+    reorder: boolean;
+  };
   extraContentComponent?: JSX.Element;
   leftImage?: ImageSourcePropType | JSX.Element | string;
   leftImageColor?: string;
@@ -45,12 +106,14 @@ interface ListItem {
   rightImageColor?: string;
   rightImageSize?: number;
   rightImageType?: string;
+  showEditor?: boolean;
+  swipeable?: {
+    leftItems?: SwipeableItem[];
+    rightItems?: SwipeableItem[];
+  };
   subtitle?: string | JSX.Element;
   subtitleNumberOfLines?: number;
   subtitleStyle?: TextStyle | TextStyle[];
-  swipeable?: React.RefObject<Swipeable>;
-  swipeLeftItems?: SwipeableItem[];
-  swipeRightItems?: SwipeableItem[];
   title?: string | JSX.Element;
   titleNumberOfLines?: number;
   titleStyle?: TextStyle | TextStyle[];
@@ -66,6 +129,10 @@ const ListItem = ({
   delayLongPress,
   disabled,
   disabledStyle = { opacity: 0.3 },
+  drag,
+  editable,
+  showEditor = false,
+  swipeable,
   extraContentComponent,
   leftImage,
   leftImageColor,
@@ -86,9 +153,6 @@ const ListItem = ({
   subtitle,
   subtitleNumberOfLines,
   subtitleStyle,
-  swipeable,
-  swipeLeftItems,
-  swipeRightItems,
   title,
   titleNumberOfLines,
   titleStyle,
@@ -98,11 +162,123 @@ const ListItem = ({
   const theme = useTheme();
   const s = useStyles(theme);
 
+  const swipeableRef = useRef<Swipeable>(null);
+
+  const showDrag = !editable && drag; // Whether or not the drag handle should be shown regardless of editing.
+  const dragHandleX = useSharedValue(showDrag ? 0 : -dragHandleWidth);
+  const editButtonX = useSharedValue(0);
+  const editModeOpacity = useSharedValue(showDrag ? 1 : 0);
+  const titlePad = useSharedValue(0);
+
+  const dragHandleAnimatedStyles = useAnimatedStyle(() => ({
+    right: dragHandleX.value,
+    opacity: editModeOpacity.value,
+  }));
+
+  const editButtonAnimatedStyles = useAnimatedStyle(() => ({
+    opacity: editModeOpacity.value,
+  }));
+
+  const titleAnimatedStyles = useAnimatedStyle(() => ({
+    left: editButtonX.value,
+    paddingRight: titlePad.value,
+  }));
+
+  useEffect(() => {
+    // If we're showng the drag handle regardless of editing then we need to ignore editor state changes.
+    if (showDrag) return;
+
+    // The delay allows the right image (e.g. caret) to fade out before edit mode animation begins.
+    if (showEditor) {
+      editButtonX.value = withDelay(
+        100,
+        withTiming(editButtonWidth - 15, { duration: 100 }),
+      );
+      editModeOpacity.value = withDelay(100, withTiming(1, { duration: 100 }));
+
+      if (editable?.reorder) {
+        titlePad.value = withDelay(
+          100,
+          withTiming(15 * 2, { duration: 100, easing: Easing.linear }),
+        );
+      }
+
+      if (drag) {
+        dragHandleX.value = withDelay(100, withTiming(0, { duration: 100 }));
+      }
+    } else {
+      editButtonX.value = withDelay(100, withTiming(0, { duration: 100 }));
+      editModeOpacity.value = withDelay(100, withTiming(0, { duration: 100 }));
+      titlePad.value = withDelay(
+        100,
+        withTiming(0, { duration: 100, easing: Easing.linear }),
+      );
+
+      if (drag) {
+        dragHandleX.value = withDelay(
+          100,
+          withTiming(-dragHandleWidth, { duration: 100 }),
+        );
+      }
+    }
+  }, [showEditor]);
+
+  const renderDragHandle = () => {
+    if (!editable?.reorder && !showDrag) return null;
+    return (
+      <Animated.View style={[s.dragTouchContainer, dragHandleAnimatedStyles]}>
+        <Pressable onPressIn={drag} disabled={!showEditor && !showDrag}>
+          <Icon
+            name={'menu'}
+            type={'ionicon'}
+            size={22}
+            color={theme.colors.midGray}
+            style={s.dragIcon}
+          />
+        </Pressable>
+      </Animated.View>
+    );
+  };
+
+  const renderEditButton = () => {
+    if (!editable?.item) return null;
+    return (
+      // Force edit button to be invisible when not shown (prevents any peek visibility of the
+      // button if not completely out of view).
+      // Must disable the button when now shown, some of the touch area is always in view.
+      <Animated.View style={[s.editTouchContainer, editButtonAnimatedStyles]}>
+        <Pressable onPress={doEditAction} disabled={!showEditor}>
+          <Icon
+            name={editable.item.icon}
+            type={'ionicon'}
+            size={22}
+            color={editable.item.color}
+            style={s.editIcon}
+          />
+        </Pressable>
+      </Animated.View>
+    );
+  };
+
+  const doEditAction = () => {
+    if (editable?.item?.action === 'open-swipeable') {
+      swipeableRef?.current?.openRight();
+    }
+    editable?.onEditItem && editable?.onEditItem();
+  };
+
+  const [rerender, setRerender] = useState(false);
+
+  useEffect(() => {
+    setRerender(!rerender);
+  }, [editable?.item?.icon]);
+
   return (
     <AppleStyleSwipeableRow
-      ref={swipeable}
-      leftItems={swipeLeftItems}
-      rightItems={swipeRightItems}
+      ref={swipeableRef}
+      enabled={!showEditor}
+      leftItems={swipeable?.leftItems}
+      rightItems={swipeable?.rightItems}
       onSwipeableClose={onSwipeableClose}
       onSwipeableOpen={onSwipeableOpen}
       onSwipeableWillClose={onSwipeableWillClose}
@@ -114,10 +290,9 @@ const ListItem = ({
           !rightImage ? { paddingRight: 0 } : {},
           position?.includes('first') ? s.first : {},
           position?.includes('last') ? s.last : {},
-          position?.includes('first' && 'last') ? s.swipeBorderFix : {},
           containerStyle,
         ]}
-        disabled={disabled}
+        disabled={disabled || showEditor}
         disabledStyle={disabledStyle}
         delayLongPress={delayLongPress}
         onLongPress={onLongPress}
@@ -140,24 +315,27 @@ const ListItem = ({
             imageProps={{ resizeMode: 'contain' }}
           />
         ) : null}
-        <RNEListItem.Content
-          style={[
-            leftImage ? s.wLeftImage : {},
-            alignContent === 'top' ? s.alignTop : {},
-          ]}>
-          <RNEListItem.Title
-            style={[theme.styles.listItemTitle, titleStyle]}
-            numberOfLines={titleNumberOfLines}>
-            {title}
-          </RNEListItem.Title>
-          {subtitle !== undefined && (
-            <RNEListItem.Subtitle
-              style={[theme.styles.listItemSubtitle, subtitleStyle]}
-              numberOfLines={subtitleNumberOfLines}>
-              {subtitle}
-            </RNEListItem.Subtitle>
-          )}
-        </RNEListItem.Content>
+        <Animated.View style={[{ flex: 1 }, titleAnimatedStyles]}>
+          <RNEListItem.Content
+            style={[
+              leftImage ? s.wLeftImage : {},
+              alignContent === 'top' ? s.alignTop : {},
+            ]}>
+            {renderEditButton()}
+            <RNEListItem.Title
+              style={[theme.styles.listItemTitle, titleStyle]}
+              numberOfLines={titleNumberOfLines}>
+              {title}
+            </RNEListItem.Title>
+            {subtitle !== undefined && (
+              <RNEListItem.Subtitle
+                style={[theme.styles.listItemSubtitle, subtitleStyle]}
+                numberOfLines={subtitleNumberOfLines}>
+                {subtitle}
+              </RNEListItem.Subtitle>
+            )}
+          </RNEListItem.Content>
+        </Animated.View>
         {value !== undefined && (
           <RNEListItem.Content
             right
@@ -186,28 +364,37 @@ const ListItem = ({
             ]}
           />
         )}
-        {React.isValidElement(rightImage) ? (
-          <RNEListItem.Content right style={s.rightImageContent}>
-            {rightImage}
-          </RNEListItem.Content>
-        ) : typeof rightImage === 'string' ? (
-          <RNEListItem.Content
-            right
-            style={alignContent === 'top' ? s.alignTop : {}}>
-            <Icon
-              name={rightImage}
-              type={rightImageType}
-              color={rightImageColor || theme.colors.icon}
-              size={rightImageSize}
-            />
-          </RNEListItem.Content>
-        ) : rightImage ? (
-          <RNEListItem.Chevron
-            iconProps={theme.styles.listItemIconProps}
-            containerStyle={alignContent === 'top' ? s.alignTop : {}}
-          />
-        ) : null}
+        {!showEditor && !showDrag ? (
+          <Animated.View entering={FadeIn.delay(150)} exiting={FadeOut}>
+            {React.isValidElement(rightImage) ? (
+              <RNEListItem.Content right style={s.rightImageContent}>
+                {rightImage}
+              </RNEListItem.Content>
+            ) : typeof rightImage === 'string' ? (
+              <RNEListItem.Content
+                right
+                style={alignContent === 'top' ? s.alignTop : {}}>
+                <Icon
+                  name={rightImage}
+                  type={rightImageType}
+                  color={rightImageColor || theme.colors.icon}
+                  size={rightImageSize}
+                />
+              </RNEListItem.Content>
+            ) : rightImage ? (
+              <RNEListItem.Chevron
+                iconProps={theme.styles.listItemIconProps}
+                containerStyle={alignContent === 'top' ? s.alignTop : {}}
+              />
+            ) : null}
+          </Animated.View>
+        ) : (
+          // When in edit mode the right image is not shown so we need to reserve the horizontal
+          // space so the title and subtitle don't expand their size (due to flex: 1).
+          <View style={{ width: theme.styles.listItemIconProps.size }}></View>
+        )}
       </RNEListItem>
+      {drag && renderDragHandle()}
     </AppleStyleSwipeableRow>
   );
 };
@@ -218,9 +405,6 @@ const useStyles = makeStyles((_theme, theme: AppTheme) => ({
   },
   alignTopValue: {
     top: 16, // Value position is absolute, need to offset down to account for padding
-  },
-  swipeBorderFix: {
-    borderBottomWidth: 0.01, // Prevents swipable background color from appearing as bottom border while swipe in progress.
   },
   first: {
     borderTopLeftRadius: 10,
@@ -261,6 +445,26 @@ const useStyles = makeStyles((_theme, theme: AppTheme) => ({
   },
   wRightImage: {
     right: 40,
+  },
+  dragIcon: {
+    justifyContent: 'center',
+    height: '100%',
+  },
+  dragTouchContainer: {
+    width: dragHandleWidth,
+    height: '100%',
+    position: 'absolute',
+    right: -dragHandleWidth, // move out of view
+  },
+  editIcon: {
+    justifyContent: 'center',
+    height: '100%',
+  },
+  editTouchContainer: {
+    width: editButtonWidth,
+    height: '100%',
+    position: 'absolute',
+    left: -editButtonWidth, // move out of view
   },
 }));
 
