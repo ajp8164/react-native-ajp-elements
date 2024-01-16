@@ -12,7 +12,8 @@ type ScannerView = ScannerViewMethods;
 
 const ScannerView = React.forwardRef<ScannerView, ScannerViewProps>(
   (props, ref) => {
-    const { onScan, onCancel } = props;
+    const { cameraStyle, containerStyle, OverlayComponent, onCancel, onScan } =
+      props;
 
     const theme = useTheme();
     const s = useStyles(theme);
@@ -36,37 +37,31 @@ const ScannerView = React.forwardRef<ScannerView, ScannerViewProps>(
     };
 
     return (
-      <View style={theme.styles.view}>
+      <View style={[s.container, containerStyle]}>
         <Camera
-          style={s.camera}
+          style={[s.camera, cameraStyle]}
           scanBarcode={true}
           onReadCode={onBarCodeRead}
         />
-        <Button
-          title={'Cancel'}
-          titleStyle={s.buttonTitle}
-          buttonStyle={[
-            theme.styles.buttonInvOutline,
-            { backgroundColor: theme.colors.transparent },
-          ]}
-          containerStyle={s.buttonContainer}
-          onPress={onCancel}
-        />
+        {OverlayComponent}
+        {onCancel && (
+          <Button
+            title={'Cancel'}
+            titleStyle={s.buttonTitle}
+            buttonStyle={[
+              theme.styles.buttonInvOutline,
+              { backgroundColor: theme.colors.transparent },
+            ]}
+            containerStyle={s.buttonContainer}
+            onPress={onCancel}
+          />
+        )}
       </View>
     );
   },
 );
 
 const useStyles = makeStyles((_theme, theme: AppTheme) => ({
-  camera: {
-    flex: 1,
-    justifyContent: 'flex-end',
-  },
-  preview: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-  },
   buttonContainer: {
     position: 'absolute',
     bottom: 60,
@@ -76,6 +71,13 @@ const useStyles = makeStyles((_theme, theme: AppTheme) => ({
   buttonTitle: {
     ...theme.styles.buttonTitle,
     color: theme.colors.stickyWhite,
+  },
+  camera: {
+    flex: 1,
+    justifyContent: 'flex-end',
+  },
+  container: {
+    height: '100%',
   },
 }));
 

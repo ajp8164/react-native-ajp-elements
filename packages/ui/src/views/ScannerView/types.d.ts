@@ -1,7 +1,11 @@
+import { ViewStyle } from 'react-native';
 export declare type ScannerView = ScannerViewMethods;
 
 export interface ScannerViewProps {
-  onCancel: () => void;
+  cameraStyle?: ViewStyle | ViewStyle[];
+  containerStyle?: ViewStyle | ViewStyle[];
+  OverlayComponent?: ReactNode;
+  onCancel?: () => void;
   onScan: (data: string) => void;
 }
 
