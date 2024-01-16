@@ -365,7 +365,9 @@ const ListItem = ({
           />
         )}
         {!showEditor && !showDrag ? (
-          <Animated.View entering={FadeIn.delay(150)} exiting={FadeOut}>
+          <Animated.View
+            entering={editable && FadeIn.delay(150)}
+            exiting={editable && FadeOut}>
             {React.isValidElement(rightImage) ? (
               <RNEListItem.Content right style={s.rightImageContent}>
                 {rightImage}
