@@ -163,6 +163,7 @@ const ListItem = ({
   const s = useStyles(theme);
 
   const swipeableRef = useRef<Swipeable>(null);
+  const [rerender, setRerender] = useState(false);
 
   const showDrag = !editable && drag; // Whether or not the drag handle should be shown regardless of editing.
   const dragHandleX = useSharedValue(showDrag ? 0 : -dragHandleWidth);
@@ -179,10 +180,15 @@ const ListItem = ({
     opacity: editModeOpacity.value,
   }));
 
-  const titleAnimatedStyles = useAnimatedStyle(() => ({
+  const leftGroupAnimatedStyles = useAnimatedStyle(() => ({
     left: editButtonX.value,
     paddingRight: titlePad.value,
   }));
+
+  // Force a re-render when the icon changes.
+  useEffect(() => {
+    setRerender(!rerender);
+  }, [editable?.item?.icon]);
 
   useEffect(() => {
     // If we're showng the drag handle regardless of editing then we need to ignore editor state changes.
@@ -267,12 +273,6 @@ const ListItem = ({
     editable?.onEditItem && editable?.onEditItem();
   };
 
-  const [rerender, setRerender] = useState(false);
-
-  useEffect(() => {
-    setRerender(!rerender);
-  }, [editable?.item?.icon]);
-
   return (
     <AppleStyleSwipeableRow
       ref={swipeableRef}
@@ -297,31 +297,33 @@ const ListItem = ({
         delayLongPress={delayLongPress}
         onLongPress={onLongPress}
         onPress={onPress}>
-        {extraContentComponent}
-        {React.isValidElement(leftImage) ? (
-          <RNEListItem.Content style={s.leftImageContent}>
-            {leftImage}
-          </RNEListItem.Content>
-        ) : typeof leftImage === 'string' ? (
-          <Icon
-            name={leftImage}
-            type={leftImageType}
-            color={leftImageColor || theme.colors.icon}
-            size={leftImageSize}
-          />
-        ) : leftImage !== undefined ? (
-          <Avatar
-            source={leftImage as ImageSourcePropType}
-            imageProps={{ resizeMode: 'contain' }}
-          />
-        ) : null}
-        <Animated.View style={[{ flex: 1 }, titleAnimatedStyles]}>
+        <Animated.View style={[s.leftGroup, leftGroupAnimatedStyles]}>
+          {renderEditButton()}
+          {extraContentComponent}
+          <View style={s.leftImageContainer}>
+            {React.isValidElement(leftImage) ? (
+              <RNEListItem.Content style={s.leftImageContent}>
+                {leftImage}
+              </RNEListItem.Content>
+            ) : typeof leftImage === 'string' ? (
+              <Icon
+                name={leftImage}
+                type={leftImageType}
+                color={leftImageColor || theme.colors.icon}
+                size={leftImageSize}
+              />
+            ) : leftImage !== undefined ? (
+              <Avatar
+                source={leftImage as ImageSourcePropType}
+                imageProps={{ resizeMode: 'contain' }}
+              />
+            ) : null}
+          </View>
           <RNEListItem.Content
             style={[
               leftImage ? s.wLeftImage : {},
               alignContent === 'top' ? s.alignTop : {},
             ]}>
-            {renderEditButton()}
             <RNEListItem.Title
               style={[theme.styles.listItemTitle, titleStyle]}
               numberOfLines={titleNumberOfLines}>
@@ -369,13 +371,18 @@ const ListItem = ({
             entering={editable && FadeIn.delay(150)}
             exiting={editable && FadeOut}>
             {React.isValidElement(rightImage) ? (
-              <RNEListItem.Content right style={s.rightImageContent}>
+              <RNEListItem.Content
+                right
+                style={[s.rightImageContent, s.rightImage]}>
                 {rightImage}
               </RNEListItem.Content>
             ) : typeof rightImage === 'string' ? (
               <RNEListItem.Content
                 right
-                style={alignContent === 'top' ? s.alignTop : {}}>
+                style={[
+                  alignContent === 'top' ? s.alignTop : {},
+                  s.rightImage,
+                ]}>
                 <Icon
                   name={rightImage}
                   type={rightImageType}
@@ -386,14 +393,17 @@ const ListItem = ({
             ) : rightImage ? (
               <RNEListItem.Chevron
                 iconProps={theme.styles.listItemIconProps}
-                containerStyle={alignContent === 'top' ? s.alignTop : {}}
+                containerStyle={[
+                  alignContent === 'top' ? s.alignTop : {},
+                  s.rightImage,
+                ]}
               />
             ) : null}
           </Animated.View>
         ) : (
           // When in edit mode the right image is not shown so we need to reserve the horizontal
           // space so the title and subtitle don't expand their size (due to flex: 1).
-          <View style={{ width: theme.styles.listItemIconProps.size }}></View>
+          <View style={s.rightImageSpacer}></View>
         )}
       </RNEListItem>
       {drag && renderDragHandle()}
@@ -432,18 +442,32 @@ const useStyles = makeStyles((_theme, theme: AppTheme) => ({
   badge: {
     borderWidth: 0,
   },
+  rightImage: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  leftGroup: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  leftImageContainer: {
+    justifyContent: 'center',
+  },
   leftImageContent: {
     maxWidth: 25,
   },
   rightImageContent: {
     maxWidth: 25,
   },
+  rightImageSpacer: {
+    width: theme.styles.listItemIconProps.size,
+  },
   valueContent: {
     position: 'absolute',
     right: 15,
   },
   wLeftImage: {
-    left: -8,
+    left: 8,
   },
   wRightImage: {
     right: 40,
