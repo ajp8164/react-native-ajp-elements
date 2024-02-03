@@ -279,6 +279,7 @@ const ListItem = ({
       enabled={!showEditor}
       leftItems={swipeable?.leftItems}
       rightItems={swipeable?.rightItems}
+      position={position}
       onSwipeableClose={onSwipeableClose}
       onSwipeableOpen={onSwipeableOpen}
       onSwipeableWillClose={onSwipeableWillClose}
@@ -288,8 +289,6 @@ const ListItem = ({
         containerStyle={[
           theme.styles.listItemContainer,
           !rightImage ? { paddingRight: 0 } : {},
-          position?.includes('first') ? s.first : {},
-          position?.includes('last') ? s.last : {},
           containerStyle,
         ]}
         disabled={disabled || showEditor}

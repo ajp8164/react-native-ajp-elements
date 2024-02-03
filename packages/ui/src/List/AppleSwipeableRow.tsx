@@ -24,6 +24,7 @@ interface AppleStyleSwipeableRow {
   onSwipeableOpen?: (direction: 'left' | 'right', swipeable: Swipeable) => void;
   onSwipeableWillClose?: (direction: 'left' | 'right') => void;
   onSwipeableWillOpen?: (direction: 'left' | 'right') => void;
+  position?: ('first' | 'last' | undefined)[];
   rightItems?: SwipeableItem[];
   swipeable?: React.RefObject<Swipeable>;
 }
@@ -38,6 +39,7 @@ const AppleStyleSwipeableRow = forwardRef(
       onSwipeableOpen,
       onSwipeableWillClose,
       onSwipeableWillOpen,
+      position,
       rightItems,
     }: AppleStyleSwipeableRow,
     ref,
@@ -62,11 +64,11 @@ const AppleStyleSwipeableRow = forwardRef(
     const renderLeftAction = (
       item: SwipeableItem,
       progress: Animated.AnimatedInterpolation<number>,
+      firstAction: boolean,
     ) => {
       const trans = progress.interpolate({
-        inputRange: [0, 50, 100, 101],
-        outputRange: [-20, 0, 0, 1],
-        extrapolate: 'clamp',
+        inputRange: [0, 1],
+        outputRange: [-item.x, 0],
       });
 
       return (
@@ -74,7 +76,14 @@ const AppleStyleSwipeableRow = forwardRef(
           key={item.text}
           style={{ flex: 1, transform: [{ translateX: trans }] }}>
           <Pressable
-            style={[s.leftAction, { backgroundColor: item.color }]}
+            style={[
+              s.leftAction,
+              position?.includes('first') && firstAction
+                ? s.leftActionFirst
+                : {},
+              position?.includes('last') && firstAction ? s.leftActionLast : {},
+              { backgroundColor: item.color },
+            ]}
             onPress={() => {
               close();
               item.onPress && item.onPress();
@@ -102,10 +111,14 @@ const AppleStyleSwipeableRow = forwardRef(
         <View
           style={{
             width: leftItems[0].x,
-            flexDirection: I18nManager.isRTL ? 'row-reverse' : 'row',
+            flexDirection: I18nManager.isRTL ? 'row' : 'row-reverse',
           }}>
-          {leftItems.map(item => {
-            return renderLeftAction(item, progress);
+          {leftItems.map((item, index) => {
+            return renderLeftAction(
+              item,
+              progress,
+              index === leftItems.length - 1,
+            );
           })}
         </View>
       );
@@ -114,6 +127,7 @@ const AppleStyleSwipeableRow = forwardRef(
     const renderRightAction = (
       item: SwipeableItem,
       progress: Animated.AnimatedInterpolation<number>,
+      lastAction: boolean,
     ) => {
       const trans = progress.interpolate({
         inputRange: [0, 1],
@@ -125,7 +139,14 @@ const AppleStyleSwipeableRow = forwardRef(
           key={item.text}
           style={{ flex: 1, transform: [{ translateX: trans }] }}>
           <Pressable
-            style={[s.rightAction, { backgroundColor: item.color }]}
+            style={[
+              s.rightAction,
+              position?.includes('first') && lastAction
+                ? s.rightActionFirst
+                : {},
+              position?.includes('last') && lastAction ? s.rightActionLast : {},
+              { backgroundColor: item.color },
+            ]}
             onPress={() => {
               close();
               item.onPress && item.onPress();
@@ -155,8 +176,8 @@ const AppleStyleSwipeableRow = forwardRef(
             width: rightItems[0].x,
             flexDirection: I18nManager.isRTL ? 'row-reverse' : 'row',
           }}>
-          {rightItems.map(item => {
-            return renderRightAction(item, progress);
+          {rightItems.map((item, index, arr) => {
+            return renderRightAction(item, progress, index === arr.length - 1);
           })}
         </View>
       );
@@ -179,7 +200,11 @@ const AppleStyleSwipeableRow = forwardRef(
         onSwipeableClose={onSwipeableClose}
         onSwipeableOpen={onSwipeableOpen}
         onSwipeableWillClose={onSwipeableWillClose}
-        onSwipeableWillOpen={onSwipeableWillOpen}>
+        onSwipeableWillOpen={onSwipeableWillOpen}
+        containerStyle={[
+          position?.includes('first') ? s.containerFirst : {},
+          position?.includes('last') ? s.containerLast : {},
+        ]}>
         {children}
       </Swipeable>
     );
@@ -187,9 +212,30 @@ const AppleStyleSwipeableRow = forwardRef(
 );
 
 const useStyles = makeStyles((_theme, theme: AppTheme) => ({
+  containerFirst: {
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    borderTopStartRadius: 10,
+    borderTopEndRadius: 10,
+  },
+  containerLast: {
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+    borderBottomStartRadius: 10,
+    borderBottomEndRadius: 10,
+  },
   leftAction: {
     flex: 1,
     justifyContent: 'center',
+    alignItems: 'center',
+  },
+  leftActionFirst: {
+    borderTopLeftRadius: 10,
+    borderTopStartRadius: 10,
+  },
+  leftActionLast: {
+    borderBottomLeftRadius: 10,
+    borderBottomStartRadius: 10,
   },
   actionText: {
     ...theme.styles.textTiny,
@@ -200,6 +246,14 @@ const useStyles = makeStyles((_theme, theme: AppTheme) => ({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  rightActionFirst: {
+    borderTopRightRadius: 10,
+    borderTopEndRadius: 10,
+  },
+  rightActionLast: {
+    borderBottomRightRadius: 10,
+    borderBottomEndRadius: 10,
   },
 }));
 
