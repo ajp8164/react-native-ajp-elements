@@ -59,6 +59,9 @@ export type Styles = {
   buttonInvClear: ViewStyle;
   buttonInvClearTitle: TextStyle;
   buttonInvClearDisabled: ViewStyle | TextStyle;
+  buttonScreenHeader: TextStyle;
+  buttonScreenHeaderTitle: TextStyle;
+  buttonScreenHeaderDisabled: TextStyle;
 
   shadow: ViewStyle;
   shadowGlow: ViewStyle;
