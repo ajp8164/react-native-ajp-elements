@@ -31,6 +31,7 @@ export type Styles = {
   textHeading5: TextStyle;
   textXL: TextStyle;
   textLarge: TextStyle;
+  textScreenTitle: TextStyle;
   textNormal: TextStyle;
   textSmall: TextStyle;
   textTiny: TextStyle;

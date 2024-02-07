@@ -61,11 +61,11 @@ export interface ColorSet {
 
   readonly divider: string;
 
-  readonly screenHeaderText: string;
+  readonly screenHeaderTitle: string;
   readonly screenHeaderBackground: string;
   readonly screenHeaderInvBackground: string;
-  readonly screenHeaderBackButton: string;
-  readonly screenHeaderInvBackButton: string;
+  readonly screenHeaderButtonText: string;
+  readonly screenHeaderInvButtonText: string;
 
   readonly viewBackground: string;
   readonly viewAltBackground: string;

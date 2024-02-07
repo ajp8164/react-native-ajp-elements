@@ -32,7 +32,7 @@ const KeyboardAccessory = ({
             <Icon
               name="chevron-up-outline"
               type={'ionicon'}
-              color={theme.colors.screenHeaderBackButton}
+              color={theme.colors.screenHeaderButtonText}
               size={28}
               disabled={previousDisabled}
               disabledStyle={{
@@ -50,7 +50,7 @@ const KeyboardAccessory = ({
             <Icon
               name="chevron-down-outline"
               type={'ionicon'}
-              color={theme.colors.screenHeaderBackButton}
+              color={theme.colors.screenHeaderButtonText}
               size={28}
               disabled={nextDisabled}
               disabledStyle={{
@@ -90,7 +90,7 @@ const useStyles = makeStyles((_theme, theme: AppTheme) => ({
   doneTitle: {
     ...theme.styles.textNormal,
     ...theme.styles.textBold,
-    color: theme.colors.screenHeaderBackButton,
+    color: theme.colors.screenHeaderButtonText,
   },
 }));
 

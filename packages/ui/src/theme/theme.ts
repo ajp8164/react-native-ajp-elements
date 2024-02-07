@@ -68,7 +68,7 @@ export const theme: CreateThemeOptions = {
 
     divider: '#202020',
 
-    screenHeaderText: '#ffffffde',
+    screenHeaderTitle: '#ffffffde',
     screenHeaderBackground: '#000000',
     screenHeaderInvBackground: '#002e5a',
 
@@ -85,22 +85,22 @@ export const theme: CreateThemeOptions = {
         switchOffThumb: '#ffffff',
         switchOnThumb: '#ffffff',
         switchOffTrack: '#e5e5e5',
-        switchOnTrack: '#005eb8',
-        screenHeaderBackButton: '#005eb8',
-        screenHeaderInvBackButton: '#ffffffde',
+        switchOnTrack: '#007bff',
+        screenHeaderButtonText: '#007bff',
+        screenHeaderInvButtonText: '#ffffffde',
       },
       android: {
         switchOffThumb: '#787878',
-        switchOnThumb: '#005eb8',
+        switchOnThumb: '#007bff',
         switchOffTrack: '#e5e5e5',
-        switchOnTrack: '#005eb840',
-        screenHeaderBackButton: '#ffffffde',
-        screenHeaderInvBackButton: '#ffffffde',
+        switchOnTrack: '#007bff40',
+        screenHeaderButtonText: '#ffffffde',
+        screenHeaderInvButtonText: '#ffffffde',
       },
     }),
   },
   lightColors: {
-    brandPrimary: '#005eb8',
+    brandPrimary: '#007bff',
     brandSecondary: '#002e5a',
 
     white: '#ffffff',
@@ -164,7 +164,7 @@ export const theme: CreateThemeOptions = {
 
     divider: '#e5e5e5',
 
-    screenHeaderText: '#000000',
+    screenHeaderTitle: '#000000',
     screenHeaderBackground: '#ffffff',
     screenHeaderInvBackground: '#002e5a',
 
@@ -181,17 +181,17 @@ export const theme: CreateThemeOptions = {
         switchOffThumb: '#ffffff',
         switchOnThumb: '#ffffff',
         switchOffTrack: '#787878',
-        switchOnTrack: '#005eb8',
-        screenHeaderBackButton: '#005eb8',
-        screenHeaderInvBackButton: '#ffffff',
+        switchOnTrack: '#007bff',
+        screenHeaderButtonText: '#007bff',
+        screenHeaderInvButtonText: '#ffffff',
       },
       android: {
         switchOffThumb: '#cccccc',
-        switchOnThumb: '#005eb8',
+        switchOnThumb: '#007bff',
         switchOffTrack: '#787878',
-        switchOnTrack: '#005eb840',
-        screenHeaderBackButton: '#000000',
-        screenHeaderInvBackButton: '#ffffff',
+        switchOnTrack: '#007bff40',
+        screenHeaderButtonText: '#000000',
+        screenHeaderInvButtonText: '#ffffff',
       },
     }),
   },

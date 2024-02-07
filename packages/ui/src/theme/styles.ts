@@ -196,6 +196,12 @@ export const useStyles = makeStyles(
       fontFamily,
       fontWeight: 'normal',
     },
+    textScreenTitle: {
+      color: theme.colors.black,
+      fontSize: 17,
+      fontFamily,
+      fontWeight: '600',
+    },
     textNormal: {
       color: theme.colors.text,
       fontSize: fontSizes.normal,
