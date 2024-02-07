@@ -198,26 +198,26 @@ const ListItem = ({
     if (showEditor) {
       editButtonX.value = withDelay(
         100,
-        withTiming(editButtonWidth - 15, { duration: 100 }),
+        withTiming(editButtonWidth - 15, { duration: 200 }),
       );
-      editModeOpacity.value = withDelay(100, withTiming(1, { duration: 100 }));
+      editModeOpacity.value = withDelay(100, withTiming(1, { duration: 200 }));
 
       if (editable?.reorder) {
         titlePad.value = withDelay(
           100,
-          withTiming(15 * 2, { duration: 100, easing: Easing.linear }),
+          withTiming(15 * 2, { duration: 200, easing: Easing.linear }),
         );
       }
 
       if (drag) {
-        dragHandleX.value = withDelay(100, withTiming(0, { duration: 100 }));
+        dragHandleX.value = withDelay(100, withTiming(0, { duration: 200 }));
       }
     } else {
-      editButtonX.value = withDelay(100, withTiming(0, { duration: 100 }));
-      editModeOpacity.value = withDelay(100, withTiming(0, { duration: 100 }));
+      editButtonX.value = withDelay(100, withTiming(0, { duration: 200 }));
+      editModeOpacity.value = withDelay(100, withTiming(0, { duration: 200 }));
       titlePad.value = withDelay(
         100,
-        withTiming(0, { duration: 100, easing: Easing.linear }),
+        withTiming(0, { duration: 200, easing: Easing.linear }),
       );
 
       if (drag) {
