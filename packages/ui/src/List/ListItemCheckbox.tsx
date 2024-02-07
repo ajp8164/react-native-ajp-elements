@@ -20,8 +20,10 @@ interface ListItemCheckbox {
   onPress: () => void;
   position?: ('first' | 'last' | undefined)[];
   subtitle?: string;
+  subtitleNumberOfLines?: number;
   subtitleStyle?: TextStyle | TextStyle[];
   title?: string;
+  titleNumberOfLines?: number;
   titleStyle?: TextStyle | TextStyle[];
   uncheckedIcon?: string | React.ReactElement;
   uncheckedColor?: string;
@@ -43,8 +45,10 @@ const ListItemCheckbox = ({
   onPress,
   position,
   subtitle,
+  subtitleNumberOfLines,
   subtitleStyle,
   title,
+  titleNumberOfLines,
   titleStyle,
   uncheckedIcon,
   uncheckedColor,
@@ -82,12 +86,15 @@ const ListItemCheckbox = ({
         />
       ) : null}
       <ListItem.Content>
-        <ListItem.Title style={[theme.styles.listItemTitle, titleStyle]}>
+        <ListItem.Title
+          style={[theme.styles.listItemTitle, titleStyle]}
+          numberOfLines={titleNumberOfLines}>
           {title}
         </ListItem.Title>
         {subtitle && (
           <ListItem.Subtitle
-            style={[theme.styles.listItemSubtitle, subtitleStyle]}>
+            style={[theme.styles.listItemSubtitle, subtitleStyle]}
+            numberOfLines={subtitleNumberOfLines}>
             {subtitle}
           </ListItem.Subtitle>
         )}
