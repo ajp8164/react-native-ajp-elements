@@ -119,6 +119,7 @@ interface ListItem {
   titleStyle?: TextStyle | TextStyle[];
   value?: string | JSX.Element;
   valueStyle?: TextStyle | TextStyle[];
+  zeroEdgeContent?: boolean;
 }
 
 const ListItem = ({
@@ -158,6 +159,7 @@ const ListItem = ({
   titleStyle,
   value,
   valueStyle,
+  zeroEdgeContent,
 }: ListItem) => {
   const theme = useTheme();
   const s = useStyles(theme);
@@ -170,6 +172,11 @@ const ListItem = ({
   const editButtonX = useSharedValue(0);
   const editModeOpacity = useSharedValue(showDrag ? 1 : 0);
   const titlePad = useSharedValue(0);
+
+  // If the content of the list item touches the left edge of the list item then the edit button needs
+  // some additional space to its right so its not touching the content. This offset provides the space
+  // by making the edit button wider.
+  const zeroEdgeOffset = zeroEdgeContent ? 15 : 0;
 
   const dragHandleAnimatedStyles = useAnimatedStyle(() => ({
     right: dragHandleX.value,
@@ -198,7 +205,7 @@ const ListItem = ({
     if (showEditor) {
       editButtonX.value = withDelay(
         100,
-        withTiming(editButtonWidth - 15, { duration: 200 }),
+        withTiming(editButtonWidth - 15 + zeroEdgeOffset, { duration: 200 }),
       );
       editModeOpacity.value = withDelay(100, withTiming(1, { duration: 200 }));
 
@@ -252,7 +259,12 @@ const ListItem = ({
       // Force edit button to be invisible when not shown (prevents any peek visibility of the
       // button if not completely out of view).
       // Must disable the button when now shown, some of the touch area is always in view.
-      <Animated.View style={[s.editTouchContainer, editButtonAnimatedStyles]}>
+      <Animated.View
+        style={[
+          s.editTouchContainer,
+          { left: -editButtonWidth - zeroEdgeOffset },
+          editButtonAnimatedStyles,
+        ]}>
         <Pressable onPress={doEditAction} disabled={!showEditor}>
           <Icon
             name={editable.item.icon}
