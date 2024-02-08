@@ -87,6 +87,7 @@ interface ListItem {
     reorder: boolean;
   };
   extraContentComponent?: JSX.Element;
+  leftContainerStyle?: ViewStyle | ViewStyle[];
   leftImage?: ImageSourcePropType | JSX.Element | string;
   leftImageColor?: string;
   leftImageSize?: number;
@@ -135,6 +136,7 @@ const ListItem = ({
   showEditor = false,
   swipeable,
   extraContentComponent,
+  leftContainerStyle,
   leftImage,
   leftImageColor,
   leftImageSize,
@@ -308,7 +310,8 @@ const ListItem = ({
         delayLongPress={delayLongPress}
         onLongPress={onLongPress}
         onPress={onPress}>
-        <Animated.View style={[s.leftGroup, leftGroupAnimatedStyles]}>
+        <Animated.View
+          style={[s.leftGroup, leftContainerStyle, leftGroupAnimatedStyles]}>
           {renderEditButton()}
           {extraContentComponent}
           <View style={s.leftImageContainer}>
