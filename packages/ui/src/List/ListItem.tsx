@@ -19,7 +19,7 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
 
 import { AppleStyleSwipeableRow } from './AppleSwipeableRow';
 import type { Swipeable } from 'react-native-gesture-handler';
@@ -123,307 +123,332 @@ interface ListItem {
   zeroEdgeContent?: boolean;
 }
 
-const ListItem = ({
-  alignContent = 'middle',
-  badgeStatus = 'primary',
-  badgeValue,
-  containerStyle,
-  delayLongPress,
-  disabled,
-  disabledStyle = { opacity: 0.3 },
-  drag,
-  editable,
-  showEditor = false,
-  swipeable,
-  extraContentComponent,
-  leftContainerStyle,
-  leftImage,
-  leftImageColor,
-  leftImageSize,
-  leftImageType = 'ionicon',
-  onLongPress,
-  onPress,
-  onSwipeableClose,
-  onSwipeableOpen,
-  onSwipeableWillClose,
-  onSwipeableWillOpen,
-  placeholder = '\u00b7\u00b7\u00b7',
-  position,
-  rightImage = true,
-  rightImageColor,
-  rightImageSize,
-  rightImageType = 'ionicon',
-  subtitle,
-  subtitleNumberOfLines,
-  subtitleStyle,
-  title,
-  titleNumberOfLines,
-  titleStyle,
-  value,
-  valueStyle,
-  zeroEdgeContent,
-}: ListItem) => {
-  const theme = useTheme();
-  const s = useStyles(theme);
+export interface ListItemMethods {
+  resetEditor: () => void;
+}
 
-  const swipeableRef = useRef<Swipeable>(null);
-  const [rerender, setRerender] = useState(false);
+const ListItem = React.forwardRef<ListItemMethods, ListItem>(
+  (
+    {
+      alignContent = 'middle',
+      badgeStatus = 'primary',
+      badgeValue,
+      containerStyle,
+      delayLongPress,
+      disabled,
+      disabledStyle = { opacity: 0.3 },
+      drag,
+      editable,
+      showEditor = false,
+      swipeable,
+      extraContentComponent,
+      leftContainerStyle,
+      leftImage,
+      leftImageColor,
+      leftImageSize,
+      leftImageType = 'ionicon',
+      onLongPress,
+      onPress,
+      onSwipeableClose,
+      onSwipeableOpen,
+      onSwipeableWillClose,
+      onSwipeableWillOpen,
+      placeholder = '\u00b7\u00b7\u00b7',
+      position,
+      rightImage = true,
+      rightImageColor,
+      rightImageSize,
+      rightImageType = 'ionicon',
+      subtitle,
+      subtitleNumberOfLines,
+      subtitleStyle,
+      title,
+      titleNumberOfLines,
+      titleStyle,
+      value,
+      valueStyle,
+      zeroEdgeContent,
+    },
+    ref,
+  ) => {
+    const theme = useTheme();
+    const s = useStyles(theme);
 
-  const showDrag = !editable && drag; // Whether or not the drag handle should be shown regardless of editing.
-  const dragHandleX = useSharedValue(showDrag ? 0 : -dragHandleWidth);
-  const editButtonX = useSharedValue(0);
-  const editModeOpacity = useSharedValue(showDrag ? 1 : 0);
-  const titlePad = useSharedValue(0);
+    const swipeableRef = useRef<Swipeable>(null);
+    const [rerender, setRerender] = useState(false);
 
-  // If the content of the list item touches the left edge of the list item then the edit button needs
-  // some additional space to its right so its not touching the content. This offset provides the space
-  // by making the edit button wider.
-  const zeroEdgeOffset = zeroEdgeContent ? 15 : 0;
+    const showDrag = !editable && drag; // Whether or not the drag handle should be shown regardless of editing.
+    const dragHandleX = useSharedValue(showDrag ? 0 : -dragHandleWidth);
+    const editButtonX = useSharedValue(0);
+    const editModeOpacity = useSharedValue(showDrag ? 1 : 0);
+    const titlePad = useSharedValue(0);
 
-  const dragHandleAnimatedStyles = useAnimatedStyle(() => ({
-    right: dragHandleX.value,
-    opacity: editModeOpacity.value,
-  }));
+    // If the content of the list item touches the left edge of the list item then the edit button needs
+    // some additional space to its right so its not touching the content. This offset provides the space
+    // by making the edit button wider.
+    const zeroEdgeOffset = zeroEdgeContent ? 15 : 0;
 
-  const editButtonAnimatedStyles = useAnimatedStyle(() => ({
-    opacity: editModeOpacity.value,
-  }));
+    const dragHandleAnimatedStyles = useAnimatedStyle(() => ({
+      right: dragHandleX.value,
+      opacity: editModeOpacity.value,
+    }));
 
-  const leftGroupAnimatedStyles = useAnimatedStyle(() => ({
-    left: editButtonX.value,
-    paddingRight: titlePad.value,
-  }));
+    const editButtonAnimatedStyles = useAnimatedStyle(() => ({
+      opacity: editModeOpacity.value,
+    }));
 
-  // Force a re-render when the icon changes.
-  useEffect(() => {
-    setRerender(!rerender);
-  }, [editable?.item?.icon]);
+    const leftGroupAnimatedStyles = useAnimatedStyle(() => ({
+      left: editButtonX.value,
+      paddingRight: titlePad.value,
+    }));
 
-  useEffect(() => {
-    // If we're showng the drag handle regardless of editing then we need to ignore editor state changes.
-    if (showDrag) return;
+    useImperativeHandle(ref, () => ({
+      //  These functions exposed to the parent component through the ref.
+      resetEditor,
+    }));
 
-    // The delay allows the right image (e.g. caret) to fade out before edit mode animation begins.
-    if (showEditor) {
-      editButtonX.value = withDelay(
-        100,
-        withTiming(editButtonWidth - 15 + zeroEdgeOffset, { duration: 200 }),
-      );
-      editModeOpacity.value = withDelay(100, withTiming(1, { duration: 200 }));
+    const resetEditor = () => {
+      console.log('RESET 2');
+      swipeableRef.current?.close();
+    };
 
-      if (editable?.reorder) {
+    // Force a re-render when the icon changes.
+    useEffect(() => {
+      setRerender(!rerender);
+    }, [editable?.item?.icon]);
+
+    useEffect(() => {
+      // If we're showng the drag handle regardless of editing then we need to ignore editor state changes.
+      if (showDrag) return;
+
+      // The delay allows the right image (e.g. caret) to fade out before edit mode animation begins.
+      if (showEditor) {
+        editButtonX.value = withDelay(
+          100,
+          withTiming(editButtonWidth - 15 + zeroEdgeOffset, { duration: 200 }),
+        );
+        editModeOpacity.value = withDelay(
+          100,
+          withTiming(1, { duration: 200 }),
+        );
+
+        if (editable?.reorder) {
+          titlePad.value = withDelay(
+            100,
+            withTiming(15 * 2, { duration: 200, easing: Easing.linear }),
+          );
+        }
+
+        if (drag) {
+          dragHandleX.value = withDelay(100, withTiming(0, { duration: 200 }));
+        }
+      } else {
+        editButtonX.value = withDelay(100, withTiming(0, { duration: 200 }));
+        editModeOpacity.value = withDelay(
+          100,
+          withTiming(0, { duration: 200 }),
+        );
         titlePad.value = withDelay(
           100,
-          withTiming(15 * 2, { duration: 200, easing: Easing.linear }),
+          withTiming(0, { duration: 200, easing: Easing.linear }),
         );
+
+        if (drag) {
+          dragHandleX.value = withDelay(
+            100,
+            withTiming(-dragHandleWidth, { duration: 100 }),
+          );
+        }
       }
+    }, [showEditor]);
 
-      if (drag) {
-        dragHandleX.value = withDelay(100, withTiming(0, { duration: 200 }));
-      }
-    } else {
-      editButtonX.value = withDelay(100, withTiming(0, { duration: 200 }));
-      editModeOpacity.value = withDelay(100, withTiming(0, { duration: 200 }));
-      titlePad.value = withDelay(
-        100,
-        withTiming(0, { duration: 200, easing: Easing.linear }),
-      );
-
-      if (drag) {
-        dragHandleX.value = withDelay(
-          100,
-          withTiming(-dragHandleWidth, { duration: 100 }),
-        );
-      }
-    }
-  }, [showEditor]);
-
-  const renderDragHandle = () => {
-    if (!editable?.reorder && !showDrag) return null;
-    return (
-      <Animated.View style={[s.dragTouchContainer, dragHandleAnimatedStyles]}>
-        <Pressable onPressIn={drag} disabled={!showEditor && !showDrag}>
-          <Icon
-            name={'menu'}
-            type={'ionicon'}
-            size={22}
-            color={theme.colors.midGray}
-            style={s.dragIcon}
-          />
-        </Pressable>
-      </Animated.View>
-    );
-  };
-
-  const renderEditButton = () => {
-    if (!editable?.item) return null;
-    return (
-      // Force edit button to be invisible when not shown (prevents any peek visibility of the
-      // button if not completely out of view).
-      // Must disable the button when now shown, some of the touch area is always in view.
-      <Animated.View
-        style={[
-          s.editTouchContainer,
-          { left: -editButtonWidth - zeroEdgeOffset },
-          editButtonAnimatedStyles,
-        ]}>
-        <Pressable onPress={doEditAction} disabled={!showEditor}>
-          <Icon
-            name={editable.item.icon}
-            type={'ionicon'}
-            size={22}
-            color={editable.item.color}
-            style={s.editIcon}
-          />
-        </Pressable>
-      </Animated.View>
-    );
-  };
-
-  const doEditAction = () => {
-    if (editable?.item?.action === 'open-swipeable') {
-      swipeableRef?.current?.openRight();
-    }
-    editable?.onEditItem && editable?.onEditItem();
-  };
-
-  return (
-    <AppleStyleSwipeableRow
-      ref={swipeableRef}
-      enabled={!showEditor}
-      leftItems={swipeable?.leftItems}
-      rightItems={swipeable?.rightItems}
-      position={position}
-      onSwipeableClose={onSwipeableClose}
-      onSwipeableOpen={onSwipeableOpen}
-      onSwipeableWillClose={onSwipeableWillClose}
-      onSwipeableWillOpen={onSwipeableWillOpen}>
-      <RNEListItem
-        bottomDivider={!position?.includes('last')}
-        containerStyle={[
-          theme.styles.listItemContainer,
-          !rightImage ? { paddingRight: 0 } : {},
-          containerStyle,
-        ]}
-        disabled={disabled || showEditor}
-        disabledStyle={disabledStyle}
-        delayLongPress={delayLongPress}
-        onLongPress={onLongPress}
-        onPress={onPress}>
-        <Animated.View
-          style={[s.leftGroup, leftContainerStyle, leftGroupAnimatedStyles]}>
-          {renderEditButton()}
-          {extraContentComponent}
-          <View style={s.leftImageContainer}>
-            {React.isValidElement(leftImage) ? (
-              <RNEListItem.Content style={s.leftImageContent}>
-                {leftImage}
-              </RNEListItem.Content>
-            ) : typeof leftImage === 'string' ? (
-              <Icon
-                name={leftImage}
-                type={leftImageType}
-                color={leftImageColor || theme.colors.icon}
-                size={leftImageSize}
-              />
-            ) : leftImage !== undefined ? (
-              <Avatar
-                source={leftImage as ImageSourcePropType}
-                imageProps={{ resizeMode: 'contain' }}
-              />
-            ) : null}
-          </View>
-          <RNEListItem.Content
-            style={[
-              leftImage ? s.wLeftImage : {},
-              alignContent === 'top' ? s.alignTop : {},
-            ]}>
-            <RNEListItem.Title
-              style={[theme.styles.listItemTitle, titleStyle]}
-              numberOfLines={titleNumberOfLines}>
-              {title}
-            </RNEListItem.Title>
-            {subtitle !== undefined && (
-              <RNEListItem.Subtitle
-                style={[theme.styles.listItemSubtitle, subtitleStyle]}
-                numberOfLines={subtitleNumberOfLines}>
-                {subtitle}
-              </RNEListItem.Subtitle>
-            )}
-          </RNEListItem.Content>
+    const renderDragHandle = () => {
+      if (!editable?.reorder && !showDrag) return null;
+      return (
+        <Animated.View style={[s.dragTouchContainer, dragHandleAnimatedStyles]}>
+          <Pressable onPressIn={drag} disabled={!showEditor && !showDrag}>
+            <Icon
+              name={'menu'}
+              type={'ionicon'}
+              size={22}
+              color={theme.colors.midGray}
+              style={s.dragIcon}
+            />
+          </Pressable>
         </Animated.View>
-        {value !== undefined && (
-          <RNEListItem.Content
-            right
-            style={[
-              s.valueContent,
-              rightImage ? s.wRightImage : {},
-              alignContent === 'top' ? s.alignTopValue : {},
-            ]}>
-            {React.isValidElement(value) ? (
-              value
-            ) : (
-              <Text style={[theme.styles.listItemValue, valueStyle]}>
-                {value || placeholder}
-              </Text>
-            )}
-          </RNEListItem.Content>
-        )}
-        {badgeValue !== undefined && (
-          <Badge
-            value={badgeValue}
-            containerStyle={s.badgeContainer}
-            textStyle={s.badgeText}
-            badgeStyle={[
-              s.badge,
-              { backgroundColor: theme.colors?.[badgeStatus] },
-            ]}
-          />
-        )}
-        {!showEditor && !showDrag ? (
+      );
+    };
+
+    const renderEditButton = () => {
+      if (!editable?.item) return null;
+      return (
+        // Force edit button to be invisible when not shown (prevents any peek visibility of the
+        // button if not completely out of view).
+        // Must disable the button when now shown, some of the touch area is always in view.
+        <Animated.View
+          style={[
+            s.editTouchContainer,
+            { left: -editButtonWidth - zeroEdgeOffset },
+            editButtonAnimatedStyles,
+          ]}>
+          <Pressable onPress={doEditAction} disabled={!showEditor}>
+            <Icon
+              name={editable.item.icon}
+              type={'ionicon'}
+              size={22}
+              color={editable.item.color}
+              style={s.editIcon}
+            />
+          </Pressable>
+        </Animated.View>
+      );
+    };
+
+    const doEditAction = () => {
+      if (editable?.item?.action === 'open-swipeable') {
+        swipeableRef?.current?.openRight();
+      }
+      editable?.onEditItem && editable?.onEditItem();
+    };
+
+    return (
+      <AppleStyleSwipeableRow
+        ref={swipeableRef}
+        enabled={!showEditor}
+        leftItems={swipeable?.leftItems}
+        rightItems={swipeable?.rightItems}
+        position={position}
+        onSwipeableClose={onSwipeableClose}
+        onSwipeableOpen={onSwipeableOpen}
+        onSwipeableWillClose={onSwipeableWillClose}
+        onSwipeableWillOpen={onSwipeableWillOpen}>
+        <RNEListItem
+          bottomDivider={!position?.includes('last')}
+          containerStyle={[
+            theme.styles.listItemContainer,
+            !rightImage ? { paddingRight: 0 } : {},
+            containerStyle,
+          ]}
+          disabled={disabled || showEditor}
+          disabledStyle={disabledStyle}
+          delayLongPress={delayLongPress}
+          onLongPress={onLongPress}
+          onPress={onPress}>
           <Animated.View
-            entering={editable && FadeIn.delay(150)}
-            exiting={editable && FadeOut}>
-            {React.isValidElement(rightImage) ? (
-              <RNEListItem.Content
-                right
-                style={[s.rightImageContent, s.rightImage]}>
-                {rightImage}
-              </RNEListItem.Content>
-            ) : typeof rightImage === 'string' ? (
-              <RNEListItem.Content
-                right
-                style={[
-                  alignContent === 'top' ? s.alignTop : {},
-                  s.rightImage,
-                ]}>
+            style={[s.leftGroup, leftContainerStyle, leftGroupAnimatedStyles]}>
+            {renderEditButton()}
+            {extraContentComponent}
+            <View style={s.leftImageContainer}>
+              {React.isValidElement(leftImage) ? (
+                <RNEListItem.Content style={s.leftImageContent}>
+                  {leftImage}
+                </RNEListItem.Content>
+              ) : typeof leftImage === 'string' ? (
                 <Icon
-                  name={rightImage}
-                  type={rightImageType}
-                  color={rightImageColor || theme.colors.icon}
-                  size={rightImageSize}
+                  name={leftImage}
+                  type={leftImageType}
+                  color={leftImageColor || theme.colors.icon}
+                  size={leftImageSize}
                 />
-              </RNEListItem.Content>
-            ) : rightImage ? (
-              <RNEListItem.Chevron
-                iconProps={theme.styles.listItemIconProps}
-                containerStyle={[
-                  alignContent === 'top' ? s.alignTop : {},
-                  s.rightImage,
-                ]}
-              />
-            ) : null}
+              ) : leftImage !== undefined ? (
+                <Avatar
+                  source={leftImage as ImageSourcePropType}
+                  imageProps={{ resizeMode: 'contain' }}
+                />
+              ) : null}
+            </View>
+            <RNEListItem.Content
+              style={[
+                leftImage ? s.wLeftImage : {},
+                alignContent === 'top' ? s.alignTop : {},
+              ]}>
+              <RNEListItem.Title
+                style={[theme.styles.listItemTitle, titleStyle]}
+                numberOfLines={titleNumberOfLines}>
+                {title}
+              </RNEListItem.Title>
+              {subtitle !== undefined && (
+                <RNEListItem.Subtitle
+                  style={[theme.styles.listItemSubtitle, subtitleStyle]}
+                  numberOfLines={subtitleNumberOfLines}>
+                  {subtitle}
+                </RNEListItem.Subtitle>
+              )}
+            </RNEListItem.Content>
           </Animated.View>
-        ) : (
-          // When in edit mode the right image is not shown so we need to reserve the horizontal
-          // space so the title and subtitle don't expand their size (due to flex: 1).
-          <View style={s.rightImageSpacer}></View>
-        )}
-      </RNEListItem>
-      {drag && renderDragHandle()}
-    </AppleStyleSwipeableRow>
-  );
-};
+          {value !== undefined && (
+            <RNEListItem.Content
+              right
+              style={[
+                s.valueContent,
+                rightImage ? s.wRightImage : {},
+                alignContent === 'top' ? s.alignTopValue : {},
+              ]}>
+              {React.isValidElement(value) ? (
+                value
+              ) : (
+                <Text style={[theme.styles.listItemValue, valueStyle]}>
+                  {value || placeholder}
+                </Text>
+              )}
+            </RNEListItem.Content>
+          )}
+          {badgeValue !== undefined && (
+            <Badge
+              value={badgeValue}
+              containerStyle={s.badgeContainer}
+              textStyle={s.badgeText}
+              badgeStyle={[
+                s.badge,
+                { backgroundColor: theme.colors?.[badgeStatus] },
+              ]}
+            />
+          )}
+          {!showEditor && !showDrag ? (
+            <Animated.View
+              entering={editable && FadeIn.delay(150)}
+              exiting={editable && FadeOut}>
+              {React.isValidElement(rightImage) ? (
+                <RNEListItem.Content
+                  right
+                  style={[s.rightImageContent, s.rightImage]}>
+                  {rightImage}
+                </RNEListItem.Content>
+              ) : typeof rightImage === 'string' ? (
+                <RNEListItem.Content
+                  right
+                  style={[
+                    alignContent === 'top' ? s.alignTop : {},
+                    s.rightImage,
+                  ]}>
+                  <Icon
+                    name={rightImage}
+                    type={rightImageType}
+                    color={rightImageColor || theme.colors.icon}
+                    size={rightImageSize}
+                  />
+                </RNEListItem.Content>
+              ) : rightImage ? (
+                <RNEListItem.Chevron
+                  iconProps={theme.styles.listItemIconProps}
+                  containerStyle={[
+                    alignContent === 'top' ? s.alignTop : {},
+                    s.rightImage,
+                  ]}
+                />
+              ) : null}
+            </Animated.View>
+          ) : (
+            // When in edit mode the right image is not shown so we need to reserve the horizontal
+            // space so the title and subtitle don't expand their size (due to flex: 1).
+            <View style={s.rightImageSpacer}></View>
+          )}
+        </RNEListItem>
+        {drag && renderDragHandle()}
+      </AppleStyleSwipeableRow>
+    );
+  },
+);
 
 const useStyles = makeStyles((_theme, theme: AppTheme) => ({
   alignTop: {
