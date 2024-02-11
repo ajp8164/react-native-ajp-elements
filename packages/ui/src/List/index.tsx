@@ -1,6 +1,6 @@
 import type { ColorValue } from 'react-native';
 
-export * from './useListItemEditor';
+export * from './useListEditor';
 export * from './Divider';
 export * from './ListEditorView';
 export * from './ListItem';

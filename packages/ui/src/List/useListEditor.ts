@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 
 import type { ListItemMethods } from './ListItem';
 
-export const useListItemEditor = () => {
+export const useListEditor = () => {
   const liRef = useRef<ListItemMethods[]>([]);
   const [listEditSwipeEnabled, setListEditSwipeEnabled] = useState(false);
   const [listEditModeEnabled, setListEditModeEnabled] = useState(false);
