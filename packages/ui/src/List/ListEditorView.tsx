@@ -1,10 +1,10 @@
 import { AppTheme, useTheme } from '../theme';
+import { Pressable, ViewProps } from 'react-native';
 import React, { ReactNode } from 'react';
 
-import { Pressable } from 'react-native';
 import { makeStyles } from '@rneui/themed';
 
-interface ListEditorViewInterface {
+interface ListEditorViewInterface extends ViewProps {
   children: ReactNode | ReactNode[];
   editorEnabledBySwipe: boolean;
   resetEditor: () => void;
@@ -14,6 +14,7 @@ const ListEditorView = ({
   children,
   editorEnabledBySwipe,
   resetEditor,
+  ...rest
 }: ListEditorViewInterface) => {
   const theme = useTheme();
   const s = useStyles(theme);
@@ -22,7 +23,8 @@ const ListEditorView = ({
     <Pressable
       style={s.container}
       pointerEvents={editorEnabledBySwipe ? 'box-only' : 'auto'}
-      onPress={resetEditor}>
+      onPress={resetEditor}
+      {...rest}>
       <>{children}</>
     </Pressable>
   );
