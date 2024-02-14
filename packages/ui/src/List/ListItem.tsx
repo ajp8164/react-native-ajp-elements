@@ -208,7 +208,6 @@ const ListItem = React.forwardRef<ListItemMethods, ListItem>(
     }));
 
     const resetEditor = () => {
-      console.log('RESET 2');
       swipeableRef.current?.close();
     };
 

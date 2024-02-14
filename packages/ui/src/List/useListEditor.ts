@@ -35,8 +35,6 @@ export const useListEditor = () => {
   const onSwipeableWillOpen = (group: string, index: number) => {
     Object.keys(liRef.current).forEach(g => {
       (liRef.current[g] as ListItemMethods[]).forEach((li, i) => {
-        console.log(g, i);
-        console.log(group, index);
         !(g === group && i === index) && li.resetEditor();
       });
     });
