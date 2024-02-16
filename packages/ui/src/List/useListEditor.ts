@@ -9,7 +9,12 @@ export const useListEditor = () => {
   // References are indexed by group and then ordinal index in the group.
   // Groups allow multiple lists on the same screen all responding to the
   // single editor instance.
-  const liRef = useRef<Record<string, ListItemMethods[]>>({});
+  // const liRef = useRef<Record<string, ListItemMethods[]>>({});
+
+  const liRef = useRef<Record<string, { id: string; ref: ListItemMethods }[]>>(
+    {},
+  );
+
   const [listEditSwipeEnabled, setListEditSwipeEnabled] = useState(false);
   const [listEditModeEnabled, setListEditModeEnabled] = useState(false);
 
@@ -20,6 +25,8 @@ export const useListEditor = () => {
     setListEditSwipeEnabled(false);
   }, [isFocused]);
 
+  // When the screen edit button is touched all of the open swipables are closed and
+  // the list is put into edit mode (swipable shows editor controls).
   const onEdit = () => {
     if (listEditSwipeEnabled) {
       setListEditSwipeEnabled(false);
@@ -32,10 +39,11 @@ export const useListEditor = () => {
     }
   };
 
-  const onSwipeableWillOpen = (group: string, index: number) => {
+  // When a new swipeable opens we close other list item swipeables.
+  const onSwipeableWillOpen = (group: string, id: string) => {
     Object.keys(liRef.current).forEach(g => {
-      (liRef.current[g] as ListItemMethods[]).forEach((li, i) => {
-        !(g === group && i === index) && li.resetEditor();
+      liRef.current[g].forEach(li => {
+        !(g === group && li.id === id) && li.ref.resetEditor();
       });
     });
 
@@ -55,7 +63,7 @@ export const useListEditor = () => {
   const addToEditor = (
     ref: ListItemMethods | null,
     group: string,
-    index: number,
+    id: string,
   ) => {
     if (ref) {
       if (!liRef.current[group]) {
@@ -64,14 +72,20 @@ export const useListEditor = () => {
           [group]: [],
         };
       }
-      liRef.current[group][index] = ref;
+
+      // Don't duplicate entries.
+      const index = liRef.current[group].findIndex(li => li.id === id);
+      if (index < 0) {
+        liRef.current[group].push({ id, ref });
+      }
     }
   };
 
+  // Close all swipables.
   const resetEditor = () => {
     Object.keys(liRef.current).forEach(group => {
       liRef.current[group].forEach(li => {
-        li.resetEditor();
+        li.ref.resetEditor();
       });
     });
   };
