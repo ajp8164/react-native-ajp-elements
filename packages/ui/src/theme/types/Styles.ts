@@ -62,6 +62,9 @@ export type Styles = {
   buttonScreenHeader: ViewStyle;
   buttonScreenHeaderTitle: TextStyle;
   buttonScreenHeaderDisabled: ViewStyle | TextStyle;
+  buttonInvScreenHeader: ViewStyle;
+  buttonInvScreenHeaderTitle: TextStyle;
+  buttonInvScreenHeaderDisabled: ViewStyle | TextStyle;
 
   shadow: ViewStyle;
   shadowGlow: ViewStyle;

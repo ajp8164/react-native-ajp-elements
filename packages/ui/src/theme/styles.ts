@@ -394,6 +394,30 @@ export const useStyles = makeStyles(
       color: theme.colors.screenHeaderButtonText,
       opacity: 0.5,
     },
+    buttonInvScreenHeader: {
+      backgroundColor: theme.colors.transparent,
+      height: 40,
+      paddingHorizontal: 15,
+      minWidth: 180,
+    },
+    buttonInvScreenHeaderTitle: {
+      color: theme.colors.stickyWhite,
+      fontSize: fontSizes.normal,
+      fontFamily,
+      ...Platform.select({
+        ios: {
+          marginTop: 0,
+        },
+        android: {
+          marginTop: -2,
+        },
+      }),
+    },
+    buttonInvScreenHeaderDisabled: {
+      backgroundColor: theme.colors.transparent,
+      color: theme.colors.stickyWhite,
+      opacity: 0.5,
+    },
 
     /**
      * Shadow
