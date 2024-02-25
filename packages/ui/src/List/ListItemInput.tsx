@@ -5,6 +5,7 @@ import {
   ImageSourcePropType,
   KeyboardTypeOptions,
   NativeSyntheticEvent,
+  StyleSheet,
   Text,
   TextInput,
   TextInputFocusEventData,
@@ -23,6 +24,9 @@ import { makeStyles } from '@rneui/themed';
 interface ListItemInput {
   autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters' | undefined;
   autoCorrect?: boolean;
+  bottomDividerColor?: string;
+  bottomDividerLeft?: number;
+  bottomDividerRight?: number;
   containerStyle?: ViewStyle | ViewStyle[];
   contentStyle?: ViewStyle | ViewStyle[];
   disabled?: boolean;
@@ -60,6 +64,9 @@ interface ListItemInput {
 const ListItemInput = ({
   autoCapitalize,
   autoCorrect = true,
+  bottomDividerColor,
+  bottomDividerLeft,
+  bottomDividerRight,
   containerStyle = {},
   contentStyle = {},
   disabled,
@@ -96,14 +103,32 @@ const ListItemInput = ({
   const theme = useTheme();
   const s = useStyles(theme);
 
+  bottomDividerColor =
+    bottomDividerColor || (theme.styles.listItemBorder.borderColor as string);
+  bottomDividerLeft =
+    bottomDividerLeft || (theme.styles.listItemBorder.left as number);
+  bottomDividerRight =
+    bottomDividerRight || (theme.styles.listItemBorder.right as number);
+
   const fullWidth = title === undefined || titleType === 'material';
   const error = errorText !== undefined;
   errorColor = errorColor || theme.colors.assertive;
 
   return (
-    <>
+    <View>
+      {!position?.includes('last') || error ? (
+        <View
+          style={[
+            s.bottomDivider,
+            {
+              borderColor: bottomDividerColor,
+              left: bottomDividerLeft,
+              right: bottomDividerRight,
+            },
+          ]}
+        />
+      ) : null}
       <ListItem
-        bottomDivider={!position?.includes('last') || error}
         containerStyle={[
           theme.styles.listItemContainer,
           !rightImage ? { paddingRight: 0 } : {},
@@ -296,11 +321,17 @@ const ListItemInput = ({
           />
         )}
       </ListItem>
-    </>
+    </View>
   );
 };
 
 const useStyles = makeStyles((_theme, theme: AppTheme) => ({
+  bottomDivider: {
+    borderWidth: StyleSheet.hairlineWidth,
+    position: 'absolute',
+    bottom: 0,
+    zIndex: 1,
+  },
   first: {
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
