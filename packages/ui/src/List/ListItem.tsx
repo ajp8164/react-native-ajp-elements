@@ -7,17 +7,18 @@ import Animated, {
   withDelay,
   withTiming,
 } from 'react-native-reanimated';
-import { AppTheme, useTheme } from '../theme';
+import { type AppTheme, useTheme } from '../theme';
 import { Avatar, Badge, Icon, ListItem as RNEListItem } from '@rneui/base';
 import {
-  ColorValue,
-  ImageSourcePropType,
+  type ColorValue,
+  type ImageSourcePropType,
   Platform,
   Pressable,
+  StyleSheet,
   Text,
-  TextStyle,
+  type TextStyle,
   View,
-  ViewStyle,
+  type ViewStyle,
 } from 'react-native';
 import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
 
@@ -72,6 +73,9 @@ interface ListItem {
   alignContent?: 'middle' | 'top';
   badgeStatus?: 'primary' | 'success' | 'warning' | 'error';
   badgeValue?: string;
+  bottomDividerColor?: string;
+  bottomDividerLeft?: number;
+  bottomDividerRight?: number;
   containerStyle?: ViewStyle | ViewStyle[];
   delayLongPress?: number;
   disabled?: boolean;
@@ -133,6 +137,9 @@ const ListItem = React.forwardRef<ListItemMethods, ListItem>(
       alignContent = 'middle',
       badgeStatus = 'primary',
       badgeValue,
+      bottomDividerColor,
+      bottomDividerLeft = 0,
+      bottomDividerRight = 0,
       containerStyle,
       delayLongPress,
       disabled,
@@ -173,6 +180,8 @@ const ListItem = React.forwardRef<ListItemMethods, ListItem>(
   ) => {
     const theme = useTheme();
     const s = useStyles(theme);
+
+    bottomDividerColor = bottomDividerColor || theme.colors.listItemBorder;
 
     const swipeableRef = useRef<Swipeable>(null);
     const [rerender, setRerender] = useState(false);
@@ -321,8 +330,19 @@ const ListItem = React.forwardRef<ListItemMethods, ListItem>(
         onSwipeableOpen={onSwipeableOpen}
         onSwipeableWillClose={onSwipeableWillClose}
         onSwipeableWillOpen={onSwipeableWillOpen}>
+        {!position?.includes('last') ? (
+          <View
+            style={[
+              s.bottomDivider,
+              {
+                borderColor: bottomDividerColor,
+                left: bottomDividerLeft,
+                right: bottomDividerRight,
+              },
+            ]}
+          />
+        ) : null}
         <RNEListItem
-          bottomDivider={!position?.includes('last')}
           containerStyle={[
             theme.styles.listItemContainer,
             !rightImage ? { paddingRight: 0 } : {},
@@ -479,6 +499,12 @@ const useStyles = makeStyles((_theme, theme: AppTheme) => ({
   },
   badge: {
     borderWidth: 0,
+  },
+  bottomDivider: {
+    borderWidth: StyleSheet.hairlineWidth,
+    position: 'absolute',
+    bottom: 0,
+    zIndex: 1,
   },
   rightImage: {
     flex: 1,
