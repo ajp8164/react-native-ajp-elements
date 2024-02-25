@@ -138,8 +138,8 @@ const ListItem = React.forwardRef<ListItemMethods, ListItem>(
       badgeStatus = 'primary',
       badgeValue,
       bottomDividerColor,
-      bottomDividerLeft = 0,
-      bottomDividerRight = 0,
+      bottomDividerLeft,
+      bottomDividerRight,
       containerStyle,
       delayLongPress,
       disabled,
@@ -181,7 +181,12 @@ const ListItem = React.forwardRef<ListItemMethods, ListItem>(
     const theme = useTheme();
     const s = useStyles(theme);
 
-    bottomDividerColor = bottomDividerColor || theme.colors.listItemBorder;
+    bottomDividerColor =
+      bottomDividerColor || (theme.styles.listItemBorder.borderColor as string);
+    bottomDividerLeft =
+      bottomDividerLeft || (theme.styles.listItemBorder.left as number);
+    bottomDividerRight =
+      bottomDividerRight || (theme.styles.listItemBorder.right as number);
 
     const swipeableRef = useRef<Swipeable>(null);
     const [rerender, setRerender] = useState(false);

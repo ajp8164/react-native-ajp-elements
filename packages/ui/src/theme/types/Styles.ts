@@ -14,6 +14,7 @@ export type Styles = {
   // Styles
 
   listItemContainer: ViewStyle;
+  listItemBorder: ViewStyle;
   listItemTitle: TextStyle;
   listItemSubtitle: TextStyle;
   listItemValue: TextStyle;
