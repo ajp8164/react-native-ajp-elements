@@ -158,7 +158,7 @@ export const theme: CreateThemeOptions = {
     listHeaderBackground: '#f0f0f0',
     listHeaderTextBackground: '#f0f0f0',
     listItem: '#ffffff',
-    listItemBorder: '#aaaaaa',
+    listItemBorder: '#e5e5e5',
     listItemAlt: '#f0f0f0',
     listItemIcon: '#aaaaaa',
 
