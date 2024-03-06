@@ -378,8 +378,9 @@ export const useStyles = makeStyles(
     buttonScreenHeader: {
       backgroundColor: theme.colors.transparent,
       height: 40,
-      paddingHorizontal: 15,
-      minWidth: 180,
+      paddingHorizontal: 0,
+      minWidth: 0,
+      justifyContent: 'flex-start',
     },
     buttonScreenHeaderTitle: {
       color: theme.colors.screenHeaderButtonText,
@@ -402,8 +403,9 @@ export const useStyles = makeStyles(
     buttonInvScreenHeader: {
       backgroundColor: theme.colors.transparent,
       height: 40,
-      paddingHorizontal: 15,
-      minWidth: 180,
+      paddingHorizontal: 0,
+      minWidth: 0,
+      justifyContent: 'flex-start',
     },
     buttonInvScreenHeaderTitle: {
       color: theme.colors.stickyWhite,
