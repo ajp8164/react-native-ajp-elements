@@ -12,18 +12,18 @@ interface Divider {
   subHeaderStyle?: ViewStyle;
   style?: ViewStyle;
   text?: string;
-  type?: 'default' | 'note';
+  note?: boolean;
   width?: number;
 }
 
 const Divider = ({
   color,
+  note,
   orientation,
   rightComponent = null,
   style,
   subHeaderStyle,
   text,
-  type = 'default',
   width,
 }: Divider) => {
   const theme = useTheme();
@@ -32,11 +32,7 @@ const Divider = ({
   return (
     <RNEDivider
       subHeader={text}
-      subHeaderStyle={[
-        s.subheader,
-        type === 'note' ? s.note : {},
-        subHeaderStyle,
-      ]}
+      subHeaderStyle={[s.subheader, note ? s.note : {}, subHeaderStyle]}
       color={color || s.color.color}
       orientation={orientation}
       style={[!text && { marginTop: 25 }, s.style, style]}
