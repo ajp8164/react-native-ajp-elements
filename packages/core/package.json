@@ -1,6 +1,6 @@
 {
   "name": "@react-native-ajp-elements/core",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A React Native library for apps.",
   "author": "Andy Phillipson",
   "license": "MIT",
@@ -33,7 +33,7 @@
   "module": "lib/module/index.js",
   "types": "lib/typescript/src/index.d.ts",
   "dependencies": {
-    "@react-native-ajp-elements/common": "^0.0.3"
+    "@react-native-ajp-elements/common": "^0.0.4"
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",
