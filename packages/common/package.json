@@ -2,6 +2,15 @@
   "name": "@react-native-ajp-elements/common",
   "version": "0.0.3",
   "description": "A React Native library for apps.",
+  "author": "Andy Phillipson",
+  "license": "MIT",
+  "homepage": "https://github.com/ajp8164/react-native-ajp-elements#readme",
+  "bugs": {
+    "url": "https://github.com/ajp8164/react-native-ajp-elements/issues"
+  },
+  "directories": {
+    "lib": "lib"
+  },
   "scripts": {
     "prepack": "bob build",
     "clean": "rm -fr lib"
@@ -12,11 +21,10 @@
     "!**/__tests__"
   ],
   "publishConfig": {
-    "access": "restricted",
-    "registry": "http://localhost:4873"
+    "access": "public"
   },
   "repository": {
-    "url": "https://github.com/ajp8164/react-native-ajp-elements",
+    "url": "git+https://github.com/ajp8164/react-native-ajp-elements.git",
     "directory": "packages/common",
     "type": "git"
   },
@@ -76,6 +84,5 @@
         }
       ]
     ]
-  },
-  "gitHead": "8c20c5feefa5ddec12857d4eb98b08d67ecc6808"
+  }
 }

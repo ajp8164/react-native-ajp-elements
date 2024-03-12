@@ -11,11 +11,10 @@
     "release": "run-s build publish"
   },
   "publishConfig": {
-    "access": "restricted",
-    "registry": "http://localhost:4873"
+    "access": "restricted"
   },
   "repository": {
-    "url": "https://github.com/ajp8164/react-native-ajp-elements",
+    "url": "git+https://github.com/ajp8164/react-native-ajp-elements.git",
     "type": "git"
   },
   "workspaces": {
