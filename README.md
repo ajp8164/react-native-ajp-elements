@@ -9,8 +9,8 @@ A React Native library for apps.
 | Name                                                        | Latest Version                                                                                                                                            |
 | ----------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------: |
 | [@react-native-ajp-elements/common](/packages/common) | [![badge](https://img.shields.io/npm/v/@react-native-ajp-elements/core.svg)](https://www.npmjs.com/package/@react-native-ajp-elements/common) |
-| [@react-native-ajp-elements/core](/packages/core)     | [![badge](https://img.shields.io/npm/v/@react-native-ajp-elements/core.svg)](https://www.npmjs.com/package/@react-native-ajp-elements/common) |
-| [@react-native-ajp-elements/ui](/packages/ui)         | [![badge](https://img.shields.io/npm/v/@react-native-ajp-elements/core.svg)](https://www.npmjs.com/package/@react-native-ajp-elements/common) |
+| [@react-native-ajp-elements/core](/packages/core)     | [![badge](https://img.shields.io/npm/v/@react-native-ajp-elements/core.svg)](https://www.npmjs.com/package/@react-native-ajp-elements/core) |
+| [@react-native-ajp-elements/ui](/packages/ui)         | [![badge](https://img.shields.io/npm/v/@react-native-ajp-elements/core.svg)](https://www.npmjs.com/package/@react-native-ajp-elements/ui) |
 
 ## Contributing
 
