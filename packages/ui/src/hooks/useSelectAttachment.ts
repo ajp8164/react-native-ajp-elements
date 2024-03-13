@@ -102,7 +102,10 @@ export const useSelectAttachments = (opts: {
     const chooseFromCameraRoll = (): Promise<Attachment[]> => {
       return new Promise<Attachment[]>((resolve, reject) => {
         selectImage({
-          mediaType: opts.cameraRollMediaType,
+          mediaType:
+            opts.cameraRollMediaType !== undefined
+              ? opts.cameraRollMediaType
+              : 'photo',
           multiSelect: opts.multiSelect,
           onSuccess: async assets => {
             const attachments = await createAssetAttachments(assets);
