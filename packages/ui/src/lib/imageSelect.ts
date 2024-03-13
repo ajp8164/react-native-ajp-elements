@@ -3,6 +3,8 @@ import * as ImagePicker from 'react-native-image-picker';
 import { Alert } from 'react-native';
 import { log } from '@react-native-ajp-elements/core';
 
+export type LibraryMediaType = ImagePicker.MediaType;
+
 /**
  * Select an image locally and respond with an image asset object.
  * @param args.onSuccess callback with an image asset
@@ -11,12 +13,13 @@ import { log } from '@react-native-ajp-elements/core';
 export const selectImage = (args: {
   onSuccess: (imageAssets: ImagePicker.Asset[]) => void;
   onError?: () => void;
+  mediaType?: LibraryMediaType;
   multiSelect?: boolean;
 }) => {
-  const { onSuccess, onError, multiSelect = false } = args;
+  const { onSuccess, onError, mediaType = 'mixed', multiSelect = false } = args;
   ImagePicker.launchImageLibrary(
     {
-      mediaType: 'mixed',
+      mediaType,
       selectionLimit: multiSelect ? 0 : 1,
       assetRepresentationMode: 'current',
     },

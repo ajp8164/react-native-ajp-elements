@@ -12,6 +12,7 @@ const requestSavePermission = async (): Promise<boolean> => {
 
   let hasPermission = await PermissionsAndroid.check(permission);
   if (!hasPermission) {
+    // prettier-ignore
     const permissionRequestResult = await PermissionsAndroid.request(
       permission,
     );

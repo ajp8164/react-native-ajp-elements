@@ -21,14 +21,13 @@ export const generateAssetsFontCss = (
     android: `file:///android_asset/fonts/${fontFileName}.${fileFormat}`,
   });
 
-  return `
-  	@font-face {
-      font-family: '${fontFileName}';
-      src: local('${fontFileName}'), url('${fileUri}') format('${
-    fileFormat === 'ttf' ? 'truetype' : 'opentype'
-  }');
-	  }
-	`;
+  // prettier- ignore
+  return `@font-face {
+    font-family: '${fontFileName}';
+    src: local('${fontFileName}'),
+    url('${fileUri}')
+    format('${fileFormat === 'ttf' ? 'truetype' : 'opentype'}');
+  }`;
 };
 
 interface WebViewInterface extends WebViewProps {

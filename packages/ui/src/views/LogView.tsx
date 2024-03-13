@@ -24,6 +24,7 @@ const LogView = ({ logContent }: LogView) => {
               style={[
                 theme.styles.textTiny,
                 theme.styles.textBold,
+                // prettier-ignore
                 l.level.text === 'warn'
                   ? { color: theme.colors.warning }
                   : l.level.text === 'error'
@@ -37,6 +38,7 @@ const LogView = ({ logContent }: LogView) => {
             <Text
               style={[
                 theme.styles.textTiny,
+                // prettier-ignore
                 l.level.text === 'warn'
                   ? { color: theme.colors.warning }
                   : l.level.text === 'error'
