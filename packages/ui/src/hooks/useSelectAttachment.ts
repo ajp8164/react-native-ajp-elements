@@ -47,10 +47,8 @@ export interface VideoAttachment {
 }
 
 export const useSelectAttachments = (
-  cameraRollMediaType?: LibraryMediaType,
-  multiSelect?: boolean,
-  customCallback?: () => void,
-  customLabel?: string,
+  customButtonDestructive?: boolean,
+  customButtonLabel?: string,
   selectFromCamera?: boolean,
   selectFromCameraRoll?: boolean,
   selectFromDocuments?: boolean,
@@ -64,6 +62,7 @@ export const useSelectAttachments = (
   let selectFromCameraRollIndex = 98;
   let selectFromDocumentsIndex = 97;
   let selectCustomIndex = 96;
+  let customButtonDestructiveIndex = 96;
 
   if (selectFromCamera) {
     buttons.push('Take Photo');
@@ -80,13 +79,20 @@ export const useSelectAttachments = (
     cancelButtonIndex++;
     selectFromDocumentsIndex = cancelButtonIndex - 1;
   }
-  if (customLabel) {
-    buttons.push(customLabel);
+  if (customButtonLabel) {
+    buttons.push(customButtonLabel);
     cancelButtonIndex++;
     selectCustomIndex = cancelButtonIndex - 1;
+    customButtonDestructive
+      ? (customButtonDestructiveIndex = selectCustomIndex)
+      : null;
   }
 
-  return (): Promise<Attachment[]> => {
+  return (
+    cameraRollMediaType?: LibraryMediaType,
+    multiSelect?: boolean,
+    customButtonCallback?: () => void,
+  ): Promise<Attachment[]> => {
     // Images and videos
     const chooseFromCameraRoll = (): Promise<Attachment[]> => {
       return new Promise<Attachment[]>((resolve, reject) => {
@@ -150,7 +156,7 @@ export const useSelectAttachments = (
     // User callback
     const userCallback = (): Promise<Attachment[]> => {
       return new Promise<Attachment[]>((resolve, _reject) => {
-        customCallback && customCallback();
+        customButtonCallback && customButtonCallback();
         resolve([]);
       });
     };
@@ -251,6 +257,7 @@ export const useSelectAttachments = (
         {
           options: buttons,
           cancelButtonIndex,
+          destructiveButtonIndex: customButtonDestructiveIndex,
         },
         buttonIndex => {
           switch (buttonIndex) {
