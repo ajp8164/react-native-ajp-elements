@@ -46,13 +46,13 @@ export interface VideoAttachment {
   width?: number;
 }
 
-export const useSelectAttachments = (
-  customButtonDestructive?: boolean,
-  customButtonLabel?: string,
-  selectFromCamera?: boolean,
-  selectFromCameraRoll?: boolean,
-  selectFromDocuments?: boolean,
-) => {
+export const useSelectAttachments = (opts: {
+  customButtonDestructive?: boolean;
+  customButtonLabel?: string;
+  selectFromCamera?: boolean;
+  selectFromCameraRoll?: boolean;
+  selectFromDocuments?: boolean;
+}) => {
   const { showActionSheetWithOptions } = useActionSheet();
   const camera = useCamera();
 
@@ -64,41 +64,46 @@ export const useSelectAttachments = (
   let selectCustomIndex = 96;
   let customButtonDestructiveIndex = 96;
 
-  if (selectFromCamera) {
+  if (opts.selectFromCamera) {
     buttons.push('Take Photo');
     cancelButtonIndex++;
     selectFromCameraIndex = cancelButtonIndex - 1;
   }
-  if (selectFromCameraRoll) {
+  // Select from the camera roll is the default.
+  if (
+    opts.selectFromCameraRoll !== undefined ? opts.selectFromCameraRoll : true
+  ) {
     buttons.push('Choose Photos');
     cancelButtonIndex++;
     selectFromCameraRollIndex = cancelButtonIndex - 1;
   }
-  if (selectFromDocuments) {
+  if (opts.selectFromDocuments) {
     buttons.push('Choose Files');
     cancelButtonIndex++;
     selectFromDocumentsIndex = cancelButtonIndex - 1;
   }
-  if (customButtonLabel) {
-    buttons.push(customButtonLabel);
+  if (opts.customButtonLabel) {
+    buttons.push(opts.customButtonLabel);
     cancelButtonIndex++;
     selectCustomIndex = cancelButtonIndex - 1;
-    customButtonDestructive
+    opts.customButtonDestructive
       ? (customButtonDestructiveIndex = selectCustomIndex)
       : null;
   }
+  // There is always a cancel button.
+  buttons.push('Cancel');
 
-  return (
-    cameraRollMediaType?: LibraryMediaType,
-    multiSelect?: boolean,
-    customButtonCallback?: () => void,
-  ): Promise<Attachment[]> => {
+  return (opts: {
+    cameraRollMediaType?: LibraryMediaType;
+    multiSelect?: boolean;
+    customButtonCallback?: () => void;
+  }): Promise<Attachment[]> => {
     // Images and videos
     const chooseFromCameraRoll = (): Promise<Attachment[]> => {
       return new Promise<Attachment[]>((resolve, reject) => {
         selectImage({
-          mediaType: cameraRollMediaType,
-          multiSelect: multiSelect,
+          mediaType: opts.cameraRollMediaType,
+          multiSelect: opts.multiSelect,
           onSuccess: async assets => {
             const attachments = await createAssetAttachments(assets);
             resolve(attachments);
@@ -131,7 +136,7 @@ export const useSelectAttachments = (
       return new Promise<Attachment[]>((resolve, reject) => {
         DocumentPicker.pick({
           type: [DocumentPicker.types.allFiles],
-          allowMultiSelection: multiSelect,
+          allowMultiSelection: opts.multiSelect,
         })
           .then(files => {
             const selections = files.map(f => {
@@ -156,7 +161,7 @@ export const useSelectAttachments = (
     // User callback
     const userCallback = (): Promise<Attachment[]> => {
       return new Promise<Attachment[]>((resolve, _reject) => {
-        customButtonCallback && customButtonCallback();
+        opts.customButtonCallback && opts.customButtonCallback();
         resolve([]);
       });
     };
