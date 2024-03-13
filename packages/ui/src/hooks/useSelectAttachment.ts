@@ -46,9 +46,7 @@ export interface VideoAttachment {
   width?: number;
 }
 
-export const useSelectAttachments = (opts: {
-  customButtonDestructive?: boolean;
-  customButtonLabel?: string;
+export const useSelectAttachments = (baseOpts: {
   selectFromCamera?: boolean;
   selectFromCameraRoll?: boolean;
   selectFromDocuments?: boolean;
@@ -56,48 +54,52 @@ export const useSelectAttachments = (opts: {
   const { showActionSheetWithOptions } = useActionSheet();
   const camera = useCamera();
 
-  const buttons: string[] = [];
-  let cancelButtonIndex = 0;
-  let selectFromCameraIndex = 99;
-  let selectFromCameraRollIndex = 98;
-  let selectFromDocumentsIndex = 97;
-  let selectCustomIndex = 96;
-  let customButtonDestructiveIndex = 96;
-
-  if (opts.selectFromCamera) {
-    buttons.push('Take Photo');
-    cancelButtonIndex++;
-    selectFromCameraIndex = cancelButtonIndex - 1;
-  }
-  // Select from the camera roll is the default.
-  if (
-    opts.selectFromCameraRoll !== undefined ? opts.selectFromCameraRoll : true
-  ) {
-    buttons.push('Choose Photos');
-    cancelButtonIndex++;
-    selectFromCameraRollIndex = cancelButtonIndex - 1;
-  }
-  if (opts.selectFromDocuments) {
-    buttons.push('Choose Files');
-    cancelButtonIndex++;
-    selectFromDocumentsIndex = cancelButtonIndex - 1;
-  }
-  if (opts.customButtonLabel) {
-    buttons.push(opts.customButtonLabel);
-    cancelButtonIndex++;
-    selectCustomIndex = cancelButtonIndex - 1;
-    opts.customButtonDestructive
-      ? (customButtonDestructiveIndex = selectCustomIndex)
-      : null;
-  }
-  // There is always a cancel button.
-  buttons.push('Cancel');
-
   return (opts: {
     cameraRollMediaType?: LibraryMediaType;
+    customButtonDestructive?: boolean;
+    customButtonLabel?: string;
     multiSelect?: boolean;
     customButtonCallback?: () => void;
   }): Promise<Attachment[]> => {
+    const buttons: string[] = [];
+    let cancelButtonIndex = 0;
+    let selectFromCameraIndex = 99;
+    let selectFromCameraRollIndex = 98;
+    let selectFromDocumentsIndex = 97;
+    let selectCustomIndex = 96;
+    let customButtonDestructiveIndex = 96;
+
+    if (baseOpts.selectFromCamera) {
+      buttons.push('Take Photo');
+      cancelButtonIndex++;
+      selectFromCameraIndex = cancelButtonIndex - 1;
+    }
+    // Select from the camera roll is the default.
+    if (
+      baseOpts.selectFromCameraRoll !== undefined
+        ? baseOpts.selectFromCameraRoll
+        : true
+    ) {
+      buttons.push('Choose Photos');
+      cancelButtonIndex++;
+      selectFromCameraRollIndex = cancelButtonIndex - 1;
+    }
+    if (baseOpts.selectFromDocuments) {
+      buttons.push('Choose Files');
+      cancelButtonIndex++;
+      selectFromDocumentsIndex = cancelButtonIndex - 1;
+    }
+    if (opts.customButtonLabel) {
+      buttons.push(opts.customButtonLabel);
+      cancelButtonIndex++;
+      selectCustomIndex = cancelButtonIndex - 1;
+      opts.customButtonDestructive
+        ? (customButtonDestructiveIndex = selectCustomIndex)
+        : null;
+    }
+    // There is always a cancel button.
+    buttons.push('Cancel');
+
     // Images and videos
     const chooseFromCameraRoll = (): Promise<Attachment[]> => {
       return new Promise<Attachment[]>((resolve, reject) => {
