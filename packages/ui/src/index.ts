@@ -14,6 +14,7 @@ export * from './List';
 export * from './Paginator';
 export * from './Picker';
 export * from './SwipeButton';
+export * from './camera';
 export * from './lib';
 export * from './modals';
 export * from './theme';
