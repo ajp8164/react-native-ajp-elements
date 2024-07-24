@@ -57,20 +57,45 @@ const Modal = React.forwardRef<Modal, ModalProps>((props, ref) => {
   useImperativeHandle(ref, () => ({
     //  These functions exposed to the parent component through the ref.
     close,
+    collapse,
     dismiss,
+    expand,
+    forceClose,
     present,
+    snapToIndex,
+    snapToPosition,
   }));
 
   const close = () => {
     innerRef.current?.close();
   };
 
+  const collapse = () => {
+    innerRef.current?.collapse();
+  };
+
   const dismiss = () => {
     innerRef.current?.dismiss();
   };
 
+  const expand = () => {
+    innerRef.current?.expand();
+  };
+
+  const forceClose = () => {
+    innerRef.current?.close();
+  };
+
   const present = () => {
     innerRef.current?.present();
+  };
+
+  const snapToIndex = (index: number) => {
+    innerRef.current?.snapToIndex(index);
+  };
+
+  const snapToPosition = (position: string | number) => {
+    innerRef.current?.snapToPosition(position);
   };
 
   return (

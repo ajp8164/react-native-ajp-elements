@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 
+import type { BottomSheetModalMethods } from '@gorhom/bottom-sheet/lib/typescript/types';
 import { SharedValue } from 'react-native-reanimated';
 import { ViewStyle } from 'react-native';
 
@@ -25,8 +26,14 @@ export interface ModalProps {
   snapPoints?: Array<string | number> | SharedValue<Array<string | number>>;
 }
 
-export interface ModalMethods {
+export interface ModalMethods extends BottomSheetModalMethods {
+  collapse: () => void;
   close: () => void;
   dismiss: () => void;
-  present: () => void;
+  expand: () => void;
+  forceClose: () => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  present: (data?: any) => void;
+  snapToIndex: (index: number) => void;
+  snapToPosition: (position: string | number) => void;
 }
