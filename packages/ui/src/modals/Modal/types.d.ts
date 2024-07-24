@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react';
 
-import type { BottomSheetModalMethods } from '@gorhom/bottom-sheet/lib/typescript/types';
 import { SharedValue } from 'react-native-reanimated';
 import { ViewStyle } from 'react-native';
 
@@ -26,7 +25,7 @@ export interface ModalProps {
   snapPoints?: Array<string | number> | SharedValue<Array<string | number>>;
 }
 
-export interface ModalMethods extends BottomSheetModalMethods {
+export interface ModalMethods {
   collapse: () => void;
   close: () => void;
   dismiss: () => void;
