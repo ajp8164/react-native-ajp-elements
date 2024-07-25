@@ -12,6 +12,7 @@ declare const Modal: React.MemoExoticComponent<
 >;
 
 export interface ModalProps {
+  backdrop?: booolean;
   backgroundStyle?: ViewStyle;
   children: ReactNode;
   background?: 'normal' | 'inverse';

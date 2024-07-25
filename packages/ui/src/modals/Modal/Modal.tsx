@@ -16,6 +16,7 @@ type Modal = ModalMethods;
 
 const Modal = React.forwardRef<Modal, ModalProps>((props, ref) => {
   const {
+    backdrop = true,
     backgroundStyle,
     children,
     background = 'normal',
@@ -108,6 +109,7 @@ const Modal = React.forwardRef<Modal, ModalProps>((props, ref) => {
       enablePanDownToClose={enablePanDownToClose}
       enableHandlePanningGesture={enableHandlePanningGesture}
       touchBackdropBehavior={touchBackdropBehavior}
+      backdrop={backdrop}
       backgroundStyle={[{ backgroundColor }, backgroundStyle]}
       handleComponent={handleComponent}
       handleIndicatorStyle={[

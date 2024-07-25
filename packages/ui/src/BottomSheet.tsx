@@ -15,6 +15,7 @@ import { ConditionalWrapper } from './ConditionalWrapper';
 import { PortalProvider } from '@gorhom/portal';
 
 interface BottomSheetInterface extends BottomSheetProps {
+  backdrop?: boolean;
   innerRef: React.RefObject<BottomSheetModalMethods>;
   modalParent?: boolean;
   onDismiss?: () => void;
@@ -22,6 +23,7 @@ interface BottomSheetInterface extends BottomSheetProps {
 }
 
 const BottomSheet = ({
+  backdrop = true,
   children,
   innerRef,
   modalParent,
@@ -54,7 +56,7 @@ const BottomSheet = ({
       <BottomSheetModal
         ref={innerRef}
         index={0}
-        backdropComponent={renderBackdrop}
+        backdropComponent={backdrop ? renderBackdrop : null}
         stackBehavior={'push'}
         onDismiss={onDismiss}
         {...bottomSheetModalProps}>
