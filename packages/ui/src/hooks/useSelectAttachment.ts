@@ -59,6 +59,7 @@ export const useSelectAttachments = (baseOpts: {
     customButtonDestructive?: boolean;
     customButtonLabel?: string;
     multiSelect?: boolean;
+    cropRect?: { height: number; width: number };
     customButtonCallback?: () => void;
   }): Promise<Attachment[]> => {
     const buttons: string[] = [];
@@ -184,9 +185,9 @@ export const useSelectAttachments = (baseOpts: {
             height: asset.height,
             metadata: {},
             mimeType: asset.type,
-            name: asset.fileName,
+            name: asset.name,
             posterUri,
-            size: asset.fileSize,
+            size: asset.size,
             type: 'video',
             uri: asset.uri,
             width: asset.width,
@@ -194,10 +195,10 @@ export const useSelectAttachments = (baseOpts: {
         } else {
           selections.push({
             height: asset.height,
-            metadata: {},
+            metadata: asset.metadata,
             mimeType: asset.type,
-            name: asset.fileName,
-            size: asset.fileSize,
+            name: asset.name,
+            size: asset.size,
             type: 'image',
             uri: asset.uri,
             width: asset.width,

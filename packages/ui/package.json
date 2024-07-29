@@ -84,7 +84,6 @@
     "react-native-fs": "^2.20.0",
     "react-native-gravatar": "^1.0.2",
     "react-native-image-cache-wrapper": "github:ajp8164/react-native-image-cache-wrapper#parallel-fetch",
-    "react-native-image-picker": "^7.1.0",
     "react-native-linear-gradient": "^2.6.2",
     "react-native-reanimated": "^3.3.0",
     "react-native-sensors": "^7.3.6",

@@ -1,4 +1,4 @@
-import type { Asset } from 'react-native-image-picker';
+import type { Asset } from '../../lib/imageSelect';
 import type { MediaActionButton } from './views/MediaView';
 import type { RawMediaCapture } from './views/CameraView';
 import React from 'react';
