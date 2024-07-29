@@ -110,6 +110,7 @@ export const useSelectAttachments = (baseOpts: {
               ? opts.cameraRollMediaType
               : 'photo',
           multiSelect: opts.multiSelect,
+          cropRect: opts.cropRect,
           onSuccess: async assets => {
             const attachments = await createAssetAttachments(assets);
             resolve(attachments);
