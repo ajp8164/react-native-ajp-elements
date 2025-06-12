@@ -8,7 +8,7 @@ import {
   type ViewStyle,
 } from 'react-native';
 
-import React from 'react';
+import React, { JSX } from 'react';
 import { makeStyles } from '@rneui/themed';
 
 interface ListItemCheckbox {
@@ -17,7 +17,7 @@ interface ListItemCheckbox {
   bottomDividerRight?: number;
   checked: boolean;
   checkedColor?: string;
-  checkedIcon?: string | React.ReactElement;
+  checkedIcon?: string | React.ReactElement<object>;
   checkedIconSize?: number;
   checkIconType?: string;
   containerStyle?: ViewStyle | ViewStyle[];
@@ -34,7 +34,7 @@ interface ListItemCheckbox {
   title?: string;
   titleNumberOfLines?: number;
   titleStyle?: TextStyle | TextStyle[];
-  uncheckedIcon?: string | React.ReactElement;
+  uncheckedIcon?: string | React.ReactElement<object>;
   uncheckedColor?: string;
   wrapperStyle?: ViewStyle | ViewStyle[];
 }

@@ -3,6 +3,7 @@ import * as Sentry from '@sentry/react-native';
 import { getBuildNumber, getVersion } from 'react-native-device-info';
 
 import { AJPElements } from '..';
+import type { SentryTransportOptions } from '.';
 import type { SeverityLevel } from '@sentry/types';
 import type { transportFunctionType } from 'react-native-logs';
 
@@ -28,7 +29,9 @@ const init = (userId?: string) => {
   }
 };
 
-const sentryTransport: transportFunctionType = props => {
+const sentryTransport: transportFunctionType<
+  SentryTransportOptions
+> = props => {
   if (props.level.text.includes('session')) {
     return;
   }

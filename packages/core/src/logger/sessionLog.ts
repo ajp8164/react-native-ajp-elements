@@ -4,6 +4,7 @@ import { DateTime } from 'luxon';
 import type { LogEntry } from '@react-native-ajp-elements/common';
 import { Platform } from 'react-native';
 import type { transportFunctionType } from 'react-native-logs';
+import type { SentryTransportOptions } from '.';
 
 const MAX_ENTRIES = 1000;
 const sessionLogContent: LogEntry[] = [];
@@ -14,7 +15,10 @@ const header = `\n${device} Version ${version}\n${DateTime.now().toFormat(
   'D, t ZZZZ',
 )}\n\n`;
 
-const sessionTransport: transportFunctionType = ({ msg, level }) => {
+const sessionTransport: transportFunctionType<SentryTransportOptions> = ({
+  msg,
+  level,
+}) => {
   if (sessionLogContent.length > MAX_ENTRIES) {
     sessionLogContent.shift();
   }

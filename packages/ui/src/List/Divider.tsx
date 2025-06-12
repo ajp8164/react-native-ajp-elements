@@ -2,7 +2,7 @@ import { AppTheme, fontFamily, fontSizes, useTheme } from '../theme';
 import { View, ViewStyle } from 'react-native';
 
 import { Divider as RNEDivider } from '@rneui/base';
-import React from 'react';
+import React, { JSX } from 'react';
 import { makeStyles } from '@rneui/themed';
 
 interface Divider {

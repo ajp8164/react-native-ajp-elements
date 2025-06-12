@@ -8,7 +8,7 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import React, { ReactNode, useRef } from 'react';
+import React, { JSX, ReactNode, useRef } from 'react';
 
 import Drawer from 'react-native-ui-lib/drawer';
 import type { DrawerItemProps } from 'react-native-ui-lib';

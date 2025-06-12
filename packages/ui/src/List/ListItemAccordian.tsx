@@ -7,7 +7,7 @@ import {
   type TextStyle,
   type ViewStyle,
 } from 'react-native';
-import React, { ReactNode, useState } from 'react';
+import React, { JSX, ReactNode, useState } from 'react';
 
 import { makeStyles } from '@rneui/themed';
 

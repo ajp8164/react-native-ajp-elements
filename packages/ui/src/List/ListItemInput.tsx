@@ -18,7 +18,7 @@ import {
   FakeCurrencyInputProps,
 } from 'react-native-currency-input';
 
-import React from 'react';
+import React, { JSX } from 'react';
 import { makeStyles } from '@rneui/themed';
 
 interface ListItemInput {

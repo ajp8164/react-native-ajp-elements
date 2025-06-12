@@ -20,8 +20,13 @@ import {
   View,
   type ViewStyle,
 } from 'react-native';
-import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
-
+import React, {
+  JSX,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from 'react';
 import { AppleStyleSwipeableRow } from './AppleSwipeableRow';
 import type { Swipeable } from 'react-native-gesture-handler';
 import type { SwipeableItem } from '.';

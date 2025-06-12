@@ -1,9 +1,8 @@
-import { FFmpegKit, ReturnCode } from 'ffmpeg-kit-react-native';
 import { LibraryMediaType, selectImage } from '../lib/imageSelect';
 import type { MediaAsset, MediaCapture } from '../modals/CameraModal';
 
 import DocumentPicker from 'react-native-document-picker';
-import RNFS from 'react-native-fs';
+// import RNFS from 'react-native-fs';
 import { log } from '@react-native-ajp-elements/core';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import { useCamera } from '../camera';
@@ -243,25 +242,27 @@ export const useSelectAttachments = (baseOpts: {
       return attachment;
     };
 
-    const createVideoPoster = async (videoUri: string) => {
-      const filename = videoUri.split('/').pop();
-      const posterUri = `${RNFS.CachesDirectoryPath}/${filename}.png`;
+    const createVideoPoster = async (_videoUri: string) => {
+      // const filename = videoUri.split('/').pop();
+      // const posterUri = `${RNFS.CachesDirectoryPath}/${filename}.png`;
       log.debug('Creating video poster...');
-      return await FFmpegKit.execute(
-        `-loglevel quiet -y -i ${videoUri} -frames:v 1 ${posterUri}`,
-      ).then(async session => {
-        const returnCode = await session.getReturnCode();
-        if (ReturnCode.isSuccess(returnCode)) {
-          log.debug('Done creating video poster');
-          return `file://${posterUri}`;
-        } else if (ReturnCode.isCancel(returnCode)) {
-          // Canceled
-        } else {
-          log.debug('Error creating video poster');
-          // Error
-        }
-        return;
-      });
+      log.debug('Error creating video poster - not supported');
+      return '';
+      // return await FFmpegKit.execute(
+      //   `-loglevel quiet -y -i ${videoUri} -frames:v 1 ${posterUri}`,
+      // ).then(async session => {
+      //   const returnCode = await session.getReturnCode();
+      //   if (ReturnCode.isSuccess(returnCode)) {
+      //     log.debug('Done creating video poster');
+      //     return `file://${posterUri}`;
+      //   } else if (ReturnCode.isCancel(returnCode)) {
+      //     // Canceled
+      //   } else {
+      //     log.debug('Error creating video poster');
+      //     // Error
+      //   }
+      //   return;
+      // });
     };
 
     return new Promise<Attachment[]>((resolve, reject) => {

@@ -6,10 +6,13 @@ import type {
 } from 'react-native-vision-camera';
 import type { MediaType, PhotoFile, VideoFile } from './types';
 import {
-  PanGestureHandler,
+  Gesture,
+  GestureDetector,
+  // GestureStateChangeEvent,
+  // PanGestureHandler,
   PanGestureHandlerGestureEvent,
   State,
-  TapGestureHandler,
+  // TapGestureHandler,
   TapGestureHandlerStateChangeEvent,
 } from 'react-native-gesture-handler';
 import React, { useCallback, useMemo, useRef } from 'react';
@@ -29,14 +32,15 @@ import { Text, View, ViewProps } from 'react-native';
 
 import { log } from '@react-native-ajp-elements/core';
 import { makeStyles } from '@rneui/themed';
+// import { Gesture } from 'react-native-gesture-handler/lib/typescript/handlers/gestures/gesture';
 
 const captureButtonSize = 85;
-const panGestureHandlerFailX = [-viewport.width, viewport.width];
-const panGestureHandlerActiveY = [-2, 2];
+// const panGestureHandlerFailX = [-viewport.width, viewport.width];
+// const panGestureHandlerActiveY = [-2, 2];
 const startRecordingDelay = 200;
 
 interface Props extends ViewProps {
-  camera: React.RefObject<Camera>;
+  camera: React.RefObject<Camera | null>;
   onMediaCaptured: (media: PhotoFile | VideoFile, type: MediaType) => void;
   minZoom: number;
   maxZoom: number;
@@ -144,7 +148,7 @@ const _CaptureButton: React.FC<Props> = ({
   //#endregion
 
   //#region Tap handler
-  const tapHandler = useRef<TapGestureHandler>();
+  // const tapHandler = useRef(null);
   const onHandlerStateChanged = useCallback(
     async ({ nativeEvent: event }: TapGestureHandlerStateChangeEvent) => {
       // This is the gesture handler for the circular "shutter" button.
@@ -214,7 +218,7 @@ const _CaptureButton: React.FC<Props> = ({
   //#endregion
 
   //#region Pan handler
-  const panHandler = useRef<PanGestureHandler>();
+  // const panHandler = useRef(null);
   const onPanGestureEvent = useAnimatedGestureHandler<
     PanGestureHandlerGestureEvent,
     { offsetY?: number; startY?: number }
@@ -296,32 +300,55 @@ const _CaptureButton: React.FC<Props> = ({
     };
   }, [enabled, isPressingButton]);
 
+  const tapGesture = Gesture.Tap()
+    .enabled(enabled)
+    .shouldCancelWhenOutside(false)
+    .maxDuration(99999999);
+  tapGesture.handlers.onChange = onHandlerStateChanged;
+
+  const panGesture = Gesture.Pan()
+    .enabled(enabled)
+    .failOffsetX([-viewport.width, viewport.width])
+    .activeOffsetY([-2, 2]);
+  panGesture.handlers.onChange = onPanGestureEvent;
+
   return (
-    <TapGestureHandler
-      enabled={enabled}
-      ref={tapHandler}
-      onHandlerStateChange={onHandlerStateChanged}
-      shouldCancelWhenOutside={false}
-      maxDurationMs={99999999} // <-- this prevents the TapGestureHandler from going to State.FAILED when the user moves his finger outside of the child view (to zoom)
-      simultaneousHandlers={panHandler}>
+    // <TapGestureHandler
+    //   enabled={enabled}
+    //   ref={tapHandler}
+    //   onHandlerStateChange={onHandlerStateChanged}
+    //   shouldCancelWhenOutside={false}
+    //   maxDurationMs={99999999} // <-- this prevents the TapGestureHandler from going to State.FAILED when the user moves his finger outside of the child view (to zoom)
+    //   simultaneousHandlers={panHandler}>
+    //   <Reanimated.View {...props} style={[buttonStyle, style]}>
+    //     <PanGestureHandler
+    //       enabled={enabled}
+    //       ref={panHandler}
+    //       failOffsetX={panGestureHandlerFailX}
+    //       activeOffsetY={panGestureHandlerActiveY}
+    //       onGestureEvent={onPanGestureEvent}
+    //       simultaneousHandlers={tapHandler}>
+    //       <Reanimated.View style={s.flex}>
+    //         <Reanimated.View style={[s.shadow, shadowStyle]} />
+    //         <View style={s.buttonOuter}>
+    //           <View style={s.buttonInner} />
+    //         </View>
+    //         <Text style={s.buttonInfo}>{'Press and hold for video'}</Text>
+    //       </Reanimated.View>
+    //     </PanGestureHandler>
+    //   </Reanimated.View>
+    // </TapGestureHandler>
+    <GestureDetector gesture={Gesture.Race(tapGesture, panGesture)}>
       <Reanimated.View {...props} style={[buttonStyle, style]}>
-        <PanGestureHandler
-          enabled={enabled}
-          ref={panHandler}
-          failOffsetX={panGestureHandlerFailX}
-          activeOffsetY={panGestureHandlerActiveY}
-          onGestureEvent={onPanGestureEvent}
-          simultaneousHandlers={tapHandler}>
-          <Reanimated.View style={s.flex}>
-            <Reanimated.View style={[s.shadow, shadowStyle]} />
-            <View style={s.buttonOuter}>
-              <View style={s.buttonInner} />
-            </View>
-            <Text style={s.buttonInfo}>{'Press and hold for video'}</Text>
-          </Reanimated.View>
-        </PanGestureHandler>
+        <Reanimated.View style={s.flex}>
+          <Reanimated.View style={[s.shadow, shadowStyle]} />
+          <View style={s.buttonOuter}>
+            <View style={s.buttonInner} />
+          </View>
+          <Text style={s.buttonInfo}>{'Press and hold for video'}</Text>
+        </Reanimated.View>
       </Reanimated.View>
-    </TapGestureHandler>
+    </GestureDetector>
   );
 };
 

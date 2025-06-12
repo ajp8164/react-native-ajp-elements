@@ -3,6 +3,14 @@ import { init as initSentry, sentryTransport } from './sentryLog';
 
 import { logger } from 'react-native-logs';
 
+export type SentryTransportOptions = {
+  msg?: string;
+  level?: {
+    severity: number;
+    text: string;
+  };
+};
+
 const init = (userId?: string) => {
   initSentry(userId);
 };

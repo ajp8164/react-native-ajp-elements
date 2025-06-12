@@ -1,3 +1,5 @@
+import type { JSX } from 'react';
+
 export interface ConditionalWrapperInterface {
   condition: boolean;
   wrapper: (children: JSX.Element) => JSX.Element;
