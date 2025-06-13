@@ -8,7 +8,8 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import { type AppTheme, useTheme } from '../theme';
-import { Avatar, Badge, Icon, ListItem as RNEListItem } from '@rneui/base';
+import { Avatar, Badge, Icon, ListItem as RNEListItem } from '@rn-vui/base';
+import type { IconProps } from'react-native-vector-icons/Icon';
 import {
   type ColorValue,
   type ImageSourcePropType,
@@ -30,7 +31,7 @@ import React, {
 import { AppleStyleSwipeableRow } from './AppleSwipeableRow';
 import type { Swipeable } from 'react-native-gesture-handler';
 import type { SwipeableItem } from '.';
-import { makeStyles } from '@rneui/themed';
+import { makeStyles } from '@rn-vui/themed';
 
 const dragHandleWidth = 44;
 const editButtonWidth = 44;
@@ -459,7 +460,7 @@ const ListItem = React.forwardRef<ListItemMethods, ListItem>(
                 </RNEListItem.Content>
               ) : rightImage ? (
                 <RNEListItem.Chevron
-                  iconProps={theme.styles.listItemIconProps}
+                  iconProps={theme.styles.listItemIconProps as IconProps}
                   containerStyle={[
                     alignContent === 'top' ? s.alignTop : {},
                     s.rightImage,

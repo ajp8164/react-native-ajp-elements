@@ -1,5 +1,5 @@
 import { AppTheme, useTheme } from '../theme';
-import { Avatar, Badge, Icon, ListItem } from '@rneui/base';
+import { Avatar, Badge, Icon, ListItem } from '@rn-vui/base';
 import {
   View,
   type ImageSourcePropType,
@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import React, { JSX, ReactNode, useState } from 'react';
 
-import { makeStyles } from '@rneui/themed';
+import { makeStyles } from '@rn-vui/themed';
 
 // 'imageType' specifies a valid RNE icon set
 // See https://reactnativeelements.com/docs/components/icon#available-icon-sets

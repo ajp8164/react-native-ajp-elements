@@ -1,11 +1,11 @@
 import { AppTheme, useTheme } from '../theme';
-import { Button, Icon } from '@rneui/base';
+import { Button, Icon } from '@rn-vui/base';
 import { LayoutChangeEvent, Text, TextStyle, View } from 'react-native';
 
 import { BlurBackground } from '../BlurBackground';
 import React from 'react';
 import type { ViewStyle } from 'react-native';
-import { makeStyles } from '@rneui/themed';
+import { makeStyles } from '@rn-vui/themed';
 
 interface ModalHeaderInterface {
   blurBackground?: boolean;

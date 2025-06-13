@@ -1,9 +1,9 @@
 import { AppTheme, useTheme } from './theme';
 import { Text, TextStyle, TouchableOpacity, ViewStyle } from 'react-native';
 
-import { Avatar } from '@rneui/base';
+import { Avatar } from '@rn-vui/base';
 import React from 'react';
-import { makeStyles } from '@rneui/themed';
+import { makeStyles } from '@rn-vui/themed';
 
 interface ActionButton {
   buttonStyle?: ViewStyle;

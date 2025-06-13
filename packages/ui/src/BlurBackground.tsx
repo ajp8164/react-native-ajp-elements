@@ -3,7 +3,7 @@ import { BlurView, BlurViewProps } from '@react-native-community/blur';
 
 import { Platform } from 'react-native';
 import React from 'react';
-import { makeStyles } from '@rneui/themed';
+import { makeStyles } from '@rn-vui/themed';
 
 const BlurBackground = React.memo(
   ({ style, ...props }: BlurViewProps): React.ReactElement | null => {

@@ -21,7 +21,7 @@ import {
 import React, { ReactNode } from 'react';
 
 import LinearGradient from 'react-native-linear-gradient';
-import { makeStyles } from '@rneui/themed';
+import { makeStyles } from '@rn-vui/themed';
 import { useState } from 'react';
 
 const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient);

@@ -1,5 +1,5 @@
 import { AppTheme, useTheme } from '../theme';
-import { Avatar, Badge, Icon, ListItem } from '@rneui/base';
+import { Avatar, Badge, Icon, ListItem } from '@rn-vui/base';
 import {
   ImageSourcePropType,
   LayoutAnimation,
@@ -12,7 +12,8 @@ import React, { JSX, ReactNode, useRef } from 'react';
 
 import Drawer from 'react-native-ui-lib/drawer';
 import type { DrawerItemProps } from 'react-native-ui-lib';
-import { makeStyles } from '@rneui/themed';
+import { makeStyles } from '@rn-vui/themed';
+import type { IconProps } from'react-native-vector-icons/Icon';
 
 // 'imageType' specifies a valid RNE icon set
 // See https://reactnativeelements.com/docs/components/icon#available-icon-sets
@@ -221,7 +222,7 @@ const ListItemSwipable = ({
             />
           </ListItem.Content>
         ) : rightImage ? (
-          <ListItem.Chevron iconProps={theme.styles.listItemIconProps} />
+          <ListItem.Chevron iconProps={theme.styles.listItemIconProps as IconProps} />
         ) : null}
       </ListItem>
     </Drawer>

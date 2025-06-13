@@ -1,4 +1,4 @@
-import { StyleSheet, View, ViewProps } from 'react-native';
+import { DimensionValue, StyleSheet, View, ViewProps } from 'react-native';
 import Svg, { Defs, LinearGradient, Rect, Stop } from 'react-native-svg';
 
 import React from 'react';
@@ -10,7 +10,7 @@ type GradientProps = {
   toStop?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   children?: any;
-  height?: number | string;
+  height?: DimensionValue | undefined;
   opacityColor1?: number;
   opacityColor2?: number;
 } & ViewProps;

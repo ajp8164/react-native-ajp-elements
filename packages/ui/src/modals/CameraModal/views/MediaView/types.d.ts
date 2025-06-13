@@ -1,4 +1,4 @@
-import { IconProps } from '@rneui/base';
+import { IconProps } from '@rn-vui/base';
 import { MediaType } from '../CameraView';
 import React from 'react';
 import { ViewStyle } from 'react-native';

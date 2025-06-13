@@ -4,7 +4,7 @@ import {
   ImageStyle,
 } from 'react-native';
 
-import { Image } from '@rneui/base';
+import { Image } from '@rn-vui/base';
 import RNCachedImage from 'react-native-image-cache-wrapper';
 import React from 'react';
 import { useTheme } from './theme';

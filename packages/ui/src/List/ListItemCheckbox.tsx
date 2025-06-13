@@ -1,5 +1,5 @@
 import { AppTheme, useTheme } from '../theme';
-import { Avatar, CheckBox, Icon, ListItem } from '@rneui/base';
+import { Avatar, CheckBox, Icon, ListItem } from '@rn-vui/base';
 import {
   View,
   type ImageSourcePropType,
@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 
 import React, { JSX } from 'react';
-import { makeStyles } from '@rneui/themed';
+import { makeStyles } from '@rn-vui/themed';
 
 interface ListItemCheckbox {
   bottomDividerColor?: string;

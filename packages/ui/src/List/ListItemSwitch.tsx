@@ -1,5 +1,5 @@
 import { AppTheme, useTheme } from '../theme';
-import { Avatar, Icon, ListItem, Switch } from '@rneui/base';
+import { Avatar, Icon, ListItem, Switch } from '@rn-vui/base';
 import {
   View,
   type ImageSourcePropType,
@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 
 import React, { JSX } from 'react';
-import { makeStyles } from '@rneui/themed';
+import { makeStyles } from '@rn-vui/themed';
 
 interface ListItemSwitch {
   bottomDividerColor?: string;

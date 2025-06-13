@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 
 import { useColorScheme } from 'react-native';
 import { useEffect } from 'react';
-import { useTheme } from '@rneui/themed';
+import { useTheme } from '@rn-vui/themed';
 
 interface Props {
   children: ReactNode;

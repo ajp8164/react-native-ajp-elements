@@ -1,5 +1,5 @@
 import { AppTheme, useTheme } from '../theme';
-import { Avatar, Icon, ListItem } from '@rneui/base';
+import { Avatar, Icon, ListItem } from '@rn-vui/base';
 import {
   ColorValue,
   ImageSourcePropType,
@@ -19,7 +19,7 @@ import {
 } from 'react-native-currency-input';
 
 import React, { JSX } from 'react';
-import { makeStyles } from '@rneui/themed';
+import { makeStyles } from '@rn-vui/themed';
 
 interface ListItemInput {
   autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters' | undefined;

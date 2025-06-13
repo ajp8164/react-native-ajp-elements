@@ -1,5 +1,5 @@
 import { AppTheme, useTheme } from '../../../../theme';
-import { Button, Icon } from '@rneui/base';
+import { Button, Icon } from '@rn-vui/base';
 import { Image, StyleSheet, View } from 'react-native';
 import type { MediaViewMethods, MediaViewProps } from './types';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
@@ -8,7 +8,7 @@ import Video, { LoadError, OnLoadData } from 'react-native-video';
 import type { ImageLoadEventData } from 'react-native';
 import type { NativeSyntheticEvent } from 'react-native';
 import { log } from '@react-native-ajp-elements/core';
-import { makeStyles } from '@rneui/themed';
+import { makeStyles } from '@rn-vui/themed';
 import { saveToCameraRoll } from '../../helpers';
 import { useIsFocused } from '@react-navigation/core';
 import { useIsForeground } from '../../../../hooks/useIsForeground';

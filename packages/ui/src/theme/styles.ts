@@ -2,7 +2,7 @@ import { Dimensions, Platform } from 'react-native';
 
 import type { Styles } from './types/Styles';
 import { Typography } from 'react-native-ui-lib';
-import { makeStyles } from '@rneui/themed';
+import { makeStyles } from '@rn-vui/themed';
 
 export const fontFamily =
   Platform.OS === 'ios' ? 'SFUIText-Regular' : 'SFUIText-Regular';

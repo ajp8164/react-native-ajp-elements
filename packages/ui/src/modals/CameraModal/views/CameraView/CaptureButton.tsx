@@ -31,7 +31,7 @@ import Reanimated, {
 import { Text, View, ViewProps } from 'react-native';
 
 import { log } from '@react-native-ajp-elements/core';
-import { makeStyles } from '@rneui/themed';
+import { makeStyles } from '@rn-vui/themed';
 // import { Gesture } from 'react-native-gesture-handler/lib/typescript/handlers/gestures/gesture';
 
 const captureButtonSize = 85;

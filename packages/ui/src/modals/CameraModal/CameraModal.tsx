@@ -24,7 +24,7 @@ import { StatusBar, View } from 'react-native';
 import type { BottomSheetModalMethods } from '@gorhom/bottom-sheet/lib/typescript/types';
 import { Modal } from '../Modal';
 import { ModalHeader } from '../ModalHeader';
-import { makeStyles } from '@rneui/themed';
+import { makeStyles } from '@rn-vui/themed';
 import { saveToCameraRoll } from './helpers';
 import { selectImage } from '../../lib/imageSelect';
 import { useSetState } from '@react-native-ajp-elements/core';

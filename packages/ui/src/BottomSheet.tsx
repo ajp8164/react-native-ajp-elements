@@ -56,7 +56,7 @@ const BottomSheet = ({
       <BottomSheetModal
         ref={innerRef}
         index={0}
-        backdropComponent={backdrop ? renderBackdrop : null}
+        backdropComponent={backdrop ? renderBackdrop : () => null}
         stackBehavior={'push'}
         onDismiss={onDismiss}
         {...bottomSheetModalProps}>

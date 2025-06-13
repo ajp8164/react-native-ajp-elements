@@ -7,7 +7,7 @@ import { fontFamily, useTheme, viewport } from './theme';
 
 import { Picker as RNPicker } from '@react-native-picker/picker';
 import { isEqual } from 'lodash';
-import { makeStyles } from '@rneui/themed';
+import { makeStyles } from '@rn-vui/themed';
 
 type PickerInternalValue = string | Date;
 type PickerInternalOnChangeValue = {

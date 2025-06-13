@@ -1,12 +1,12 @@
 import { AppTheme, getColoredSvg, useTheme } from './theme';
-import { Badge, Icon, Image } from '@rneui/base';
+import { Badge, Icon, Image } from '@rn-vui/base';
 import { ImageSourcePropType, TextStyle, View, ViewStyle } from 'react-native';
 
 import type { Avatar } from '@react-native-ajp-elements/common';
 import { Gravatar } from 'react-native-gravatar';
 import React from 'react';
 import { SvgXml } from 'react-native-svg';
-import { makeStyles } from '@rneui/themed';
+import { makeStyles } from '@rn-vui/themed';
 
 interface AvatarPlus {
   iconName?: string;

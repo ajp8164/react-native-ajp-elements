@@ -1,9 +1,9 @@
 import { AppTheme, fontFamily, fontSizes, useTheme } from '../theme';
 import { View, ViewStyle } from 'react-native';
 
-import { Divider as RNEDivider } from '@rneui/base';
+import { Divider as RNEDivider } from '@rn-vui/base';
 import React, { JSX } from 'react';
-import { makeStyles } from '@rneui/themed';
+import { makeStyles } from '@rn-vui/themed';
 
 interface Divider {
   color?: string;

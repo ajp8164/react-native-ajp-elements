@@ -1,4 +1,4 @@
-import type { ThemeMode } from '@rneui/themed';
+import type { ThemeMode } from '@rn-vui/themed';
 
 export type ThemeTarget = 'device' | 'app';
 

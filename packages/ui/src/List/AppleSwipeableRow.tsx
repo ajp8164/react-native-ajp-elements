@@ -8,10 +8,10 @@ import React, {
   useRef,
 } from 'react';
 
-import { Icon } from '@rneui/base';
+import { Icon } from '@rn-vui/base';
 import { Swipeable } from 'react-native-gesture-handler';
 import type { SwipeableItem } from './index';
-import { makeStyles } from '@rneui/themed';
+import { makeStyles } from '@rn-vui/themed';
 
 interface AppleStyleSwipeableRow {
   children: ReactNode | ReactNode[];

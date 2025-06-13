@@ -10,7 +10,7 @@ import React, {
 import { BottomSheet } from '../../BottomSheet';
 import type { BottomSheetModalMethods } from '@gorhom/bottom-sheet/lib/typescript/types';
 import { BottomSheetScrollView } from '@gorhom/bottom-sheet';
-import { makeStyles } from '@rneui/themed';
+import { makeStyles } from '@rn-vui/themed';
 
 type Modal = ModalMethods;
 

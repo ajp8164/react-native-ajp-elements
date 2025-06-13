@@ -1,4 +1,4 @@
-import '@rneui/themed';
+import '@rn-vui/themed';
 
 export interface ColorSet {
   readonly brandPrimary: string;
@@ -81,7 +81,7 @@ export interface ColorSet {
   readonly switchOnTrack: string;
 }
 
-declare module '@rneui/themed' {
+declare module '@rn-vui/themed' {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
   export interface Colors extends ColorSet {}
 }

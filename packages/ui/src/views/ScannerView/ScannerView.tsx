@@ -2,11 +2,11 @@ import { AppTheme, useTheme } from '../../theme';
 import React, { useImperativeHandle } from 'react';
 import type { ScannerViewMethods, ScannerViewProps } from './types';
 
-import { Button } from '@rneui/base';
+import { Button } from '@rn-vui/base';
 import { Camera } from 'react-native-camera-kit';
 import { View } from 'react-native';
 import lodash from 'lodash';
-import { makeStyles } from '@rneui/themed';
+import { makeStyles } from '@rn-vui/themed';
 
 type ScannerView = ScannerViewMethods;
 

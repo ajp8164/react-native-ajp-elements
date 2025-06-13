@@ -2,7 +2,7 @@ import { AppTheme, useTheme } from './theme';
 import { Text, TextStyle, View } from 'react-native';
 
 import React, { JSX } from 'react';
-import { makeStyles } from '@rneui/themed';
+import { makeStyles } from '@rn-vui/themed';
 
 interface BulletList {
   type?: string;

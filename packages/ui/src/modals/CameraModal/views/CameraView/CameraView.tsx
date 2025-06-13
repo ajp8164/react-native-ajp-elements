@@ -31,7 +31,7 @@ import IonIcon from 'react-native-vector-icons/Ionicons';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { TouchableOpacity } from 'react-native';
 import { log } from '@react-native-ajp-elements/core';
-import { makeStyles } from '@rneui/themed';
+import { makeStyles } from '@rn-vui/themed';
 import { useEffect } from 'react';
 import { useIsFocused } from '@react-navigation/core';
 import { useIsForeground } from '../../../../hooks/useIsForeground';

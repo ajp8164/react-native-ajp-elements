@@ -1,6 +1,12 @@
-import type { TextStyle, ViewStyle } from 'react-native';
+import type { ColorValue, TextProps, TextStyle, ViewStyle } from 'react-native';
 
-import type { IconProps } from 'react-native-vector-icons/Icon';
+// import type { IconProps } from 'react-native-vector-icons/Icon';
+// Not using import since color has a possible type `number` (not allowed by our typing)
+export interface IconProps extends TextProps {
+  size?: number | undefined;
+  name: string;
+  color?: ColorValue | undefined; // removed `number`
+}
 
 export type Styles = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

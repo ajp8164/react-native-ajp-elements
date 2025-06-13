@@ -1,9 +1,9 @@
 import { AppTheme, useTheme, viewport } from './theme';
-import { Button, Icon } from '@rneui/base';
+import { Button, Icon } from '@rn-vui/base';
 import { InputAccessoryView, Keyboard, View } from 'react-native';
 
 import React from 'react';
-import { makeStyles } from '@rneui/themed';
+import { makeStyles } from '@rn-vui/themed';
 
 interface KeyboardAccessory {
   nextDisabled?: boolean;
