@@ -1,7 +1,7 @@
 import { LibraryMediaType, selectImage } from '../lib/imageSelect';
 import type { MediaAsset, MediaCapture } from '../modals/CameraModal';
 
-import DocumentPicker from 'react-native-document-picker';
+import DocumentPicker from '@react-native-documents/picker';
 // import RNFS from 'react-native-fs';
 import { log } from '@react-native-ajp-elements/core';
 import { useActionSheet } from '@expo/react-native-action-sheet';
