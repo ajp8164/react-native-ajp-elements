@@ -77,7 +77,7 @@
     "react-native": ">=0.70",
     "react-native-animated-dots-carousel": "^1.0.2",
     "react-native-biometrics": "^3.0.1",
-    "react-native-camera-kit": "^13.0.0",
+    "react-native-camera-kit": "^15.1.0",
     "react-native-currency-input": "^1.1.1",
     "react-native-device-info": "^14.0.4",
     "react-native-document-picker": "^9.1.1",
@@ -91,7 +91,7 @@
     "react-native-svg": "^15.11.1",
     "react-native-ui-lib": "^7.14.4",
     "react-native-video": "^5.2.1",
-    "react-native-vision-camera": "^4.6.4",
+    "react-native-vision-camera": "^4.7.0",
     "react-native-webview": "^13.13.5"
   },
   "jest": {
