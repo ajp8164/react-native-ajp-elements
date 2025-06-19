@@ -29,6 +29,7 @@
     "@babel/runtime": "^7.27.6",
     "@evilmartians/lefthook": "^1.11.14",
     "@lerna-lite/cli": "^4.4.1",
+    "@lerna-lite/publish": "^4.4.1",
     "@lerna-lite/run": "^4.4.1",
     "@react-native-community/eslint-config": "^3.2.0",
     "@react-native/babel-preset": "0.79.3",
