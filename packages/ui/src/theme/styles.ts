@@ -86,8 +86,8 @@ export const useStyles = makeStyles(
       overflow: 'hidden',
     },
     listItemBorder: {
-      marginLeft: 15,
-      marginRight: 0,
+      left: 15,
+      right: 0,
       borderColor: theme.colors.listItemBorder,
     },
     listItemTitle: {
