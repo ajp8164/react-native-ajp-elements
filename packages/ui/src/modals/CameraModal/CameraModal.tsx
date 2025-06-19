@@ -1,4 +1,4 @@
-import { AppTheme, useTheme, viewport } from '../../theme';
+import { type AppTheme, useTheme, viewport } from '../../theme';
 import type {
   CameraModalMethods,
   CameraModalProps,
@@ -9,14 +9,14 @@ import type {
   PresentInterface,
 } from './types';
 import CameraView, {
-  CameraViewMethods,
-  MediaType,
-  PhotoFile,
-  VideoFile,
+  type CameraViewMethods,
+  type MediaType,
+  type PhotoFile,
+  type VideoFile,
 } from './views/CameraView';
 import MediaView, {
-  MediaActionButton,
-  MediaViewMethods,
+  type MediaActionButton,
+  type MediaViewMethods,
 } from './views/MediaView';
 import React, { useImperativeHandle, useRef } from 'react';
 import { StatusBar, View } from 'react-native';

@@ -9,7 +9,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { type AppTheme, useTheme } from '../theme';
 import { Avatar, Badge, Icon, ListItem as RNEListItem } from '@rn-vui/base';
-import type { IconProps } from'react-native-vector-icons/Icon';
+import type { IconProps } from 'react-native-vector-icons/Icon';
 import {
   type ColorValue,
   type ImageSourcePropType,
@@ -22,7 +22,7 @@ import {
   type ViewStyle,
 } from 'react-native';
 import React, {
-  JSX,
+  type ReactNode,
   useEffect,
   useImperativeHandle,
   useRef,
@@ -96,9 +96,9 @@ interface ListItem {
     onEditItem?: () => void;
     reorder: boolean;
   };
-  extraContentComponent?: JSX.Element;
+  extraContentComponent?: ReactNode;
   leftContainerStyle?: ViewStyle | ViewStyle[];
-  leftImage?: ImageSourcePropType | JSX.Element | string;
+  leftImage?: ImageSourcePropType | ReactNode | string;
   leftImageColor?: string;
   leftImageSize?: number;
   leftImageType?: string;
@@ -113,7 +113,7 @@ interface ListItem {
   onSwipeableWillOpen?: (direction: 'left' | 'right') => void;
   placeholder?: string;
   position?: ('first' | 'last' | undefined)[];
-  rightImage?: ImageSourcePropType | JSX.Element | string | boolean;
+  rightImage?: ImageSourcePropType | ReactNode | string | boolean;
   rightImageColor?: string;
   rightImageSize?: number;
   rightImageType?: string;
@@ -122,13 +122,13 @@ interface ListItem {
     leftItems?: SwipeableItem[];
     rightItems?: SwipeableItem[];
   };
-  subtitle?: string | JSX.Element;
+  subtitle?: string | ReactNode;
   subtitleNumberOfLines?: number;
   subtitleStyle?: TextStyle | TextStyle[];
-  title?: string | JSX.Element;
+  title?: string | ReactNode;
   titleNumberOfLines?: number;
   titleStyle?: TextStyle | TextStyle[];
-  value?: string | JSX.Element;
+  value?: string | ReactNode;
   valueStyle?: TextStyle | TextStyle[];
   zeroEdgeContent?: boolean;
 }

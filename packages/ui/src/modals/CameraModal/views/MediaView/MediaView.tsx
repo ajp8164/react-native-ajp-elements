@@ -1,9 +1,12 @@
-import { AppTheme, useTheme } from '../../../../theme';
+import { type AppTheme, useTheme } from '../../../../theme';
 import { Button, Icon } from '@rn-vui/base';
 import { Image, StyleSheet, View } from 'react-native';
 import type { MediaViewMethods, MediaViewProps } from './types';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
-import Video, { LoadError, OnLoadData } from 'react-native-video';
+import Video, {
+  type OnVideoErrorData,
+  type OnLoadData,
+} from 'react-native-video';
 
 import type { ImageLoadEventData } from 'react-native';
 import type { NativeSyntheticEvent } from 'react-native';
@@ -59,7 +62,7 @@ const MediaView = React.forwardRef<MediaView, MediaViewProps>((props, _ref) => {
     setHasMediaLoaded(true);
   }, []);
 
-  const onMediaLoadError = useCallback((error: LoadError) => {
+  const onMediaLoadError = useCallback((error: OnVideoErrorData) => {
     log.debug(`Failed to load media: ${JSON.stringify(error)}`);
   }, []);
 

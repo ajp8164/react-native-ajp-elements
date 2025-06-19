@@ -1,4 +1,4 @@
-import { AppTheme, useTheme } from '../theme';
+import { type AppTheme, useTheme } from '../theme';
 import { Avatar, CheckBox, Icon, ListItem } from '@rn-vui/base';
 import {
   View,
@@ -8,7 +8,7 @@ import {
   type ViewStyle,
 } from 'react-native';
 
-import React, { JSX } from 'react';
+import React, { type ReactNode } from 'react';
 import { makeStyles } from '@rn-vui/themed';
 
 interface ListItemCheckbox {
@@ -22,7 +22,7 @@ interface ListItemCheckbox {
   checkIconType?: string;
   containerStyle?: ViewStyle | ViewStyle[];
   disabled?: boolean;
-  leftImage?: ImageSourcePropType | JSX.Element | string;
+  leftImage?: ImageSourcePropType | ReactNode | string;
   leftImageColor?: string;
   leftImageSize?: number;
   leftImageType?: string;

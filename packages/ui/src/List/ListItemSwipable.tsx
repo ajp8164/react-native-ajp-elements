@@ -1,19 +1,19 @@
-import { AppTheme, useTheme } from '../theme';
+import { type AppTheme, useTheme } from '../theme';
 import { Avatar, Badge, Icon, ListItem } from '@rn-vui/base';
 import {
-  ImageSourcePropType,
+  type ImageSourcePropType,
   LayoutAnimation,
   StyleSheet,
-  TextStyle,
+  type TextStyle,
   View,
-  ViewStyle,
+  type ViewStyle,
 } from 'react-native';
-import React, { JSX, ReactNode, useRef } from 'react';
+import React, { type ReactNode, useRef } from 'react';
 
 import Drawer from 'react-native-ui-lib/drawer';
 import type { DrawerItemProps } from 'react-native-ui-lib';
 import { makeStyles } from '@rn-vui/themed';
-import type { IconProps } from'react-native-vector-icons/Icon';
+import type { IconProps } from 'react-native-vector-icons/Icon';
 
 // 'imageType' specifies a valid RNE icon set
 // See https://reactnativeelements.com/docs/components/icon#available-icon-sets
@@ -27,14 +27,14 @@ interface ListItemSwipable {
   containerStyle?: ViewStyle | ViewStyle[];
   fullSwipeLeftDestructive?: boolean;
   fullSwipeRightDestructive?: boolean;
-  leftImage?: ImageSourcePropType | JSX.Element | string;
+  leftImage?: ImageSourcePropType | ReactNode | string;
   leftImageColor?: string;
   leftImageType?: string;
   leftImageSize?: number;
   leftItem?: DrawerItemProps;
   onPress?: () => void;
   position?: ('first' | 'last' | undefined)[];
-  rightImage?: ImageSourcePropType | JSX.Element | string | boolean;
+  rightImage?: ImageSourcePropType | ReactNode | string | boolean;
   rightImageColor?: string;
   rightImageSize?: number;
   rightImageType?: string;
@@ -43,7 +43,7 @@ interface ListItemSwipable {
   subtitleStyle?: TextStyle | TextStyle[];
   title?: string | ReactNode;
   titleStyle?: TextStyle | TextStyle[];
-  value?: string | JSX.Element;
+  value?: string | ReactNode;
   valueStyle?: TextStyle | TextStyle[];
 }
 
@@ -222,7 +222,9 @@ const ListItemSwipable = ({
             />
           </ListItem.Content>
         ) : rightImage ? (
-          <ListItem.Chevron iconProps={theme.styles.listItemIconProps as IconProps} />
+          <ListItem.Chevron
+            iconProps={theme.styles.listItemIconProps as IconProps}
+          />
         ) : null}
       </ListItem>
     </Drawer>

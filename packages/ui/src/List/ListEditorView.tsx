@@ -1,6 +1,6 @@
-import { AppTheme, useTheme } from '../theme';
-import { Pressable, ViewProps } from 'react-native';
-import React, { ReactNode } from 'react';
+import { type AppTheme, useTheme } from '../theme';
+import { Pressable, type ViewProps } from 'react-native';
+import React, { type ReactNode } from 'react';
 
 import { makeStyles } from '@rn-vui/themed';
 

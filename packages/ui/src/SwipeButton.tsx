@@ -12,17 +12,16 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
-import { AppTheme, useTheme } from './theme';
+import { type AppTheme, useTheme } from './theme';
 import type { ColorValue, TextStyle, ViewStyle } from 'react-native';
 import {
   PanGestureHandler,
-  PanGestureHandlerGestureEvent,
+  type PanGestureHandlerGestureEvent,
 } from 'react-native-gesture-handler';
-import React, { ReactNode } from 'react';
+import React, { type ReactNode, useState } from 'react';
 
 import LinearGradient from 'react-native-linear-gradient';
 import { makeStyles } from '@rn-vui/themed';
-import { useState } from 'react';
 
 const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient);
 

@@ -1,5 +1,5 @@
-import { AppTheme, useTheme } from './theme';
-import { BlurView, BlurViewProps } from '@react-native-community/blur';
+import { type AppTheme, useTheme } from './theme';
+import { BlurView, type BlurViewProps } from '@react-native-community/blur';
 
 import { Platform } from 'react-native';
 import React from 'react';

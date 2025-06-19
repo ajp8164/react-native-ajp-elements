@@ -1,5 +1,10 @@
-import { AppTheme, useTheme } from './theme';
-import { Text, TextStyle, TouchableOpacity, ViewStyle } from 'react-native';
+import { type AppTheme, useTheme } from './theme';
+import {
+  Text,
+  type TextStyle,
+  TouchableOpacity,
+  type ViewStyle,
+} from 'react-native';
 
 import { Avatar } from '@rn-vui/base';
 import React from 'react';

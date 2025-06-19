@@ -1,4 +1,4 @@
-import { AppTheme, useTheme, viewport } from '../../../../theme';
+import { type AppTheme, useTheme, viewport } from '../../../../theme';
 import type {
   Camera,
   TakePhotoOptions,
@@ -10,10 +10,10 @@ import {
   GestureDetector,
   // GestureStateChangeEvent,
   // PanGestureHandler,
-  PanGestureHandlerGestureEvent,
+  type PanGestureHandlerGestureEvent,
   State,
   // TapGestureHandler,
-  TapGestureHandlerStateChangeEvent,
+  type TapGestureHandlerStateChangeEvent,
 } from 'react-native-gesture-handler';
 import React, { useCallback, useMemo, useRef } from 'react';
 import Reanimated, {
@@ -28,7 +28,7 @@ import Reanimated, {
   withSpring,
   withTiming,
 } from 'react-native-reanimated';
-import { Text, View, ViewProps } from 'react-native';
+import { Text, View, type ViewProps } from 'react-native';
 
 import { log } from '@react-native-ajp-elements/core';
 import { makeStyles } from '@rn-vui/themed';

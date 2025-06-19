@@ -1,4 +1,4 @@
-import { AppTheme, useTheme, viewport } from './theme';
+import { type AppTheme, useTheme, viewport } from './theme';
 import { Button, Icon } from '@rn-vui/base';
 import { InputAccessoryView, Keyboard, View } from 'react-native';
 

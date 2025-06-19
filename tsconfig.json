@@ -2,14 +2,11 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "paths": {
-      "@react-native-ajp-elements/*": ["./packages/*/src"],
-    },
     "composite": true,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "esModuleInterop": true,
-    "importsNotUsedAsValues": "error",
+    "verbatimModuleSyntax": true,
     "forceConsistentCasingInFileNames": true,
     "jsx": "react",
     "lib": ["esnext", "dom"],
@@ -21,13 +18,13 @@
     "noStrictGenericChecks": false,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+    "paths": {
+      "@react-native-ajp-elements/*": ["./packages/*/src"]
+    },
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
-    "target": "esnext"
+    "target": "esnext",
   },
-  "exclude": [
-    "node_modules",
-    "packages/*/lib"
-  ],
+  "exclude": ["node_modules", "packages/*/lib"]
 }

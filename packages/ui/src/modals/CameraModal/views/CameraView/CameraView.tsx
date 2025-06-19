@@ -2,10 +2,10 @@
 
 import * as React from 'react';
 
-import { AppTheme, useTheme, viewport } from '../../../../theme';
+import { type AppTheme, useTheme, viewport } from '../../../../theme';
 import {
   Camera,
-  CameraProps,
+  type CameraProps,
   CameraRuntimeError,
   useCameraDevice,
   useCameraFormat,
@@ -15,7 +15,7 @@ import {
 import type { CameraViewMethods, CameraViewProps } from './types';
 import {
   PinchGestureHandler,
-  PinchGestureHandlerGestureEvent,
+  type PinchGestureHandlerGestureEvent,
   TapGestureHandler,
 } from 'react-native-gesture-handler';
 import Reanimated, {
@@ -25,7 +25,12 @@ import Reanimated, {
   useAnimatedProps,
   useSharedValue,
 } from 'react-native-reanimated';
-import { GestureResponderEvent, StyleSheet, Text, View } from 'react-native';
+import {
+  type GestureResponderEvent,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import { useCallback, useMemo, useRef, useState } from 'react';
 
 import { CaptureButton } from './CaptureButton';
@@ -62,28 +67,33 @@ const CameraView = React.forwardRef<CameraView, CameraViewProps>(
     const location = useLocationPermission();
     const zoom = useSharedValue(1);
     const isPressingButton = useSharedValue(false);
-  
+
     // check if camera page is active
     const isFocussed = useIsFocused();
     const isForeground = useIsForeground();
     const isActive = isFocussed && isForeground;
-  
-    const [cameraPosition, setCameraPosition] = useState<'front' | 'back'>('back');
+
+    const [cameraPosition, setCameraPosition] = useState<'front' | 'back'>(
+      'back',
+    );
     const [enableHdr, setEnableHdr] = useState(false);
     const [flash, setFlash] = useState<'off' | 'on'>('off');
     const [enableNightMode, setEnableNightMode] = useState(false);
-  
+
     // camera device settings
     const [preferredDevice] = usePreferredCameraDevice();
     let device = useCameraDevice(cameraPosition);
-  
-    if (preferredDevice != null && preferredDevice.position === cameraPosition) {
+
+    if (
+      preferredDevice != null &&
+      preferredDevice.position === cameraPosition
+    ) {
       // override default device with the one selected by the user in settings
-      device = preferredDevice
+      device = preferredDevice;
     }
-  
+
     const [targetFps, setTargetFps] = useState(60);
-  
+
     const screenAspectRatio = viewport.height / viewport.width;
     const format = useCameraFormat(device, [
       { fps: targetFps },
@@ -92,92 +102,108 @@ const CameraView = React.forwardRef<CameraView, CameraViewProps>(
       { photoAspectRatio: screenAspectRatio },
       { photoResolution: 'max' },
     ]);
-  
+
     const fps = Math.min(format?.maxFps ?? 1, targetFps);
-  
+
     const supportsFlash = device?.hasFlash ?? false;
     const supportsHdr = format?.supportsPhotoHdr;
-    const supports60Fps = useMemo(() => device?.formats.some((f) => f.maxFps >= 60), [device?.formats]);
+    const supports60Fps = useMemo(
+      () => device?.formats.some(f => f.maxFps >= 60),
+      [device?.formats],
+    );
     const canToggleNightMode = device?.supportsLowLightBoost ?? false;
-  
+
     //#region Animated Zoom
     const minZoom = device?.minZoom ?? 1;
     const maxZoom = Math.min(device?.maxZoom ?? 1, maxZoomFactor);
-  
+
     const cameraAnimatedProps = useAnimatedProps<CameraProps>(() => {
-      const z = Math.max(Math.min(zoom.value, maxZoom), minZoom)
+      const z = Math.max(Math.min(zoom.value, maxZoom), minZoom);
       return {
         zoom: z,
-      }
+      };
     }, [maxZoom, minZoom, zoom]);
     //#endregion
-  
+
     //#region Callbacks
     const setIsPressingButton = useCallback(
       (_isPressingButton: boolean) => {
-        isPressingButton.value = _isPressingButton
+        isPressingButton.value = _isPressingButton;
       },
       [isPressingButton],
     );
 
     const onError = useCallback((error: CameraRuntimeError) => {
-      console.error(error)
+      console.error(error);
     }, []);
 
     const onInitialized = useCallback(() => {
       log.debug('Camera initialized!');
-      setIsCameraInitialized(true)
+      setIsCameraInitialized(true);
     }, []);
 
     const onFlipCameraPressed = useCallback(() => {
-      setCameraPosition((p) => (p === 'back' ? 'front' : 'back'))
+      setCameraPosition(p => (p === 'back' ? 'front' : 'back'));
     }, []);
 
     const onFlashPressed = useCallback(() => {
-      setFlash((f) => (f === 'off' ? 'on' : 'off'))
+      setFlash(f => (f === 'off' ? 'on' : 'off'));
     }, []);
     //#endregion
-  
+
     //#region Tap Gesture
     const onFocusTap = useCallback(
       ({ nativeEvent: event }: GestureResponderEvent) => {
-        if (!device?.supportsFocus) return
+        if (!device?.supportsFocus) return;
         camera.current?.focus({
           x: event.locationX,
           y: event.locationY,
-        })
+        });
       },
       [device?.supportsFocus],
     );
 
     const onDoubleTap = useCallback(() => {
-      onFlipCameraPressed()
+      onFlipCameraPressed();
     }, [onFlipCameraPressed]);
     //#endregion
-  
+
     //#region Effects
     useEffect(() => {
       // Reset zoom to it's default everytime the `device` changes.
-      zoom.value = device?.neutralZoom ?? 1
+      zoom.value = device?.neutralZoom ?? 1;
     }, [zoom, device]);
     //#endregion
-  
+
     //#region Pinch to Zoom Gesture
     // The gesture handler maps the linear pinch gesture (0 - 1) to an exponential curve since a camera's zoom
     // function does not appear linear to the user. (aka zoom 0.1 -> 0.2 does not look equal in difference as 0.8 -> 0.9)
-    const onPinchGesture = useAnimatedGestureHandler<PinchGestureHandlerGestureEvent, { startZoom?: number }>({
+    const onPinchGesture = useAnimatedGestureHandler<
+      PinchGestureHandlerGestureEvent,
+      { startZoom?: number }
+    >({
       onStart: (_, context) => {
-        context.startZoom = zoom.value
+        context.startZoom = zoom.value;
       },
       onActive: (event, context) => {
         // we're trying to map the scale gesture to a linear zoom here
-        const startZoom = context.startZoom ?? 0
-        const scale = interpolate(event.scale, [1 - 1 / scaleFullZoom, 1, scaleFullZoom], [-1, 0, 1], Extrapolate.CLAMP)
-        zoom.value = interpolate(scale, [-1, 0, 1], [minZoom, startZoom, maxZoom], Extrapolate.CLAMP)
+        const startZoom = context.startZoom ?? 0;
+        const scale = interpolate(
+          event.scale,
+          [1 - 1 / scaleFullZoom, 1, scaleFullZoom],
+          [-1, 0, 1],
+          Extrapolate.CLAMP,
+        );
+        zoom.value = interpolate(
+          scale,
+          [-1, 0, 1],
+          [minZoom, startZoom, maxZoom],
+          Extrapolate.CLAMP,
+        );
       },
     });
     //#endregion
-  
+
     useEffect(() => {
       const f =
         format != null
@@ -185,19 +211,23 @@ const CameraView = React.forwardRef<CameraView, CameraViewProps>(
           : undefined;
       log.debug(`Camera: ${device?.name} | Format: ${f}`);
     }, [device?.name, format, fps]);
-  
+
     useEffect(() => {
       location.requestPermission();
     }, [location]);
-  
+
     const videoHdr = format?.supportsVideoHdr && enableHdr;
     const photoHdr = format?.supportsPhotoHdr && enableHdr && !videoHdr;
-  
+
     return (
       <View style={s.container}>
         {device != null && (
-          <PinchGestureHandler onGestureEvent={onPinchGesture} enabled={isActive}>
-            <Reanimated.View onTouchEnd={onFocusTap} style={StyleSheet.absoluteFill}>
+          <PinchGestureHandler
+            onGestureEvent={onPinchGesture}
+            enabled={isActive}>
+            <Reanimated.View
+              onTouchEnd={onFocusTap}
+              style={StyleSheet.absoluteFill}>
               <TapGestureHandler onEnded={onDoubleTap} numberOfTaps={2}>
                 <ReanimatedCamera
                   style={StyleSheet.absoluteFill}
@@ -210,15 +240,23 @@ const CameraView = React.forwardRef<CameraView, CameraViewProps>(
                   onStopped={() => console.log('Camera stopped!')}
                   onPreviewStarted={() => console.log('Preview started!')}
                   onPreviewStopped={() => console.log('Preview stopped!')}
-                  onOutputOrientationChanged={(o) => console.log(`Output orientation changed to ${o}!`)}
-                  onPreviewOrientationChanged={(o) => console.log(`Preview orientation changed to ${o}!`)}
-                  onUIRotationChanged={(degrees) => console.log(`UI Rotation changed: ${degrees}°`)}
+                  onOutputOrientationChanged={o =>
+                    console.log(`Output orientation changed to ${o}!`)
+                  }
+                  onPreviewOrientationChanged={o =>
+                    console.log(`Preview orientation changed to ${o}!`)
+                  }
+                  onUIRotationChanged={degrees =>
+                    console.log(`UI Rotation changed: ${degrees}°`)
+                  }
                   format={format}
                   fps={fps}
                   photoHdr={photoHdr}
                   videoHdr={videoHdr}
                   photoQualityBalance="quality"
-                  lowLightBoost={device.supportsLowLightBoost && enableNightMode}
+                  lowLightBoost={
+                    device.supportsLowLightBoost && enableNightMode
+                  }
                   enableZoomGesture={false}
                   animatedProps={cameraAnimatedProps}
                   exposure={0}
@@ -233,7 +271,7 @@ const CameraView = React.forwardRef<CameraView, CameraViewProps>(
             </Reanimated.View>
           </PinchGestureHandler>
         )}
-  
+
         <CaptureButton
           style={s.captureButton}
           camera={camera}
@@ -245,34 +283,52 @@ const CameraView = React.forwardRef<CameraView, CameraViewProps>(
           enabled={isCameraInitialized && isActive}
           setIsPressingButton={setIsPressingButton}
         />
-    
+
         <View style={s.rightButtonRow}>
           <TouchableOpacity style={s.button} onPress={onFlipCameraPressed}>
             <IonIcon name="camera-reverse" color="white" size={24} />
           </TouchableOpacity>
           {supportsFlash && (
-            <TouchableOpacity style={s.button} onPress={onFlashPressed} >
-              <IonIcon name={flash === 'on' ? 'flash' : 'flash-off'} color="white" size={24} />
+            <TouchableOpacity style={s.button} onPress={onFlashPressed}>
+              <IonIcon
+                name={flash === 'on' ? 'flash' : 'flash-off'}
+                color="white"
+                size={24}
+              />
             </TouchableOpacity>
           )}
           {supports60Fps && (
-            <TouchableOpacity style={s.button} onPress={() => setTargetFps((t) => (t === 30 ? 60 : 30))}>
+            <TouchableOpacity
+              style={s.button}
+              onPress={() => setTargetFps(t => (t === 30 ? 60 : 30))}>
               <Text style={s.text}>{`${targetFps}\nFPS`}</Text>
             </TouchableOpacity>
           )}
           {supportsHdr && (
-            <TouchableOpacity style={s.button} onPress={() => setEnableHdr((h) => !h)}>
-              <MaterialIcon name={enableHdr ? 'hdr' : 'hdr-off'} color="white" size={24} />
+            <TouchableOpacity
+              style={s.button}
+              onPress={() => setEnableHdr(h => !h)}>
+              <MaterialIcon
+                name={enableHdr ? 'hdr' : 'hdr-off'}
+                color="white"
+                size={24}
+              />
             </TouchableOpacity>
           )}
           {canToggleNightMode && (
-            <TouchableOpacity style={s.button} onPress={() => setEnableNightMode(!enableNightMode)}>
-              <IonIcon name={enableNightMode ? 'moon' : 'moon-outline'} color="white" size={24} />
+            <TouchableOpacity
+              style={s.button}
+              onPress={() => setEnableNightMode(!enableNightMode)}>
+              <IonIcon
+                name={enableNightMode ? 'moon' : 'moon-outline'}
+                color="white"
+                size={24}
+              />
             </TouchableOpacity>
           )}
         </View>
       </View>
-    )    
+    );
   },
 );
 

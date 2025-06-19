@@ -1,4 +1,4 @@
-import { AppTheme, useTheme } from '../theme';
+import { type AppTheme, useTheme } from '../theme';
 import { Avatar, Icon, ListItem, Switch } from '@rn-vui/base';
 import {
   View,
@@ -8,7 +8,7 @@ import {
   type ViewStyle,
 } from 'react-native';
 
-import React, { JSX } from 'react';
+import React, { type ReactNode } from 'react';
 import { makeStyles } from '@rn-vui/themed';
 
 interface ListItemSwitch {
@@ -17,7 +17,7 @@ interface ListItemSwitch {
   bottomDividerRight?: number;
   containerStyle?: ViewStyle | ViewStyle[];
   disabled?: boolean;
-  leftImage?: ImageSourcePropType | JSX.Element | string;
+  leftImage?: ImageSourcePropType | ReactNode | string;
   leftImageColor?: string;
   leftImageSize?: number;
   leftImageType?: string;

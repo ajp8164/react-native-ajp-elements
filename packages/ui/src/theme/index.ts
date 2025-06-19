@@ -1,5 +1,12 @@
-import { Colors, Theme, useTheme as useRNETheme } from '@rn-vui/themed';
-import { EdgeInsets, useSafeAreaInsets } from 'react-native-safe-area-context';
+import {
+  type Colors,
+  type Theme,
+  useTheme as useRNETheme,
+} from '@rn-vui/themed';
+import {
+  type EdgeInsets,
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context';
 
 import type { Styles } from './types/Styles';
 import { useStyles } from './styles';

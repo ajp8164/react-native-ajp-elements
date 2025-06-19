@@ -1,4 +1,4 @@
-import { AppTheme, useTheme } from '../../theme';
+import { type AppTheme, useTheme } from '../../theme';
 import React, { useImperativeHandle } from 'react';
 import type { ScannerViewMethods, ScannerViewProps } from './types';
 

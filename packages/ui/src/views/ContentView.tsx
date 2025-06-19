@@ -1,4 +1,10 @@
-import { Linking, Text, TextStyle, View, ViewStyle } from 'react-native';
+import {
+  Linking,
+  Text,
+  type TextStyle,
+  View,
+  type ViewStyle,
+} from 'react-native';
 
 import { BulletList } from '../BulletList';
 import type { ContentItem } from '@react-native-ajp-elements/common';

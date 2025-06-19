@@ -1,3 +1,7 @@
-export const plugins = [
-  ['@babel/plugin-transform-typescript', { allowDeclareFields: true }],
-];
+/* eslint-env node */
+
+module.exports = {
+  presets: ['module:@react-native/babel-preset'],
+  // ignore: [],
+  plugins: [],
+};

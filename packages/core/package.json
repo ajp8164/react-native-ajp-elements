@@ -35,62 +35,13 @@
   "dependencies": {
     "@react-native-ajp-elements/common": "^0.0.6"
   },
-  "devDependencies": {
-    "@babel/core": "^7.20.12",
-    "@babel/runtime": "^7.20.13",
-    "@react-native-community/eslint-config": "^3.2.0",
-    "@tsconfig/react-native": "^2.0.2",
-    "@types/react-native": "^0.71.1",
-    "babel-jest": "^29.4.1",
-    "babel-plugin-module-resolver": "^5.0.0",
-    "eslint": "^8.33.0",
-    "eslint-import-resolver-babel-module": "^5.3.2",
-    "eslint-plugin-module-resolver": "^1.5.0",
-    "eslint-plugin-simple-import-sort": "^10.0.0",
-    "jest": "^29.4.1",
-    "react": ">=18",
-    "react-native": ">=0.70",
-    "react-native-builder-bob": "^0.20.3",
-    "typescript": "^4.8.4"
-  },
   "peerDependencies": {
     "@sentry/react-native": "^6.15.1",
     "react": ">=18",
     "react-native": ">=0.70",
     "react-native-biometrics": "^3.0.1",
     "react-native-device-info": "^14.0.4",
-    "react-native-logs": "^5.0.1"
-  },
-  "jest": {
-    "preset": "react-native"
-  },
-  "react-native": {
-    "http": "@tradle/react-native-http",
-    "https": "https-browserify",
-    "os": "react-native-os",
-    "path": "path-browserify",
-    "fs": "react-native-level-fs",
-    "_stream_transform": "readable-stream/transform",
-    "_stream_readable": "readable-stream/readable",
-    "_stream_writable": "readable-stream/writable",
-    "_stream_duplex": "readable-stream/duplex",
-    "_stream_passthrough": "readable-stream/passthrough",
-    "stream": "stream-browserify",
-    "vm": "vm-browserify"
-  },
-  "react-native-builder-bob": {
-    "source": "src",
-    "output": "lib",
-    "targets": [
-      "commonjs",
-      "module",
-      [
-        "typescript",
-        {
-          "project": "tsconfig.build.json"
-        }
-      ]
-    ]
+    "react-native-logs": "^5.3.0"
   },
   "gitHead": "d83f91b208dacabf93b70fb1667475a118cd0193"
 }

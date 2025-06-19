@@ -1,4 +1,4 @@
-import { LibraryMediaType, selectImage } from '../lib/imageSelect';
+import { type LibraryMediaType, selectImage } from '../lib/imageSelect';
 import type { MediaAsset, MediaCapture } from '../modals/CameraModal';
 
 import DocumentPicker from '@react-native-documents/picker';

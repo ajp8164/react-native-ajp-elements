@@ -1,24 +1,23 @@
-import { AppTheme, useTheme } from '../theme';
+import { type AppTheme, useTheme } from '../theme';
 import { Avatar, Icon, ListItem } from '@rn-vui/base';
 import {
-  ColorValue,
-  ImageSourcePropType,
-  KeyboardTypeOptions,
-  NativeSyntheticEvent,
+  type ColorValue,
+  type ImageSourcePropType,
+  type KeyboardTypeOptions,
   StyleSheet,
   Text,
   TextInput,
-  TextInputFocusEventData,
-  TextStyle,
+  type TextInputFocusEvent,
+  type TextStyle,
   View,
-  ViewStyle,
+  type ViewStyle,
 } from 'react-native';
 import {
   FakeCurrencyInput,
-  FakeCurrencyInputProps,
+  type FakeCurrencyInputProps,
 } from 'react-native-currency-input';
 
-import React, { JSX } from 'react';
+import React, { type ReactNode } from 'react';
 import { makeStyles } from '@rn-vui/themed';
 
 interface ListItemInput {
@@ -32,23 +31,23 @@ interface ListItemInput {
   disabled?: boolean;
   errorColor?: ColorValue;
   errorText?: string | undefined;
-  extraContentComponentRight?: JSX.Element | null;
+  extraContentComponentRight?: ReactNode | null;
   inputTextStyle?: TextStyle | TextStyle[];
   keyboardType?: KeyboardTypeOptions;
-  leftImage?: ImageSourcePropType | JSX.Element | string;
+  leftImage?: ImageSourcePropType | ReactNode | string;
   leftImageColor?: ColorValue;
   leftImageSize?: number;
   leftImageType?: string;
   numeric?: boolean;
   numericProps?: Omit<FakeCurrencyInputProps, 'value'>;
   position?: ('first' | 'last' | undefined)[];
-  onBlur?: (e: NativeSyntheticEvent<TextInputFocusEventData>) => void;
+  onBlur?: (e: TextInputFocusEvent) => void;
   onChangeText?: (value: string) => void;
-  onFocus?: (e: NativeSyntheticEvent<TextInputFocusEventData>) => void;
+  onFocus?: (e: TextInputFocusEvent) => void;
   placeholder?: string;
   placeholderTextColor?: ColorValue;
   refInner?: React.RefObject<TextInput>;
-  rightImage?: ImageSourcePropType | JSX.Element | string;
+  rightImage?: ImageSourcePropType | ReactNode | string;
   rightImageColor?: ColorValue;
   rightImageOnPress?: () => void;
   rightImageSize?: number;

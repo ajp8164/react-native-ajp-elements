@@ -1,4 +1,4 @@
-import Share, { ShareOptions } from 'react-native-share';
+import Share, { type ShareOptions } from 'react-native-share';
 
 import { Platform } from 'react-native';
 

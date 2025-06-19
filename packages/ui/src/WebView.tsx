@@ -1,9 +1,14 @@
-import { ColorValue, Linking, Platform, ViewStyle } from 'react-native';
+import {
+  type ColorValue,
+  Linking,
+  Platform,
+  type ViewStyle,
+} from 'react-native';
 import {
   WebView as RNWebView,
-  WebViewMessageEvent,
-  WebViewNavigation,
-  WebViewProps,
+  type WebViewMessageEvent,
+  type WebViewNavigation,
+  type WebViewProps,
 } from 'react-native-webview';
 import React, { useRef, useState } from 'react';
 import { fontSizes, useTheme } from './theme';

@@ -1,4 +1,9 @@
-import { DimensionValue, StyleSheet, View, ViewProps } from 'react-native';
+import {
+  type DimensionValue,
+  StyleSheet,
+  View,
+  type ViewProps,
+} from 'react-native';
 import Svg, { Defs, LinearGradient, Rect, Stop } from 'react-native-svg';
 
 import React from 'react';

@@ -1,7 +1,7 @@
 import {
-  Avatar,
-  AvatarImageCollection,
-  AvatarImageSource,
+  type Avatar,
+  type AvatarImageCollection,
+  type AvatarImageSource,
   AvatarKind,
 } from '@react-native-ajp-elements/common';
 

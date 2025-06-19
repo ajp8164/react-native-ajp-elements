@@ -1,14 +1,14 @@
-import { AppTheme, useTheme } from './theme';
-import { Text, TextStyle, View } from 'react-native';
+import { type AppTheme, useTheme } from './theme';
+import { Text, type TextStyle, View } from 'react-native';
 
-import React, { JSX } from 'react';
+import React, { type ReactNode } from 'react';
 import { makeStyles } from '@rn-vui/themed';
 
 interface BulletList {
   type?: string;
   bullet?: string;
   initialCount?: number;
-  items: string[] | JSX.Element[];
+  items: string[] | ReactNode[];
   containerStyle?: object;
   itemStyle?: TextStyle[] | TextStyle;
   bulletStyle?: TextStyle[] | TextStyle;

@@ -1,4 +1,4 @@
-import { View, ViewStyle } from 'react-native';
+import { View, type ViewStyle } from 'react-native';
 
 import AnimatedDotsCarousel from 'react-native-animated-dots-carousel';
 import React from 'react';

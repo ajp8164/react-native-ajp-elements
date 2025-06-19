@@ -1,4 +1,4 @@
-import { Picker, PickerInterface } from './Picker';
+import { Picker, type PickerInterface } from './Picker';
 
 import { BottomSheet } from './BottomSheet';
 import type { BottomSheetModalMethods } from '@gorhom/bottom-sheet/lib/typescript/types';

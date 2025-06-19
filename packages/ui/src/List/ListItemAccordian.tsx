@@ -1,4 +1,4 @@
-import { AppTheme, useTheme } from '../theme';
+import { type AppTheme, useTheme } from '../theme';
 import { Avatar, Badge, Icon, ListItem } from '@rn-vui/base';
 import {
   View,
@@ -7,7 +7,7 @@ import {
   type TextStyle,
   type ViewStyle,
 } from 'react-native';
-import React, { JSX, ReactNode, useState } from 'react';
+import React, { type ReactNode, useState } from 'react';
 
 import { makeStyles } from '@rn-vui/themed';
 
@@ -23,12 +23,12 @@ interface ListItemAccordian {
   children: ReactNode;
   containerStyle?: ViewStyle | ViewStyle[];
   initiallyExpanded?: boolean;
-  leftImage?: ImageSourcePropType | JSX.Element | string;
+  leftImage?: ImageSourcePropType | ReactNode | string;
   leftImageColor?: string;
   leftImageSize?: number;
   leftImageType?: string;
   position?: ('first' | 'last' | undefined)[];
-  rightImage?: ImageSourcePropType | JSX.Element | string | boolean;
+  rightImage?: ImageSourcePropType | ReactNode | string | boolean;
   rightImageColor?: string;
   rightImageSize?: number;
   rightImageType?: string;

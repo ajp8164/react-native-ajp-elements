@@ -1,14 +1,14 @@
-import { AppTheme, fontFamily, fontSizes, useTheme } from '../theme';
-import { View, ViewStyle } from 'react-native';
+import { type AppTheme, fontFamily, fontSizes, useTheme } from '../theme';
+import { View, type ViewStyle } from 'react-native';
 
 import { Divider as RNEDivider } from '@rn-vui/base';
-import React, { JSX } from 'react';
+import React, { type ReactNode } from 'react';
 import { makeStyles } from '@rn-vui/themed';
 
 interface Divider {
   color?: string;
   orientation?: 'vertical' | 'horizontal' | undefined;
-  rightComponent?: JSX.Element | null;
+  rightComponent?: ReactNode | null;
   subHeaderStyle?: ViewStyle;
   style?: ViewStyle;
   text?: string;

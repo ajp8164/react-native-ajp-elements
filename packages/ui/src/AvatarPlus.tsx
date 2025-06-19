@@ -1,6 +1,11 @@
-import { AppTheme, getColoredSvg, useTheme } from './theme';
+import { type AppTheme, getColoredSvg, useTheme } from './theme';
 import { Badge, Icon, Image } from '@rn-vui/base';
-import { ImageSourcePropType, TextStyle, View, ViewStyle } from 'react-native';
+import {
+  type ImageSourcePropType,
+  type TextStyle,
+  View,
+  type ViewStyle,
+} from 'react-native';
 
 import type { Avatar } from '@react-native-ajp-elements/common';
 import { Gravatar } from 'react-native-gravatar';

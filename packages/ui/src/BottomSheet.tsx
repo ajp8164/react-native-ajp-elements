@@ -6,9 +6,9 @@ import {
   BottomSheetBackdrop,
   BottomSheetModal,
   BottomSheetModalProvider,
-  BottomSheetProps,
+  type BottomSheetProps,
 } from '@gorhom/bottom-sheet';
-import React, { JSX, useCallback } from 'react';
+import React, { useCallback } from 'react';
 
 import type { BottomSheetModalMethods } from '@gorhom/bottom-sheet/lib/typescript/types';
 import { ConditionalWrapper } from './ConditionalWrapper';
@@ -32,7 +32,7 @@ const BottomSheet = ({
   ...bottomSheetModalProps
 }: BottomSheetInterface) => {
   const renderBackdrop = useCallback(
-    (props: JSX.IntrinsicAttributes & BottomSheetDefaultBackdropProps) => (
+    (props: BottomSheetDefaultBackdropProps) => (
       <BottomSheetBackdrop
         pressBehavior={touchBackdropBehavior}
         disappearsOnIndex={-1}

@@ -1,9 +1,9 @@
 import { Animated, I18nManager, Pressable, Text, View } from 'react-native';
-import { AppTheme, useTheme } from '../theme';
+import { type AppTheme, useTheme } from '../theme';
 import React, {
-  MutableRefObject,
-  ReactNode,
-  Ref,
+  type ReactNode,
+  type RefObject,
+  type Ref,
   forwardRef,
   useRef,
 } from 'react';
@@ -55,7 +55,7 @@ const AppleStyleSwipeableRow = forwardRef(
           if (typeof r === 'function') {
             r(node);
           } else if (r) {
-            (r as MutableRefObject<T | null>).current = node;
+            (r as RefObject<T | null>).current = node;
           }
         });
       };

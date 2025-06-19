@@ -1,4 +1,4 @@
-import { AppTheme, useTheme } from '../../theme';
+import { type AppTheme, useTheme } from '../../theme';
 import type { ModalMethods, ModalProps } from './types';
 import React, {
   useCallback,

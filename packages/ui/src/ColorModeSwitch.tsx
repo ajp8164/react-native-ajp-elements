@@ -1,7 +1,6 @@
-import React, { ReactNode } from 'react';
+import React, { type ReactNode, useEffect } from 'react';
 
 import { useColorScheme } from 'react-native';
-import { useEffect } from 'react';
 import { useTheme } from '@rn-vui/themed';
 
 interface Props {

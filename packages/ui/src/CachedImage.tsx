@@ -1,7 +1,7 @@
 import {
   ActivityIndicator,
-  ImageSourcePropType,
-  ImageStyle,
+  type ImageSourcePropType,
+  type ImageStyle,
 } from 'react-native';
 
 import { Image } from '@rn-vui/base';
