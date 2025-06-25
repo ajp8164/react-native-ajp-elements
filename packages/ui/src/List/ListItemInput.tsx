@@ -46,7 +46,7 @@ interface ListItemInput {
   onFocus?: (e: TextInputFocusEvent) => void;
   placeholder?: string;
   placeholderTextColor?: ColorValue;
-  refInner?: React.RefObject<TextInput>;
+  refInner?: React.RefObject<TextInput | null>;
   rightImage?: ImageSourcePropType | ReactNode | string;
   rightImageColor?: ColorValue;
   rightImageOnPress?: () => void;
